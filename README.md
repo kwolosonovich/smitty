@@ -5,10 +5,10 @@
 
 ## Description
 
-The Smithsonian Open Access Application provides access to over 175 years of history, art, science and culture. Virtually explore the Smithsonian’s nineteen museums, research centers, libraries, archives and the National Zoo. Browse and search almost 3 million 2D and 3D works of art and data. Search open access content by topi, date range or keyword. 
+The Smithsonian Open Access Application provides access to over 175 years of history, art, science and culture. Virtually explore the Smithsonian’s nineteen museums, research centers, libraries, archives and the National Zoo. Browse and search almost 3 million 2D and 3D works of art and data. Search open access content by topic, date range or keyword. 
 
 ## Features
-  - Create an free user account to save your favorite images and boards
+  - Create a free user account to save your favorite images and boards
   - Create galleries and save your favorite images
   - Follow your favorite topics
   - Share your discoveries 
