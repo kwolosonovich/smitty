@@ -36,22 +36,19 @@ def homepage():
                               "rows": rows_})
    # iterate through the items looking for "image" stuff
    rows = resp.json()["response"]["rows"]
-   image_links = []
+   image_urls = []
    for row in rows:
       if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
          if "resources" in row["content"]["descriptiveNonRepeating"]["online_media"]["media"][0].keys():
-            link = row["content"]["descriptiveNonRepeating"]["online_media"]["media"][0]["resources"][0]["url"]
-            image_links.append(link)
+            url = row["content"]["descriptiveNonRepeating"]["online_media"]["media"][0]["resources"][0]["url"]
+            image_urls.append(url)
       # if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
       #    link = row["content"]["descriptiveNonRepeating"]["online_media"][
       #          "media"][0]["content"]
       #    image_links.append(link)
 
    print(resp)
-   print(len(image_links))
+   print(len(image_urls))   
    
-   return 
-   
-   
-   return render_template('homepage.html')
+   return render_template('homepage.html', image_urls=image_urls)
 

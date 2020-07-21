@@ -4,4 +4,10 @@
 
     <h1>Smithsonian App</h1>
 
+    <div>   
+        {% for image_url in image_urls %}
+            <img src={{image_url}} style="height: 200px; width:auto" alt="">
+        {% endfor %}
+    </div>
+
 {% endblock %}
