@@ -13,28 +13,18 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 def homepage():
    '''Render homepage'''
    
-#    test API requests 
-
-# https: // api.si.edu/openaccess/api/v1.0/search 
-#    request = requests.get(f"{API_BASE_URL}",
-#                           params={
-#                               'q': 'trees',
-#                               'rows': 100,
-#                               'api_key': 'AhgfyfDDNIzoNxf70E1sQrjhjn2wYbr216soHE0w',
-#                               'type': 'images'
-#                           }
-#    print(request)
-
-   search_url = "https://api.si.edu/openaccess/api/v1.0/search"
+   # test API requests 
    q = "edward hopper"
    api_key = API_KEY
    rows_ = 1000
+   
    # search for items
-   resp = requests.get(url=search_url,
+   resp = requests.get(url=API_BASE_URL,
                      params={"q": q,
                               "api_key": api_key,
                               "rows": rows_})
-   # iterate through the items looking for "image" stuff
+   
+   # iterate through the items for image URL
    rows = resp.json()["response"]["rows"]
    image_urls = []
    for row in rows:
