@@ -2,15 +2,19 @@ import requests
 import pprint
 # import os 
 
-from flask import Flask, render_template, request, flash, redirect, session, g, abort
+from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for
 from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
+from flask_login import LoginManager, UserMixin 
+
+from user_form import LoginForm, RegisterForm
 from secure import api_key, secret_key
 from models import User, connect_db, db
 from seed import seed_database
 
 app = Flask(__name__)
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -21,8 +25,9 @@ app.config['SECRET_KEY']= secret_key
 DEBUG=True
 
 toolbar = DebugToolbarExtension(app)
-# login_manager = LoginManager(app)
-
+login_manager = LoginManager()
+login_manager.init_app(app)
+Bootstrap(app)
 connect_db(app)
 if DEBUG:
    seed_database()
@@ -71,9 +76,27 @@ def homepage():
 # ********* USER ROUTES *********
 
 # login manager
-# @login_manager.user_loader
+@login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return User.query.get_or_404(int(user_id))
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+   '''Signup new user'''
+   return render_template('signup.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+   '''Login returning user'''
+   form = LoginForm()
+   
+   if form.validate_on_submit():
+      flash('Login successful')
+      redirect_url = url_for('show_boards')
+      return redirect(redirect_url)
+   
+   return render_template('login.html', form=form)
 
 
 # @app.route('/login', methods=['GET', 'POST'])
@@ -108,18 +131,18 @@ def load_user(user_id):
 
 
 # add route for user boards - requires login_required decorater 
-# @app.route("/user/boards")
+@app.route("/user/boards")
 # @login_required
-# def settings():
-#     pass
+def show_boards():
+    return render_template('boards.html')
 
 
-# @app.route("/user/logout")
+@app.route("/user/logout")
 # @login_required
-# def logout():
-#    '''Logout user'''
-#     logout_user()
-#     return redirect('/')
+def logout():
+   '''Logout user'''
+   #  logout_user()
+   return render_template('logout.html')
 
 if __name__ == "__main__":
      app.run(debug=True)
