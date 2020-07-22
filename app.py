@@ -81,10 +81,12 @@ def load_user(user_id):
     return User.query.get_or_404(int(user_id))
 
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-   '''Signup new user'''
-   return render_template('signup.html')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+   '''Register new user'''
+   form = RegisterForm
+   
+   return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -92,7 +94,6 @@ def login():
    form = LoginForm()
    
    if form.validate_on_submit():
-      flash('Login successful')
       redirect_url = url_for('show_boards')
       return redirect(redirect_url)
    

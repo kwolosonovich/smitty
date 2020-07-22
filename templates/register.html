@@ -1,0 +1,36 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Create Account{% endblock %}
+
+
+{% block content %}
+
+    <div class='container'>
+
+        <form method="POST" action='/register'>
+            <div class="">
+                {{ form.hidden_tag(self) }}
+                
+                {{ wtf.form_errors(form, hiddens="only") }}
+
+                {% if wtf.form_field.input_type != 'hidden' %}   
+
+                    {{ wtf.form_field(form.username) }}
+                    {{ wtf.form_field(form.email) }}
+                    {{ wtf.form_field(form.profile_image) }}
+                    {{ wtf.form_field(form.backdrop_image) }}
+                    {{ wtf.form_field(form.password) }}
+                
+                {% endif %}
+
+            </div>
+            <div class="mt-3">
+                <a class="btn btn-outline-secondary" href="{{ url_for('homepage') }}">Cancel</a>
+                <button class="btn submit-btn btn-info" type="submit">Login</button>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}
