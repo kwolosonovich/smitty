@@ -10,7 +10,7 @@
 
         <form method="POST" action='/register'>
             <div class="">
-                {{ form.hidden_tag(self) }}
+                {{ form.hidden_tag() }}
                 
                 {{ wtf.form_errors(form, hiddens="only") }}
 

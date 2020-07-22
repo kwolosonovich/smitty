@@ -1,12 +1,11 @@
 import requests
 import pprint
-# import os 
 
 from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for
 from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap
-from flask_login import LoginManager, UserMixin 
+from flask_login import LoginManager, UserMixin
 
 from user_form import LoginForm, RegisterForm
 from secure import api_key, secret_key
@@ -15,20 +14,20 @@ from seed import seed_database
 
 app = Flask(__name__)
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY']= secret_key
-# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', session_key)
-DEBUG=True
 
 toolbar = DebugToolbarExtension(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 Bootstrap(app)
 connect_db(app)
+
+DEBUG = True
+
 if DEBUG:
    seed_database()
 else:
@@ -84,7 +83,22 @@ def load_user(user_id):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
    '''Register new user'''
-   form = RegisterForm
+   
+   form = RegisterForm()
+   
+   if form.validate_on_submit():
+      username=form.username.data
+      email=form.email.data
+      profile_image=form.profile_image.data
+      backdrop_image=form.backdrop_image.data
+      password=form.password.data
+
+      user = User.create(username, email, profile_image, backdrop_image, password)
+
+      print(user)
+      
+      redirect_url = url_for('show_boards')
+      return redirect(redirect_url)
    
    return render_template('register.html', form=form)
 
@@ -138,11 +152,12 @@ def show_boards():
     return render_template('boards.html')
 
 
+register
 @app.route("/user/logout")
 # @login_required
 def logout():
    '''Logout user'''
-   #  logout_user()
+   logout_user()
    return render_template('logout.html')
 
 if __name__ == "__main__":

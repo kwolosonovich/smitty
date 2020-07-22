@@ -3,9 +3,13 @@
 from flask import session
 from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_manager
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 
+bcrypt = Bcrypt()
 db = SQLAlchemy()
+# login_manager = LoginManager()
+
     
 class User(UserMixin, db.Model):
     '''Users model.'''
@@ -50,10 +54,9 @@ class User(UserMixin, db.Model):
         default=False
     )
     
-    # boards = db.relationship("Board", 
-    #                          backref=db.backref('user',
-    #                          cascade="all, delete-orphan"
-    #                          ))
+    # boards = db.relationship("Board",
+    #                          backref="user", 
+    #                          cascade="all, delete")
     
     boards = db.relationship("Board",
                              backref=db.backref('user'),
@@ -106,6 +109,25 @@ class User(UserMixin, db.Model):
     #     """False, as anonymous users aren't supported."""
     #     return False
 
+    @classmethod
+    def create(cls, username, email, profile_image, backdrop_image, password):
+        '''Register a new user and hash password'''
+        
+        # hash password
+        hashed = bcrypt.generate_password_hash(password)
+        hashed_utf8 = hashed.decode("utf8")
+        
+        user = cls(
+            username=username,
+            email=email,
+            profile_image=profile_image,
+            backdrop_image=backdrop_image,
+            password=hashed_utf8,
+        )
+        # add user to session
+        db.session.add(user)
+        return user
+    
     
 class Board(db.Model):
     '''User board model.'''
@@ -115,7 +137,7 @@ class Board(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True,
-        cascade='all, delete-orphan'
+        # cascade='all, delete-orphan'
     )
     
     user_id = db.Column(
@@ -200,5 +222,5 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 #     # Initialize login plugin
-#     # login_manager.init_app(app)
+    # login_manager.init_app(app)
 #     # login_manager(app)
