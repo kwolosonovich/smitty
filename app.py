@@ -1,29 +1,54 @@
 import requests
+import pprint
+# import os 
 
 from flask import Flask, render_template, request, flash, redirect, session, g, abort
+from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
-from secure import API_KEY
-# from models import Users
+from flask_login import LoginManager
+from secure import api_key, secret_key
+from models import User, connect_db, db
+from seed import seed_database
 
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = False
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['SECRET_KEY']= secret_key
+# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', session_key)
+DEBUG=True
+
+toolbar = DebugToolbarExtension(app)
+# login_manager = LoginManager(app)
+
+connect_db(app)
+if DEBUG:
+   seed_database()
+else:
+   db.create_all()
+
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
+
+
+# TODO: Disabling Session Cookie for API
+
 
 @app.route('/')
 def homepage():
    '''Render homepage'''
-   
-   # test API requests 
+
+   # test API requests
    q = "edward hopper"
-   api_key = API_KEY
-   rows_ = 1000
-   
+   rows_ = 1
+
    # search for items
    resp = requests.get(url=API_BASE_URL,
-                     params={"q": q,
-                              "api_key": api_key,
-                              "rows": rows_})
-   
+                       params={"q": q,
+                               "api_key": api_key,
+                               "rows": rows_})
+
    # iterate through the items for image URL
    rows = resp.json()["response"]["rows"]
    image_urls = []
@@ -38,7 +63,63 @@ def homepage():
       #    image_links.append(link)
 
    print(resp)
-   print(len(image_urls))   
-   
+   print(len(image_urls))
+
    return render_template('homepage.html', image_urls=image_urls)
 
+
+# ********* USER ROUTES *********
+
+# login manager
+# @login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#    # validate if user is already authenticated
+#    if current_user.is_authenticated:
+#        return redirect(url_for('index'))
+#     # Here we use a class of some kind to represent and validate our client-side form data. 
+#     # For example, WTForms is a library that will handle this for us, and we use a custom LoginForm to validate.
+#     form = LoginForm()
+    
+#     if form.validate_on_submit():
+#         # Login and validate the user.
+        
+#         user = User.query.filter_by(username=form.username.data).first()
+#         if user is None or not user.check_password(form.password.data):
+#             flash('Invalid username or password')
+#             return('/')
+#         # user should be an instance of your `User` class
+#         User.login_user(user)
+
+#         flask.flash('Logged in successfully.')
+
+#         next = flask.request.args.get('next')
+#         # is_safe_url should check if the url is safe for redirects.
+#         # See http://flask.pocoo.org/snippets/62/ for an example.
+#         if not is_safe_url(next):
+#             return flask.abort(400)
+
+#         return flask.redirect(next or flask.url_for('index'))
+#     return flask.render_template('login.html', form=form)
+
+
+# add route for user boards - requires login_required decorater 
+# @app.route("/user/boards")
+# @login_required
+# def settings():
+#     pass
+
+
+# @app.route("/user/logout")
+# @login_required
+# def logout():
+#    '''Logout user'''
+#     logout_user()
+#     return redirect('/')
+
+if __name__ == "__main__":
+     app.run(debug=True)

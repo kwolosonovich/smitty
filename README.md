@@ -42,3 +42,7 @@ Smithsonian Open Access Application uses:
  
 ### Contribute 
 Pull requests are always welcome. 
+
+
+### Schema (ERD)
+![alt text](erd.png)
