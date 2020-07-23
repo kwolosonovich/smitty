@@ -1,4 +1,6 @@
-{% extends 'index.html' %}
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}Welcome{% endblock %}
 
 {% block content %}
 
@@ -9,5 +11,12 @@
             <img src={{image_url}} style="height: 200px; width:auto" alt="">
         {% endfor %}
     </div>
+
+    <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+    
+    <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
+
+    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+
 
 {% endblock %}

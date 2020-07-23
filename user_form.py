@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length, Email, Optional, URL
+from wtforms.validators import InputRequired, Email, Length, Optional, URL
 
 
 # validators
@@ -9,13 +9,12 @@ email_validator = Email(message='Please provide a valid email address')
 url_validator = URL(message='Please provide valid URL')
 optional = Optional(strip_whitespace=True)
 min_4 = Length(min=4)
-max_30 = Length(max=30)
 max_50 = Length(max=50)
 
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[
-        required, min_4, max_30
+        required, min_4, max_50
         ])
 
     password = PasswordField("Password", validators=[
@@ -27,11 +26,12 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[
-        required, min_4, max_30
+        required, min_4, max_50
         ])
     
     email = StringField("Email", validators=[
-        required, email_validator
+        required, 
+        email_validator
         ])
 
     profile_image = StringField('Profile Photo', validators=[
