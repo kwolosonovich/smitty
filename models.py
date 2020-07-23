@@ -149,9 +149,9 @@ class Board(db.Model):
     name = db.Column(
         db.String
     )
-    
-    board_images = db.relationship('board_images',
-                                   backref=db.backref('board'))
+    # TODO: revisit to find out why it causes a mapper error
+    # board_images = db.relationship('board_images',
+    #                                backref=db.backref('board'))
     
     
 class Image(db.Model):
@@ -202,14 +202,25 @@ class Like(db.Model):
                       )
     )
 
-
+    #TODO: remove class if db.Table below continues to work
+# class Board_Images(db.Model):
+#     __tablename__ = 'board_images'
+    
+#     board_id = db.Column(db.Integer,
+#                          db.ForeignKey('boards.id', ondelete="cascade"),
+#                          primary_key=True)
+ 
+#     images_id = db.Column(db.Integer,
+#                          db.ForeignKey('images.id', ondelete="cascade"),
+#                          primary_key=True)
+    
 '''Boards and images table'''
 board_images = db.Table('board_images', 
-                        db.Column('board_id', 
+                        db.Column('boards.id', 
                                   db.Integer, 
                                   db.ForeignKey('boards.id'), 
                                   primary_key=True),
-                        db.Column('image.id',
+                        db.Column('images.id',
                                 db.Integer,
                                 db.ForeignKey('images.id'),
                                 primary_key=True)
