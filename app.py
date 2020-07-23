@@ -7,9 +7,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin
 
+
 from user_form import LoginForm, RegisterForm
 from secure import api_key, secret_key
-from models import User, connect_db, db
+from models import User, connect_db, db, Board, Image, Like, Follow, Like
 from seed import seed_database
 
 app = Flask(__name__)
@@ -26,7 +27,7 @@ login_manager.init_app(app)
 Bootstrap(app)
 connect_db(app)
 
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
    seed_database()
@@ -105,11 +106,19 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
    '''Login returning user'''
+   # TODO: validate if user is already authenticated
+   # if current_user.is_authenticated:
+   #     return redirect(url_for('show_boards'))
+   
    form = LoginForm()
    
    if form.validate_on_submit():
-      redirect_url = url_for('show_boards')
-      return redirect(redirect_url)
+      
+      user = User.query.filter_by(username=form.username.data).first()
+      if user and authenticate(user.username, form.password.data): 
+         login_user(user, remember=form.remember.data, authenticated=True)
+
+      return redirect(url_for('show_boards'))
    
    return render_template('login.html', form=form)
 

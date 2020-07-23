@@ -62,14 +62,10 @@ class User(UserMixin, db.Model):
                              backref=db.backref('user'),
                              cascade='all, delete-orphan' 
                              )
- 
-    # likes = db.relationship("Like",
-    #                         backref=db.backref('user',
-    #                         cascade="all, delete-orphan"
-    #                         ))
     
-    likes = db.relationship("Like",
-                            backref=db.backref('user'))
+    # like_image = db.relationship("Like",
+    #                         backref=db.backref('user')
+    #                         )
     
     
     # @classmethod
@@ -93,17 +89,11 @@ class User(UserMixin, db.Model):
     #     """True, as all users are active."""
     #     return True
 
-    # def get_id(self):
-    #     """Return the email address to satisfy Flask-Login's requirements."""
-    #     return self.email
 
     # def is_authenticated(self):
     #     """Return True if the user is authenticated."""
     #     return self.authenticated
 
-    # def is_anonymous(self):
-    #     """False, as anonymous users aren't supported."""
-    #     return False
 
     @classmethod
     def create(cls, username, email, profile_image, backdrop_image, password):
@@ -123,6 +113,15 @@ class User(UserMixin, db.Model):
         # add user to session
         db.session.add(user)
         return user
+    
+    @classmethod
+    def authenticate(cls, username, password):
+        """Valid username and password."""
+        
+        if bcrypt.check_password_hash(user.password, password):
+            return True
+        else:
+            return False
     
     
 class Board(db.Model):
@@ -174,7 +173,7 @@ class Image(db.Model):
 
 
 class Like(db.Model):
-    '''User likes model.'''
+    '''User likes for images model.'''
 
     __tablename__ = 'likes'
 
@@ -195,6 +194,32 @@ class Like(db.Model):
         db.Integer,
         db.ForeignKey('images.id' 
                     #   ondelete='CASCADE'
+                      )
+    )
+    
+
+class Follow(db.Model):
+    '''User following boards model.'''
+
+    __tablename__ = 'follows'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        # db.ForeignKey('users.id', cascade="all, delete-orphan"),
+        db.ForeignKey('users.id',
+                      #   ondelete='CASCADE'
+                      )
+    )
+
+    board_id = db.Column(
+        db.Integer,
+        db.ForeignKey('images.id'
+                      #   ondelete='CASCADE'
                       )
     )
 
