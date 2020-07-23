@@ -9,9 +9,10 @@ from flask_login import LoginManager, UserMixin
 
 
 from user_form import LoginForm, RegisterForm
-from secure import api_key, secret_key
+from secure import secret_key
 from models import User, connect_db, db, Board, Image, Like, Follow, Like
 from seed import seed_database
+from smithsonian_api import get_images
 
 app = Flask(__name__)
 
@@ -44,31 +45,8 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 def homepage():
    '''Render homepage'''
 
-   # test API requests
-   q = "edward hopper"
-   rows_ = 1
-
-   # search for items
-   resp = requests.get(url=API_BASE_URL,
-                       params={"q": q,
-                               "api_key": api_key,
-                               "rows": rows_})
-
-   # iterate through the items for image URL
-   rows = resp.json()["response"]["rows"]
-   image_urls = []
-   for row in rows:
-      if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
-         if "resources" in row["content"]["descriptiveNonRepeating"]["online_media"]["media"][0].keys():
-            url = row["content"]["descriptiveNonRepeating"]["online_media"]["media"][0]["resources"][0]["url"]
-            image_urls.append(url)
-      # if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
-      #    link = row["content"]["descriptiveNonRepeating"]["online_media"][
-      #          "media"][0]["content"]
-      #    image_links.append(link)
-
-   print(resp)
-   print(len(image_urls))
+   # get random inages from API 
+   image_urls = get_images()
 
    return render_template('homepage.html', image_urls=image_urls)
 
@@ -121,37 +99,6 @@ def login():
       return redirect(url_for('show_boards'))
    
    return render_template('login.html', form=form)
-
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#    # validate if user is already authenticated
-#    if current_user.is_authenticated:
-#        return redirect(url_for('index'))
-#     # Here we use a class of some kind to represent and validate our client-side form data. 
-#     # For example, WTForms is a library that will handle this for us, and we use a custom LoginForm to validate.
-#     form = LoginForm()
-    
-#     if form.validate_on_submit():
-#         # Login and validate the user.
-        
-#         user = User.query.filter_by(username=form.username.data).first()
-#         if user is None or not user.check_password(form.password.data):
-#             flash('Invalid username or password')
-#             return('/')
-#         # user should be an instance of your `User` class
-#         User.login_user(user)
-
-#         flask.flash('Logged in successfully.')
-
-#         next = flask.request.args.get('next')
-#         # is_safe_url should check if the url is safe for redirects.
-#         # See http://flask.pocoo.org/snippets/62/ for an example.
-#         if not is_safe_url(next):
-#             return flask.abort(400)
-
-#         return flask.redirect(next or flask.url_for('index'))
-#     return flask.render_template('login.html', form=form)
 
 
 # add route for user boards - requires login_required decorater 
