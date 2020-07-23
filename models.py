@@ -71,10 +71,6 @@ class User(UserMixin, db.Model):
     likes = db.relationship("Like",
                             backref=db.backref('user'))
     
-    # @login.user_loader
-    # def load_user(user_id):
-    #     '''Load a user'''
-    #     return User.query.get(user_id
     
     # @classmethod
     # def login_user(self, remember=False, duration=None, force=False, fresh=True):

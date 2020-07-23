@@ -95,8 +95,8 @@ def register():
 
       user = User.create(username, email, profile_image, backdrop_image, password)
 
-      print(user)
-      
+      db.session.commit()
+         
       redirect_url = url_for('show_boards')
       return redirect(redirect_url)
    
@@ -149,7 +149,7 @@ def login():
 @app.route("/user/boards")
 # @login_required
 def show_boards():
-    return render_template('boards.html')
+    return render_template('user/boards.html')
 
 
 register
@@ -158,7 +158,7 @@ register
 def logout():
    '''Logout user'''
    logout_user()
-   return render_template('logout.html')
+   return render_template('user/logout.html')
 
 if __name__ == "__main__":
      app.run(debug=True)

@@ -10,7 +10,7 @@
 
         <form action="/logout" method="POST">
             <h4 class="">Are you sure you want to logout?</h4>
-            <a href="/users/{{ username }}" class="btn submit-btn btn-outline-secondary">Cancel</a>
+            <a class="btn btn-outline-secondary" href="{{ url_for('homepage') }}">Cancel</a>
             <button class="btn submit-btn btn-info" type="submit">Yes</button>
         </form>
 
