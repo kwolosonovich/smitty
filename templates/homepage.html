@@ -12,7 +12,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav text-lt">
                 <li class="nav-item active">
-                    <a class="nav-link" href="'/'">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/login">Login</a>
@@ -21,10 +24,13 @@
                     <a class="nav-link" href="/user/boards">Boards</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/likes">Likes</a>
+                    <a class="nav-link" href="/user/likes">Likes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Register</a>
+                    <a class="nav-link" href="/user/following">Following</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/logout">Logout</a>
                 </li>
             </ul>
         </div>
@@ -122,9 +128,9 @@
         <!--/.Controls-->
     </div>
 
-    <div class="container container-style centered">
-        <a class="btn blue-bg pri-btn" href="{{ url_for('login') }}">Login</a>
-        <a class="btn blue-bg pri-btn" href="{{ url_for('register') }}">Register</a>
+    <div class="container container-style text-center text-blue">
+        <a class="btn lt-bg text-blue" href="{{ url_for('login') }}">Login</a>
+        <a class="btn lt-bg text-blue" href="{{ url_for('register') }}">Register</a>
     </div>
 
 {% endblock %}
