@@ -1,6 +1,6 @@
 
 $( document ).ready(function() {
-    $(".carousel.carousel-multi-item.v-2 .carousel-item").each(function () {
+    $(".carousel.carousel-multi-item .carousel-item").each(function () {
     var next = $(this).next();
     if (!next.length) {
         next = $(this).siblings(":first");

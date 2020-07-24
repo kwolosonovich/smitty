@@ -1,3 +1,19 @@
+.navbar {
+    padding: 2rem;
+}
+
+/* .main {
+    background-color: #E9E9EC;
+    background-image: -webkit-linear-gradient(70deg, #47D1FF 50%, #E9E9EC 50%);
+    min-height: 1100px;
+} */
+
+/* .nav-style {
+    background-color: #E9E9EC;
+    background-image: -webkit-linear-gradient(-50deg, #47D1FF 50%, #E9E9EC 50%);
+    min-height: 80px;
+} */
+
 .centered {
     align-items: center;
     align-content: center;
@@ -8,4 +24,32 @@
 .container-style {
     padding-top: 10rem;
     padding-bottom: 10rem;
+}
+
+.blue-bg {
+    background-color: #47D1FF;
+}
+
+.lt-bg {
+    background-color: #E9E9EC;
+}
+
+.text-dark {
+    color: #3A3238;
+}
+
+.text-lt a {
+    color: #F7F7F2;
+}
+
+.text-blue {
+    color: #47D1FF;
+}
+
+.off-white {
+    color: #F7F7F2;
+}
+
+.pri-btn {
+    color: #F7F7F2;
 }

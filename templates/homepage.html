@@ -3,14 +3,14 @@
 {% block title %}Welcome{% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg nav-style blue-bg">
+    <!-- <a class="text-lt navbar-brand" href="#">Navbar</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav text-lt">
             <li class="nav-item active">
                 <a class="nav-link" href="'/'">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -34,27 +34,16 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container w-75">
-        <h1 class="display-4">Smithsonian App</h1>
+<div class="jumbotron jumbotron-fluid blue-bg mb-0">
+    <div class="container">
+        <h1 class="display-4 text-lt text-right pr-5">Smithsonian App</h1>
         <p class="lead"></p>
     </div>
 </div>
 
-<div class="carousel-main container-style">
+<div class="carousel-main main container-style lt-bg">
 
-    <div id="carousel-example-multi" class="carousel w-75 mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
-
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#carousel-example-multi" style="margin: auto" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-multi" data-slide-to="1"></li>
-            <li data-target="#carousel-example-multi" data-slide-to="2"></li>
-            <li data-target="#carousel-example-multi" data-slide-to="3"></li>
-            <li data-target="#carousel-example-multi" data-slide-to="4"></li>
-            <li data-target="#carousel-example-multi" data-slide-to="5"></li>
-        </ol>
-        <!--/.Indicators-->
+    <div id="images" class="carousel mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
 
         <div class="carousel-inner" role="listbox">
 
@@ -66,7 +55,6 @@
                 <div class="card-body">
                     <h4 class="card-title font-weight-bold">Title</h4>
                     <p class="card-text">Description/artist</p>
-                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
                 </div>
                 </div>
             </div>
@@ -79,7 +67,6 @@
                 <div class="card-body">
                     <h4 class="card-title font-weight-bold">Title</h4>
                     <p class="card-text">Description/artist</p>
-                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
                 </div>
                 </div>
             </div>
@@ -92,7 +79,6 @@
                 <div class="card-body">
                     <h4 class="card-title font-weight-bold">Title</h4>
                     <p class="card-text">Description/artist</p>
-                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
                 </div>
                 </div>
             </div>
@@ -105,7 +91,6 @@
                 <div class="card-body">
                     <h4 class="card-title font-weight-bold">Title</h4>
                     <p class="card-text">Description/artist</p>
-                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
                 </div>
                 </div>
             </div>
@@ -118,25 +103,25 @@
                 <div class="card-body">
                     <h4 class="card-title font-weight-bold">Title</h4>
                     <p class="card-text">Description/artist</p>
-                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
                 </div>
                 </div>
             </div>
             </div>
         </div>
+        <br>
                 <!--Controls-->
         <div class="controls text-center">
-            <a class="btn-floating" href="#carousel-example-multi" data-slide="prev"><i
-                class="fas fa-chevron-left"></i></a>
-            <a class="btn-floating" href="#carousel-example-multi" data-slide="next"><i
-                class="fas fa-chevron-right"></i></a>
+            <a class="btn-floating" href="#images" data-slide="prev"><i
+                class="fas fa-chevron-left text-blue"></i></a>
+            <a class="btn-floating" href="#images" data-slide="next"><i
+                class="fas fa-chevron-right text-blue"></i></a>
         </div>
         <!--/.Controls-->
     </div>
 
     <div class="container container-style centered">
-        <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
-        <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
+        <a class="btn blue-bg pri-btn" href="{{ url_for('login') }}">Login</a>
+        <a class="btn blue-bg pri-btn" href="{{ url_for('register') }}">Register</a>
     </div>
 
 {% endblock %}
