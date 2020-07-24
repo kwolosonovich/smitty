@@ -11,9 +11,6 @@
     min-height: 80px;
 } */
 
-.boards {
-    margin-top: 8rem;
-}
 .container-style {
     padding-top: 10rem;
     padding-bottom: 10rem;
@@ -27,7 +24,7 @@
     background-color: #E9E9EC;
 }
 
-.text-dark {
+.text-dark h1 {
     color: #3A3238;
 }
 

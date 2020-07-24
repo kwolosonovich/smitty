@@ -83,7 +83,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-   '''Login returning user'''
+   '''Login returning user.'''
    # TODO: validate if user is already authenticated
    # if current_user.is_authenticated:
    #     return redirect(url_for('show_boards'))
@@ -105,14 +105,28 @@ def login():
 @app.route("/user/boards")
 # @login_required
 def show_boards():
-    return render_template('user/boards.html')
+   """Render user boards."""
+   return render_template('user/boards.html')
 
 
-register
+@app.route("/user/likes")
+# @login_required
+def show_likes():
+   """Render user likes."""
+   return render_template('user/likes.html')
+ 
+ 
+@app.route("/user/following")
+# @login_required
+def show_following():
+   """Render user following."""
+   return render_template('user/following.html')
+ 
+
 @app.route("/user/logout")
 # @login_required
 def logout():
-   '''Logout user'''
+   '''Logout user.'''
    logout_user()
    return render_template('user/logout.html')
 
