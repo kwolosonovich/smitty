@@ -44,11 +44,15 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 @app.route('/')
 def homepage():
    '''Render homepage'''
+   
+   form = LoginForm()
 
    # get random inages from API 
    image_urls = get_images()
 
-   return render_template('homepage.html', image_urls=image_urls)
+   status = "anonymous"
+
+   return render_template('homepage.html', image_urls=image_urls, status=status, form=form)
 
 
 # ********* USER ROUTES *********
@@ -59,7 +63,7 @@ def load_user(user_id):
     return User.query.get_or_404(int(user_id))
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
    '''Register new user'''
    
@@ -98,7 +102,8 @@ def login():
 
       return redirect(url_for('show_boards'))
    
-   return render_template('login.html', form=form)
+   return
+   # return render_template('login.html', form=form)
 
 
 # add route for user boards - requires login_required decorater 
