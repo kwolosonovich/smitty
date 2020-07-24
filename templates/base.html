@@ -11,23 +11,28 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="icon" href="data:">
     <title>
-        {% block title %}
-        {% endblock %}
+        {% block title %}{% endblock %}
     </title>
 </head>
 
 <body>
 
-    {% block navbar %}
-    {% endblock %}
+    {% include 'navbar.html' %}
 
     {% block head %}
     {% endblock %}
 
     <main id="content">
-        {% block content %}
-        {% endblock %}
+        {% if 'user' in session %}
+            {% include 'boards.html' %}
+            {% include 'following.html' %}
+            {% include 'likes.html' %}
+        {% else %}
+            {% include 'carousel.html' %}
+        {% endif %}
+        {% block content %}{% endblock %}
     </main>
+
    
     <script src="/static/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

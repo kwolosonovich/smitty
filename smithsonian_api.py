@@ -15,7 +15,7 @@ def get_images(keyword=None):
     # test API requests
    
     # request using keyword
-    q = "painting"
+    q = "edward-hopper"
     rows_ = 1000
     type = "images"
 

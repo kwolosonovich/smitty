@@ -2,42 +2,6 @@
 
 {% block title %}Welcome{% endblock %}
 
-{% block navbar %}
-    <nav class="navbar navbar-expand-lg blue-bg">
-        <!-- <a class="text-lt navbar-brand" href="#">Navbar</a> -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav text-lt">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/boards">Boards</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/likes">Likes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/following">Following</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-{% endblock %}
-
-
 {% block head %}
 <div class="jumbotron jumbotron-fluid blue-bg mb-0">
     <div class="container">
@@ -47,86 +11,13 @@
 </div>
 {% endblock %}
 
+{% block navbar %}{% endblock %}
+
 
 {% block content %}
 
-<div class="carousel-main main container-style lt-bg">
+    {% block carousel%}{% endblock %}
 
-    <div id="images" class="carousel mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
-
-        <div class="carousel-inner car" role="listbox">
-
-            <div class="carousel-item active">
-            <div class="col-12 col-md-4" style="margin: auto">
-                <div class="card mb-2">
-                    <img class="card-img-top img-fluid" src={{image_urls[0]}}
-                        alt="Card image cap responsive">
-                <div class="card-body">
-                    <h4 class="card-title font-weight-bold">Title</h4>
-                    <p class="card-text">Description/artist</p>
-                </div>
-                </div>
-            </div>
-            </div>
-            <div class="carousel-item">
-            <div class="col-12 col-md-4" style="margin: auto">
-                <div class="card mb-2">
-                <img class="card-img-top" src={{image_urls[1]}}
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h4 class="card-title font-weight-bold">Title</h4>
-                    <p class="card-text">Description/artist</p>
-                </div>
-                </div>
-            </div>
-            </div>
-            <div class="carousel-item">
-            <div class="col-12 col-md-4" style="margin: auto">
-                <div class="card mb-2">
-                <img class="card-img-top" src={{image_urls[2]}}
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h4 class="card-title font-weight-bold">Title</h4>
-                    <p class="card-text">Description/artist</p>
-                </div>
-                </div>
-            </div>
-            </div>
-            <div class="carousel-item">
-            <div class="col-12 col-md-4" style="margin: auto">
-                <div class="card mb-2">
-                <img class="card-img-top" src={{image_urls[3]}}
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h4 class="card-title font-weight-bold">Title</h4>
-                    <p class="card-text">Description/artist</p>
-                </div>
-                </div>
-            </div>
-            </div>
-            <div class="carousel-item">
-            <div class="col-12 col-md-4" style="margin: auto">
-                <div class="card mb-2">
-                <img class="card-img-top" src={{image_urls[4]}}
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h4 class="card-title font-weight-bold">Title</h4>
-                    <p class="card-text">Description/artist</p>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        <br>
-                <!--Controls-->
-        <div class="controls text-center">
-            <a class="btn-floating" href="#images" data-slide="prev"><i
-                class="fas fa-chevron-left text-blue"></i></a>
-            <a class="btn-floating" href="#images" data-slide="next"><i
-                class="fas fa-chevron-right text-blue"></i></a>
-        </div>
-        <!--/.Controls-->
-    </div>
 
     <div class="container container-style text-center text-blue">
         <a class="btn lt-bg text-blue" href="{{ url_for('login') }}">Login</a>
