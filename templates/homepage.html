@@ -18,10 +18,13 @@
                 <a class="nav-link" href="/login">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/logout">Register</a>
+                <a class="nav-link" href="/boards">Boards</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link" href="/likes">Likes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Register</a>
             </li>
         </ul>
     </div>
@@ -32,125 +35,108 @@
 {% block content %}
 
 <div class="jumbotron jumbotron-fluid">
-    <div class="container">
+    <div class="container w-75">
         <h1 class="display-4">Smithsonian App</h1>
         <p class="lead"></p>
     </div>
 </div>
 
-<div class="carousel container">
+<div class="carousel-main container-style">
 
-<div id="carousel-example-multi" class="carousel slide carousel-multi-item v-2" data-ride="carousel">
+    <div id="carousel-example-multi" class="carousel w-75 mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
 
-  <!--Controls-->
-  <div class="controls-top">
-    <a class="btn-floating" href="#carousel-example-multi" data-slide="prev"><i
-        class="fas fa-chevron-left"></i></a>
-    <a class="btn-floating" href="#carousel-example-multi" data-slide="next"><i
-        class="fas fa-chevron-right"></i></a>
-  </div>
-  <!--/.Controls-->
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-multi" style="margin: auto" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-multi" data-slide-to="1"></li>
+            <li data-target="#carousel-example-multi" data-slide-to="2"></li>
+            <li data-target="#carousel-example-multi" data-slide-to="3"></li>
+            <li data-target="#carousel-example-multi" data-slide-to="4"></li>
+            <li data-target="#carousel-example-multi" data-slide-to="5"></li>
+        </ol>
+        <!--/.Indicators-->
 
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#carousel-example-multi" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="1"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="2"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="3"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="4"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="5"></li>
-  </ol>
-  <!--/.Indicators-->
+        <div class="carousel-inner" role="listbox">
 
-  <div class="carousel-inner v-2" role="listbox">
-
-    <div class="carousel-item active">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src={{image_urls[0]}}
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
+            <div class="carousel-item active">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[0]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[1]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[2]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[3]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[4]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                    <a class="btn btn-primary btn-md btn-rounded">Button</a>
+                </div>
+                </div>
+            </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src={{image_urls[1]}}
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
+                <!--Controls-->
+        <div class="controls text-center">
+            <a class="btn-floating" href="#carousel-example-multi" data-slide="prev"><i
+                class="fas fa-chevron-left"></i></a>
+            <a class="btn-floating" href="#carousel-example-multi" data-slide="next"><i
+                class="fas fa-chevron-right"></i></a>
         </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src={{image_urls[2]}}
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src={{image_urls[3]}}
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src={{image_urls[4]}}
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
+        <!--/.Controls-->
     </div>
 
-
-  </div>
-
-</div>
-
-</div>
-<!-- <div class="container">
-    {% for image_url in image_urls %}
-    <img src={{image_url}} style="height: 200px; width:auto" alt="">
-    {% endfor %}
-</div> -->
-
-<div buttons>
-    <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
-    <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
-    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-</div>
+    <div class="container container-style centered">
+        <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+        <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
+    </div>
 
 {% endblock %}
