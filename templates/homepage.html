@@ -15,12 +15,22 @@
 
 {% block content %}
 
-    {% block carousel%}{% endblock %}
+    <!-- {% if user and boards %}
 
-    {% block login%}{% endblock %}
+        {% block boards %}{% endblock %}
 
-    <div class="container container-style text-center text-blue">
-        <a class="btn pri-btn" href="{{ url_for('register') }}">Register</a>
-    </div>
+    {% else %} -->
+    
+        {% block carousel%}{% endblock %}
+        {% block following%}{% endblock %}
+        {% block likes%}{% endblock %}
+
+        {% block login%}{% endblock %}
+
+        <div class="container container-style text-center text-blue">
+            <a class="btn pri-btn" href="{{ url_for('register') }}">Register</a>
+        </div>
+
+    {% endif %}
 
 {% endblock %}

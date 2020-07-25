@@ -1,0 +1,71 @@
+{{ block sidebar }}
+
+<div class="bg">
+  	<!-- SideNav slide-out button -->
+		<a href="#" data-activates="slide-out" class="btn btn-dark p-3 button-collapse"><i
+    class="fas fa-bars"></i></a>
+  </div>
+
+
+<!-- Sidebar navigation -->
+<div id="slide-out" class="side-nav2 side stylish-color">
+  <ul class="custom-scrollbar">
+    <!-- Logo -->
+    <li>
+      <div class="logo-wrapper waves-light">
+        <a href="#"><img src="{{ user.profile_image }}"
+            class="img-fluid flex-center"></a>
+      </div>
+    </li>
+    <!--/. Logo -->
+    <!--Social-->
+    <li>
+      <ul class="social">
+        <li><a href="#" class="icons-sm fb-ic"><i class="fab fa-facebook-f"> </i></a></li>
+        <li><a href="#" class="icons-sm pin-ic"><i class="fab fa-pinterest"> </i></a></li>
+        <li><a href="#" class="icons-sm gplus-ic"><i class="fab fa-google-plus-g"> </i></a></li>
+        <li><a href="#" class="icons-sm tw-ic"><i class="fab fa-twitter"> </i></a></li>
+      </ul>
+    </li>
+    <!--/Social-->
+    <!--Search Form-->
+    <li>
+      <form class="search-form" role="search">
+        <div class="form-group md-form mt-0 pt-1 waves-light">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+      </form>
+    </li>
+    <!--/.Search Form-->
+    <!-- Side navigation links -->
+    <li>
+      <ul class="collapsible collapsible-accordion">
+        <li><a class="collapsible-header waves-effect arrow-r active"><i class="fas fa-chevron-right"></i> Submit
+            blog<i class="fas fa-angle-down rotate-icon"></i></a>
+          <div class="collapsible-body">
+            <ul>
+              <li><a href="#" class="waves-effect">Submit listing</a>
+              </li>
+              <li><a href="#" class="waves-effect">Registration form</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul>
+            <li><a href="#" class="waves-effect">Boards</a>
+            </li>
+            <li><a href="#" class="waves-effect">Following</a>
+            </li>
+            <li><a href="#" class="waves-effect">Likes</a>
+            </li>
+            <li><a href="#" class="waves-effect">Logout</a>
+            </li>
+        </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <div class="sidenav-bg"></div>
+</div>
+
+{{ endblock }}

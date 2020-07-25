@@ -48,12 +48,6 @@ class User(UserMixin, db.Model):
         nullable=False,
     )
     
-    authenticated = db.Column(
-        db.Boolean, 
-        nullable=False,
-        default=False
-    )
-    
     # boards = db.relationship("Board",
     #                          backref="user", 
     #                          cascade="all, delete")
@@ -89,10 +83,10 @@ class User(UserMixin, db.Model):
     #     """True, as all users are active."""
     #     return True
 
-
-    # def is_authenticated(self):
-    #     """Return True if the user is authenticated."""
-    #     return self.authenticated
+    # @classmethod
+    def is_authenticated(self):
+        """Return True if the user is authenticated."""
+        return self.authenticated
 
 
     @classmethod
@@ -118,10 +112,14 @@ class User(UserMixin, db.Model):
     def authenticate(cls, username, password):
         """Valid username and password."""
         
-        if bcrypt.check_password_hash(user.password, password):
-            return True
-        else:
-            return False
+        user = cls.query.filter_by(username=username).first()
+        
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                return user
+
+        return False
     
     
 class Board(db.Model):

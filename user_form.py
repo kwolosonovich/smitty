@@ -10,6 +10,7 @@ url_validator = URL(message='Please provide valid URL')
 optional = Optional(strip_whitespace=True)
 min_4 = Length(min=4)
 max_50 = Length(max=50)
+max_80 = Length(max=80)
 
 
 class LoginForm(FlaskForm):
@@ -18,7 +19,7 @@ class LoginForm(FlaskForm):
         ])
 
     password = PasswordField("Password", validators=[
-        required, min_4, max_50
+        required, min_4, max_80
         ])
 
     remember = BooleanField('Remember me')
@@ -43,5 +44,5 @@ class RegisterForm(FlaskForm):
                                 ])
 
     password = PasswordField("Password", validators=[
-        required, min_4, max_50
+        required, min_4, max_80
         ])

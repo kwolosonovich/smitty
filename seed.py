@@ -9,7 +9,6 @@ def seed_database():
         username="Ava",
         email="ava@gmail.com", 
         password="password",
-        authenticated=True,
     )
     
     db.session.add(test_user)
