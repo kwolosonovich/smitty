@@ -44,11 +44,15 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 @app.route('/')
 def homepage():
    '''Render homepage'''
+   
+   form = LoginForm()
 
    # get random inages from API 
    image_urls = get_images()
 
-   return render_template('homepage.html', image_urls=image_urls)
+   status = "anonymous"
+
+   return render_template('homepage.html', image_urls=image_urls, status=status, form=form)
 
 
 # ********* USER ROUTES *********
@@ -59,7 +63,7 @@ def load_user(user_id):
     return User.query.get_or_404(int(user_id))
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET','POST'])
 def register():
    '''Register new user'''
    
@@ -76,20 +80,17 @@ def register():
 
       db.session.commit()
          
-      redirect_url = url_for('show_boards')
-      return redirect(redirect_url)
+      return redirect(url_for('show_boards'))
    
    return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-   '''Login returning user'''
+   '''Login returning user.'''
    # TODO: validate if user is already authenticated
    # if current_user.is_authenticated:
    #     return redirect(url_for('show_boards'))
-   
-   form = LoginForm()
-   
+      
    if form.validate_on_submit():
       
       user = User.query.filter_by(username=form.username.data).first()
@@ -98,21 +99,35 @@ def login():
 
       return redirect(url_for('show_boards'))
    
-   return render_template('login.html', form=form)
+   return redirect('/')
 
 
 # add route for user boards - requires login_required decorater 
 @app.route("/user/boards")
 # @login_required
 def show_boards():
-    return render_template('user/boards.html')
+   """Render user boards."""
+   return render_template('user/boards.html')
 
 
-register
+@app.route("/user/likes")
+# @login_required
+def show_likes():
+   """Render user likes."""
+   return render_template('user/likes.html')
+ 
+ 
+@app.route("/user/following")
+# @login_required
+def show_following():
+   """Render user following."""
+   return render_template('user/following.html')
+ 
+
 @app.route("/user/logout")
 # @login_required
 def logout():
-   '''Logout user'''
+   '''Logout user.'''
    logout_user()
    return render_template('user/logout.html')
 

@@ -1,0 +1,82 @@
+{% block carousel %}
+
+<div class="carousel-main main container-style lt-bg">
+
+    <div id="images" class="carousel mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
+
+        <div class="carousel-inner car" role="listbox">
+
+            <div class="carousel-item active">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                    <img class="card-img-top img-fluid" src={{image_urls[0]}}
+                        alt="Card image cap responsive">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[1]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[2]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[3]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="carousel-item">
+            <div class="col-12 col-md-4" style="margin: auto">
+                <div class="card mb-2">
+                <img class="card-img-top" src={{image_urls[4]}}
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Title</h4>
+                    <p class="card-text">Description/artist</p>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <br>
+                <!--Controls-->
+        <div class="controls text-center">
+            <a class="btn-floating" href="#images" data-slide="prev"><i
+                class="fas fa-chevron-left text-blue"></i></a>
+            <a class="btn-floating" href="#images" data-slide="next"><i
+                class="fas fa-chevron-right text-blue"></i></a>
+        </div>
+        <!--/.Controls-->
+    </div>
+
+
+{% endblock %}

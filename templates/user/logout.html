@@ -1,12 +1,12 @@
-{% extends 'bootstrap/base.html' %}
+{% extends 'homepage.html' %}
 
 {% block title %}Logout{% endblock %}
 
+{% block name %}Logout{% endblock %}
+
 {% block content %}
 
-    <div class="container">
-
-        <h1 class="">Logout</h1>
+    <div class="container container-style" style="width: 50%;">
 
         <form action="/logout" method="POST">
             <h4 class="">Are you sure you want to logout?</h4>

@@ -1,4 +1,4 @@
-{% extends 'bootstrap/base.html' %}
+{% extends 'homepage.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Create Account{% endblock %}
@@ -7,6 +7,11 @@
 {% block content %}
 
     <div class='container'>
+{% block name %}Register{% endblock %}
+
+{% block content %}
+
+    <div class='container container-style' style="width: 50%;">
 
         <form method="POST" action='/register'>
             <div class="">
