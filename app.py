@@ -40,19 +40,25 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
 # TODO: Disabling Session Cookie for API
 
+STATUS = 'login'
 
 @app.route('/')
-def homepage():
+@app.route("/<id>")
+# TODO: add JS for event listener to direct to section on homepage
+def homepage(id=None):
    '''Render homepage'''
+   global STATUS 
    
-   form = LoginForm()
-
+   if STATUS == 'login':
+      form = LoginForm()
+   elif STATUS == 'register':
+      form = RegisterForm()
+   else:
+      raise Exception(f'Status = {STATUS} not implemented')
    # get random inages from API 
    image_urls = get_images()
 
-   status = "anonymous"
-
-   return render_template('homepage.html', image_urls=image_urls, status=status, form=form)
+   return render_template('homepage.html', image_urls=image_urls, form=form, status=STATUS, id=id)
 
 
 # ********* USER ROUTES *********
@@ -66,10 +72,13 @@ def load_user(user_id):
 @app.route('/register', methods=['GET','POST'])
 def register():
    '''Register new user'''
+   global STATUS
+   STATUS = 'register'
    
    form = RegisterForm()
    
    if form.validate_on_submit():
+
       username=form.username.data
       email=form.email.data
       profile_image=form.profile_image.data
@@ -82,15 +91,19 @@ def register():
          
       return redirect(url_for('show_boards'))
    
-   return render_template('register.html', form=form)
+   return redirect('/') 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
    '''Login returning user.'''
    # TODO: validate if user is already authenticated
    # if current_user.is_authenticated:
    #     return redirect(url_for('show_boards'))
-      
+   global STATUS
+   STATUS = 'login'
+   
+   form = LoginForm()
+   
    if form.validate_on_submit():
       
       user = User.query.filter_by(username=form.username.data).first()

@@ -28,11 +28,11 @@
             {% include 'likes.html' %}
         {% else %}
             {% include 'carousel.html' %}
-            {% include 'login.html' %}
+            {% include 'form.html' %}
         {% endif %}
+
         {% block content %}{% endblock %}
     </main>
-
 
     <script>
         $(document).ready(function () {
