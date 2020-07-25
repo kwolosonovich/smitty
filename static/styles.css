@@ -4,7 +4,6 @@
     min-height: 1100px; */
 }
 
-
 /* .nav-style {
     background-color: #E9E9EC;
     background-image: -webkit-linear-gradient(-50deg, #47D1FF 50%, #E9E9EC 50%);
@@ -42,4 +41,10 @@
 
 .pri-btn {
     color: #F7F7F2;
+    background-color: #47D1FF;
+}
+
+.sec-btn {
+    color: #47D1FF;
+    background-color: #F7F7F2
 }

@@ -3,9 +3,9 @@
 
 {% block login %}
 
-    <div class='container container-style' style="width: 50%;">
+    <div class='container container-style' id="login" style="width: 50%;">
 
-        <form method="POST" action='/login'>
+        <form method="POST" action='/login' class="text-dark">
             <div class="">
                 {{ form.hidden_tag() }}
                 
@@ -20,8 +20,12 @@
                 {% endif %}
                 </div>
                 <div class="mt-3">
-                    <a class="btn btn-outline-secondary" href="{{ url_for('homepage') }}">Cancel</a>
-                    <button class="btn submit-btn btn-info" type="submit">Login</button>
+                    <a class="btn btn-outline-secondary text-dark" href="{{ url_for('homepage') }}">Cancel</a>
+                    <button class="btn pri-btn" type="submit">Login</button>
+                </div>
+                <br>
+                <div>
+                    <a class="btn lt-bg text-blue pl-0 text-blue" href="{{ url_for('register') }}">Create an Account</a>
                 </div>
             </form>
      </div>

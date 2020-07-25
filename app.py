@@ -63,7 +63,7 @@ def load_user(user_id):
     return User.query.get_or_404(int(user_id))
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET','POST'])
 def register():
    '''Register new user'''
    
@@ -80,8 +80,7 @@ def register():
 
       db.session.commit()
          
-      redirect_url = url_for('show_boards')
-      return redirect(redirect_url)
+      return redirect(url_for('show_boards'))
    
    return render_template('register.html', form=form)
 
@@ -91,9 +90,7 @@ def login():
    # TODO: validate if user is already authenticated
    # if current_user.is_authenticated:
    #     return redirect(url_for('show_boards'))
-   
-   form = LoginForm()
-   
+      
    if form.validate_on_submit():
       
       user = User.query.filter_by(username=form.username.data).first()
@@ -102,8 +99,7 @@ def login():
 
       return redirect(url_for('show_boards'))
    
-   return
-   # return render_template('login.html', form=form)
+   return redirect('/')
 
 
 # add route for user boards - requires login_required decorater 

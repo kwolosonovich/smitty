@@ -1,5 +1,4 @@
 
-$( document ).ready(function() {
     $(".carousel.carousel-multi-item .carousel-item").each(function () {
     var next = $(this).next();
     if (!next.length) {
@@ -15,4 +14,4 @@ $( document ).ready(function() {
         next.children(":first-child").clone().appendTo($(this));
     }
     });
-}
+
