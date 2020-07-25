@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Welcome{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block head %}
 <div class="jumbotron jumbotron-fluid blue-bg mb-0">
@@ -11,16 +11,18 @@
 </div>
 {% endblock %}
 
-{% block navbar %}{% endblock %}
-
 {% block content %}
 
-        {% block carousel%}{% endblock %}
-
-        {% block login%}{% endblock %}
-
-        <div class="container container-style text-center text-blue">
-            <a class="btn pri-btn" href="{{ url_for('register') }}">Register</a>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="sidebar">
+                {% block sidebar %}{% endblock %}
+            </div>
+            <div class="row">
+                {% block board %}{% endblock %}
+            </div>
         </div>
+
+    </div>
 
 {% endblock %}

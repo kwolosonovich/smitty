@@ -90,7 +90,7 @@ def register():
 
       db.session.commit()
       flash('Welcome! Your account had been created.', 'success')
-      return redirect(url_for('show_user'))
+      return redirect('/user')
    
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
    return redirect('/') 
@@ -113,31 +113,24 @@ def login():
          login_user(user, remember=form.remember.data)
       
          flash('Successsfully logged-in', 'success')
-         return redirect(url_for('show_user'))
+         return redirect('/user')
       else: 
          flash('Login unsuccessful, please resubmit. If you do not already\
             have an account please register to join.', 'warning')
 
    return redirect('/')
 
-
-app.route("/user")
+# route for user boards - requires login_required decorater
+@app.route("/user")
 @login_required
 def show_user():
    """Render user information and hompage boards"""
    login_manager.login_message = "Please login"
-   boards = 'boards'
+   board = 'board'
+   image_urls = 'from API'
+   form = 'add logout form'
    
-   return render_template('homepage.html', user=current_user, boards=boards)
-
-# add route for user boards - requires login_required decorater 
-@app.route("/user")
-@login_required
-def show_user():
-   """Render user boards."""
-   login_manager.login_message = "Please login"
-   
-   return render_template('homepage.html', user=current_user)
+   return render_template('user/profile.html', board=board, image_urls=image_urls, form=form)
 
 
 @app.route("/user/likes")

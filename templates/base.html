@@ -25,17 +25,16 @@
 
     <main id="content">
 
-        {% if current_user.is_authenticated and boards is defined %}
-            {% include 'boards.html' %}
-            {% include 'following.html' %}
-            {% include 'likes.html' %}
-            {% include 'sidebar.html' %}
+        {% if user in session %}
+                {% include 'user/boards.html' %}
+                {% include 'user/sidebar.html' %}
         {% else %}
             {% include 'carousel.html' %}
-            <!-- flash message -->
-            {% for category, message in get_flashed_messages(with_categories=True) %}
-                <div class="alert alert-{{ category }}" style="width: 50%">{{ message }}</div>
-            {% endfor %}
+
+                <!-- flash message -->
+                {% for category, message in get_flashed_messages(with_categories=True) %}
+                    <div class="alert alert-{{ category }} mx-auto" style="width: 50%">{{ message }}</div>
+                {% endfor %}
 
             {% include 'form.html' %}
         {% endif %}

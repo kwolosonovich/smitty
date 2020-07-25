@@ -1,12 +1,12 @@
-{{ block sidebar }}
+{% block sidebar %}
 
 <div class="bg">
   	<!-- SideNav slide-out button -->
 		<a href="#" data-activates="slide-out" class="btn btn-dark p-3 button-collapse"><i
     class="fas fa-bars"></i></a>
-  </div>
+</div>
 
-
+<nav class="sidebar">
 <!-- Sidebar navigation -->
 <div id="slide-out" class="side-nav2 side stylish-color">
   <ul class="custom-scrollbar">
@@ -67,5 +67,6 @@
   </ul>
   <div class="sidenav-bg"></div>
 </div>
+</nav>
 
-{{ endblock }}
+{% endblock %}
