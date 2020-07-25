@@ -1,10 +1,10 @@
 import requests
 import pprint
 
-from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for
+from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup
 from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap 
 from flask_login import LoginManager, UserMixin
 
 
@@ -88,9 +88,11 @@ def register():
       user = User.create(username, email, profile_image, backdrop_image, password)
 
       db.session.commit()
-         
+      flash('Welcome! Your account had been created.', 'success')
       return redirect(url_for('show_boards'))
-   
+   else: 
+       flash('Registration unsuccessful, Please resubmit. If you already\
+          have an account please login.', 'warning')
    return redirect('/') 
 
 @app.route('/login', methods=['GET','POST'])
@@ -109,9 +111,12 @@ def login():
       user = User.query.filter_by(username=form.username.data).first()
       if user and authenticate(user.username, form.password.data): 
          login_user(user, remember=form.remember.data, authenticated=True)
-
+      flash('Successsfully logged-in', 'success')
       return redirect(url_for('show_boards'))
-   
+   else: 
+       flash('Login unsuccessful, please resubmit. If you do not already\
+          have an account please register to join.', 'warning')
+
    return redirect('/')
 
 

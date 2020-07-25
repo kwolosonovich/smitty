@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,17 +22,25 @@
     {% block head %}
     {% endblock %}
 
+
     <main id="content">
+
         {% if 'user' in session %}
             {% include 'boards.html' %}
             {% include 'following.html' %}
             {% include 'likes.html' %}
         {% else %}
             {% include 'carousel.html' %}
+            <!-- flash message -->
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+
             {% include 'form.html' %}
         {% endif %}
 
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 
     <script>
