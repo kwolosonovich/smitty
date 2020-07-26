@@ -59,3 +59,10 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+#remember {
+    width: 10%;
+    height: 80%;
+    text-align: left;
+    vertical-align: middle;
+}
