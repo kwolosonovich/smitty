@@ -1,3 +1,5 @@
+# TODO: update dependencies
+
 import requests
 import pprint
 
@@ -7,13 +9,14 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
+# from jinja2 import Environment, select_autoescape
 
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
 from models import User, connect_db, db, Board, Image, Like, Follow, Like
 from seed import seed_database
-from smithsonian_api import get_images
+# from smithsonian_api import get_images
 
 app = Flask(__name__)
 
@@ -29,6 +32,11 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 Bootstrap(app)
 connect_db(app)
+
+# env = Environment(autoescape=select_autoescape(
+#     enabled_extensions=('html', 'xml'),
+#     default_for_string=True,
+# ))
 
 DEBUG = False
 
@@ -57,7 +65,7 @@ def homepage(id=None):
    else:
       raise Exception(f'Status = {STATUS} not implemented')
    # get random inages from API 
-   image_urls = get_images()
+   image_urls = ['https://ids.si.edu/ids/deliveryService?max_w=800&id=SAAM-1986.6.92_3']
 
    return render_template('homepage.html', image_urls=image_urls, form=form, status=STATUS, id=id)
 
@@ -90,7 +98,7 @@ def register():
 
       db.session.commit()
       flash('Welcome! Your account had been created.', 'success')
-      return redirect('/user')
+      return redirect('/user/profile')
    
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
    return redirect('/') 
@@ -113,7 +121,7 @@ def login():
          login_user(user, remember=form.remember.data)
       
          flash('Successsfully logged-in', 'success')
-         return redirect('/user')
+         return redirect('/user/profile')
       else: 
          flash('Login unsuccessful, please resubmit. If you do not already\
             have an account please register to join.', 'warning')
@@ -121,16 +129,19 @@ def login():
    return redirect('/')
 
 # route for user boards - requires login_required decorater
-@app.route("/user")
+@app.route("/user/profile")
 @login_required
 def show_user():
    """Render user information and hompage boards"""
-   login_manager.login_message = "Please login"
+   # TODO: login_manager.login_message = "Please login"
    board = 'board'
-   image_urls = 'from API'
-   form = 'add logout form'
+   # TODO: image_urls from API
+
+   user = current_user
+   image_urls = [
+       'https://ids.si.edu/ids/deliveryService?max_w=800&id=SAAM-1986.6.92_3']
    
-   return render_template('user/profile.html', board=board, image_urls=image_urls, form=form)
+   return render_template('user/profile.html', image_urls=image_urls, user=user)
 
 
 @app.route("/user/likes")
@@ -151,12 +162,12 @@ def show_following():
    return render_template('user/following.html')
  
 
-@app.route("/user/logout")
+@app.route("/user/logout", methods=['GET','POST'])
 @login_required
 def logout():
    '''Logout user.'''
    logout_user()
-   return render_template('user/logout.html')
-
+# TODO:   return render_template('user/logout.html')
+   return redirect('/')
 if __name__ == "__main__":
      app.run(debug=True)

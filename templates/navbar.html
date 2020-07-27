@@ -1,41 +1,39 @@
 {% block navbar %}
 
-<nav class="navbar navbar-expand-lg blue-bg">
-        <!-- <a class="text-lt navbar-brand" href="#">Navbar</a> -->
+    <!-- display profile in sidebar if logged-in -->
+    {% if current_user.is_authenticated %}
+
+    <nav class="navbar navbar-dark sticky-top blue-bg flex-md-nowrap p-0 shadow">
+        <span class="navbar-brand col-md-3 col-lg-2 mr-0 px-3">Mr. Smith</span>
+        <button class="navbar-toggler position-initial d-md-none collapsed" type="button" data-toggle="collapse"
+            data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/user/logout">Sign out</a>
+            </li>
+        </ul>
+    </nav>
+
+{% else %}
+    <!-- hopepage navbar -->
+    <nav class="navbar navbar-expand-lg blue-bg">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav text-lt">
-                {% if 'user' in session %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    </li>              <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/boards">Boards</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/likes">Likes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/following">Following</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/logout">Logout</a>
-                    </li>                
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
             </ul>
         </div>
     </nav>
+{% endif %}
 
 {% endblock %}
