@@ -5,8 +5,9 @@
 <div class='container container-style' id="{{status}}" style="width: 50%">
 
     <form method="POST" action='/{{ status }}' class="text-dark form-horizontal justify-content-start" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            {% for field in form.errors %}
+        {{ form.hidden_tag() }}
+
+        {% for field in form.errors %}
             <div class="alert alert-danger">{{ field }}:
                 <ul>
                     {% for error in form.errors[field] %}

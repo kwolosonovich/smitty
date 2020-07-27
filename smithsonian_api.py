@@ -39,7 +39,7 @@ class ApiImage:
         for row in rows:
             if "online_media" in row["content"]["descriptiveNonRepeating"]:
 
-                url = rows[0]["content"]["descriptiveNonRepeating"]["online_media.media"][0]["resources"][2]["url"]
+                url = rows[0]["content"]["descriptiveNonRepeating"]["online_media"]["media"][0]["resources"][2]["url"]
                 title = rows[0]["content"]["descriptiveNonRepeating"]["title"]["content"]
                 artist = rows[0]["content"]["descriptiveNonRepeating"]["title"]["content"]
                 date = rows[0]["content"]["freetext"]["date"][0]["content"]
