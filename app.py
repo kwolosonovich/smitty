@@ -9,6 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
+from flask_file_upload import file_upload
 # from jinja2 import Environment, select_autoescape
 
 
@@ -16,9 +17,9 @@ from user_form import LoginForm, RegisterForm
 from secure import secret_key
 from models import User, connect_db, db, Board, Image, Like, Follow, Like
 from seed import seed_database
-# from smithsonian_api import get_images
+from smithsonian_api import search
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="uploads")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -32,11 +33,6 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 Bootstrap(app)
 connect_db(app)
-
-# env = Environment(autoescape=select_autoescape(
-#     enabled_extensions=('html', 'xml'),
-#     default_for_string=True,
-# ))
 
 DEBUG = False
 
@@ -58,16 +54,19 @@ def homepage(id=None):
    '''Render homepage'''
    global STATUS 
    
-   if STATUS == 'login':
-      form = LoginForm()
-   elif STATUS == 'register':
-      form = RegisterForm()
-   else:
-      raise Exception(f'Status = {STATUS} not implemented')
-   # get random inages from API 
-   image_urls = ['https://ids.si.edu/ids/deliveryService?max_w=800&id=SAAM-1986.6.92_3']
+   if current_user.is_authenticated:
+      redirect('/user/profile')
+   else: 
+      if STATUS == 'login':
+         form = LoginForm()
+      elif STATUS == 'register':
+         form = RegisterForm()
+      else:
+         raise Exception(f'Status = {STATUS} not implemented')
+      # get random inages from API 
+      images = search('lincoln', 5)
 
-   return render_template('homepage.html', image_urls=image_urls, form=form, status=STATUS, id=id)
+      return render_template('homepage.html', image_urls=images, form=form, status=STATUS, id=id)
 
 
 # ********* USER ROUTES *********
@@ -119,8 +118,6 @@ def login():
       # authenticate user name and password using Bcrypt
       if user:      
          login_user(user, remember=form.remember.data)
-      
-         flash('Successsfully logged-in', 'success')
          return redirect('/user/profile')
       else: 
          flash('Login unsuccessful, please resubmit. If you do not already\
@@ -139,7 +136,8 @@ def show_user():
 
    user = current_user
    image_urls = [
-       'https://ids.si.edu/ids/deliveryService?max_w=800&id=SAAM-1986.6.92_3']
+       'https://ids.si.edu/ids/deliveryService?max_w=800&id=SAAM-1986.6.92_3'
+       ]
    
    return render_template('user/profile.html', image_urls=image_urls, user=user)
 

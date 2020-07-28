@@ -6,6 +6,8 @@ import urllib.parse
 import requests
 import pprint
 
+from werkzeug import urls
+
 from secure import api_key
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
@@ -110,7 +112,7 @@ def search(search_terms=None, max_results=None):
                 # print(date)
                 # print(medium)
                 # print(collection)
-                image = ApiImage(url, title, artist, date, medium, collection, row)  
+                image = ApiImage(urls, title, artist, date, medium, collection, row)  
                 images.append(image)
             else:
                 pass

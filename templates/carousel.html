@@ -12,10 +12,22 @@
             <div class="carousel-item active">
                 <div class="col-12 col-md-4" style="margin: auto">
                     <div class="card mb-2">
-                        <img class="card-img-top img-fluid" src={{image_urls[0]}} alt="Card image cap responsive">
+                        <img class="card-img-top img-fluid" src={{image_urls[0].url}} alt="Card image cap responsive">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">Title</h4>
-                            <p class="card-text">Description/artist</p>
+                            <h4 class="card-title font-weight-bold">Title: {{image_urls[0].title['content']}}</h4>
+                            <p class="card-text">Artist: {{image_urls[0].artist}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- TODO: add for loop - accounting for 'active'  -->
+            <div class="carousel-item">
+                <div class="col-12 col-md-4" style="margin: auto">
+                    <div class="card mb-2">
+                        <img class="card-img-top" src={{image_urls[1].url}} alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">Title: {{image_urls[1].title['content']}}</h4>
+                            <p class="card-text">Artist: {{image_urls[1].artist}}</p>
                         </div>
                     </div>
                 </div>
@@ -23,10 +35,10 @@
             <div class="carousel-item">
                 <div class="col-12 col-md-4" style="margin: auto">
                     <div class="card mb-2">
-                        <img class="card-img-top" src={{image_urls[1]}} alt="Card image cap">
+                        <img class="card-img-top" src={{image_urls[2].url}} alt="Card image cap">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">Title</h4>
-                            <p class="card-text">Description/artist</p>
+                            <h4 class="card-title font-weight-bold">Title: {{image_urls[2].title['content']}}</h4>
+                            <p class="card-text">Artist: {{image_urls[2].artist}}</p>
                         </div>
                     </div>
                 </div>
@@ -34,10 +46,10 @@
             <div class="carousel-item">
                 <div class="col-12 col-md-4" style="margin: auto">
                     <div class="card mb-2">
-                        <img class="card-img-top" src={{image_urls[2]}} alt="Card image cap">
+                        <img class="card-img-top" src={{image_urls[3].url}} alt="Card image cap">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">Title</h4>
-                            <p class="card-text">Description/artist</p>
+                             <h4 class="card-title font-weight-bold">Title: {{image_urls[3].title['content']}}</h4>
+                            <p class="card-text">Artist: {{image_urls[3].artist}}</p>
                         </div>
                     </div>
                 </div>
@@ -45,21 +57,10 @@
             <div class="carousel-item">
                 <div class="col-12 col-md-4" style="margin: auto">
                     <div class="card mb-2">
-                        <img class="card-img-top" src={{image_urls[3]}} alt="Card image cap">
+                        <img class="card-img-top" src={{image_urls[4].url}} alt="Card image cap">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">Title</h4>
-                            <p class="card-text">Description/artist</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="col-12 col-md-4" style="margin: auto">
-                    <div class="card mb-2">
-                        <img class="card-img-top" src={{image_urls[4]}} alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title font-weight-bold">Title</h4>
-                            <p class="card-text">Description/artist</p>
+                            <h4 class="card-title font-weight-bold">Title: {{image_urls[4].title['content']}}</h4>
+                            <p class="card-text">Artist: {{image_urls[4].artist}}</p>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="data:">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link rel="stylesheet" href="/static/styles.css">
-    <link rel="icon" href="data:">
+
     <title>
         {% block title %}{% endblock %}
     </title>
@@ -17,21 +17,17 @@
 
 <body>
 
-    {% include 'navbar.html' %}
+    {% include 'navbar.html' ignore missing %}
 
-    {% block head %}
-    {% endblock %}
+    {% block head %}{% endblock %}
 
+    {% include "carousel.html" ignore missing %}
 
-
-        {% include 'carousel.html' %}
-
-        <!-- error message section -->
-        {% for category, message in get_flashed_messages(with_categories=True) %}
-            <div class="alert alert-{{ category }} mx-auto" style="width: 50%">{{ message }}</div>
-        {% endfor %}
-                
-        <!-- {% include 'form.html' %} -->
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ category }} mx-auto" style="width: 50%">{{ message }}</div>
+    {% endfor %}
+            
+    {% include 'form.html' ignore missing %}
 
     <main id="content">
 

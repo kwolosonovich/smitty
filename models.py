@@ -4,13 +4,18 @@ from flask import session
 from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_manager
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from sqlalchemy_imageattach.entity import Image, image_attachment
+from app import file_upload
 
+# TODO: reslove error with seed file and image uploads - 
+# https: // flask-file-upload.readthedocs.io/en/latest/file_upload.html
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 # login_manager = LoginManager()
 
     
+# @file_upload.Model
 class User(UserMixin, db.Model):
     '''Users model.'''
     
@@ -33,14 +38,10 @@ class User(UserMixin, db.Model):
         unique=True,
     )
     
-    profile_image = db.Column(
-        db.String,
-        nullable=True
+    profile_image = file_upload.Column(
     )
     
-    backdrop_image = db.Column(
-        db.String,
-        nullable=True,
+    backdrop_image = file_upload.Column(
     )
     
     password = db.Column(

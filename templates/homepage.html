@@ -4,72 +4,28 @@
 
 {% block head %}
 <div class="jumbotron jumbotron-fluid blue-bg mb-0">
-    <div class="container">
-        <h1 class="display-4 text-lt text-right pr-5">{% block name %}Smithsonian App{% endblock %}</h1>
-        <p class="lead"></p>
-    </div>
+  <div class="container">
+    <h1 class="display-4 text-lt text-right pr-5">{% block name %}Smithsonian App{% endblock %}</h1>
+    <p class="lead"></p>
+  </div>
 </div>
 {% endblock %}
 
-{% block navbar %}{% endblock %}
+{% block navbar %}
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 align-items-center">
-            {% block content %}
+{% endblock %}
 
-<div class="container-fluid">
-  <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="sidebar-sticky pt-5 mt-5 align-items-start">
-        <ul class="nav flex-column">
-            <li>
-                <div class="profile-images">
-                    <img src="{{current_user.backdrop_image}}" alt="profile background" style="max-width: 100%; height:auto">
-                </div>
-            </li>
-          <li class="nav-item">
-                {{current_user.profile_image}}
-          </li>
-            <li class="nav-item">
-                {{current_user.username}}
-            </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user/following">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                  Following
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user/likes">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                  Likes
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user/logout">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                  Logout
-                </a>
-              </li>
-            </ul>
-<!-- TODO: add share/social media options -->
-          </div>
-        </nav>
+{% block carousel %}{% endblock %}
 
-          
-        {% block carousel%}{% endblock %}
+{% block login%}{% endblock %}
 
-        {% block login%}{% endblock %}
+{% block content %}
 
-        <div class="container container-style text-center text-blue">
-            <a class="btn pri-btn" href="{{ url_for('register') }}">Register</a>
-        </div>
+<div class="container container-style text-center text-blue">
+  <a class="btn pri-btn" href="{{ url_for('register') }}">Register</a>
+</div>
+
+{% endblock %}
 
 
-        </main>
-      </div>
-    </div>
-
-{% endblock %}          
-
-
-    </div>
+</div>
