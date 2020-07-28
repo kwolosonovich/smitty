@@ -1,6 +1,11 @@
-<!-- {% import "bootstrap/wtf.html" as wtf %} -->
-
 {% block form %}
+
+{% if current_user.is_authenticated %}
+    {% raw %}
+        {% block carousel %}
+        {% endblock %}
+    {% endraw %}
+{% else %}
 
 <div class='container container-style' id="{{status}}" style="width: 50%">
 
@@ -39,5 +44,7 @@
             </div> -->
     </form>
 </div>
+
+{% endif %}
 
 {% endblock %}
