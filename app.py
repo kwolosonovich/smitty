@@ -15,17 +15,26 @@ from flask_file_upload import file_upload
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
-from models import User, connect_db, db, Board, Image, Like, Follow, Like
+from models import User, connect_db, db, Board, Image, Like, Follow, Like, UPLOAD_FOLDER, ALLOWED_EXTENSIONS, MAX_CONTENT_LENGTH
 from seed import seed_database
 from smithsonian_api import search
 
 app = Flask(__name__, static_folder="uploads")
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY']= secret_key
+# file_upload
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["ALLOWED_EXTENSIONS"] = ALLOWED_EXTENSIONS
+app.config["MAX_CONTENT_LENGTH"] = MAX_CONTENT_LENGTH
+
+
+# TODO: remove file upload if able
+file_upload.init_app(app, db)
 
 toolbar = DebugToolbarExtension(app)
 login_manager = LoginManager()
@@ -33,6 +42,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 Bootstrap(app)
 connect_db(app)
+
 
 DEBUG = False
 

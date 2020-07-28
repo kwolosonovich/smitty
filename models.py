@@ -5,17 +5,38 @@ from flask_login import UserMixin, LoginManager, current_user, login_user, logou
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from sqlalchemy_imageattach.entity import Image, image_attachment
-from app import file_upload
+from app import file_upload, app
+from werkzeug.utils import secure_filename
+from fileupload import FileUpload
+
 
 # TODO: reslove error with seed file and image uploads - 
 # https: // flask-file-upload.readthedocs.io/en/latest/file_upload.html
 
+# environment variables
+UPLOAD_FOLDER = join(User(ImagesModel(__file__)), "uploads")
+ALLOWED_EXTENSIONS = ["jpg", "png", "mov", "mp4", "mpg"]
+
+
 bcrypt = Bcrypt()
 db = SQLAlchemy()
+file_upload.init_app(app, db)
+
 # login_manager = LoginManager()
 
+# variables
+# file-upload
+file_upload = FileUpload(
+    app,
+    db,
+    upload_folder=UPLOAD_FOLDER,
+    allowed_extensions=ALLOWED_EXTENSIONS,
+    max_content_length=MAX_CONTENT_LENGTH,
+    sqlalchemy_database_uri=SQLALCHEMY_DATABASE_URI,
+)
+
     
-# @file_upload.Model
+@file_upload.Model
 class User(UserMixin, db.Model):
     '''Users model.'''
     
@@ -61,28 +82,7 @@ class User(UserMixin, db.Model):
     # like_image = db.relationship("Like",
     #                         backref=db.backref('user')
     #                         )
-    
-    
-    # @classmethod
-    # def login_user(self, remember=False, duration=None, force=False, fresh=True):
-    #     '''Login user'''
-    #     user_id = getattr(user, current_app.login_manager.id_attribute)()
-    #     session['user_id'] = user_id
-    #     session['_fresh'] = fresh
-    #     session['_id'] = current_app.login_manager._session_identifier_generator()
-    
-    #     current_app.login_manager._update_request_context_with_user(user)
-    #     user_logged_in.send(current_app._get_current_object(), user=_get_user())      
-    #     return True
-    
-    # @classmethod
-    # def login_fresh():
-    #     ''' This returns ``True`` if the current login is fresh.'''
-    #     return session.get('_fresh', False)
-    
-    # def is_active(self):
-    #     """True, as all users are active."""
-    #     return True
+    images = db.relationship("ImagesModel", backref="user_images")
 
     # @classmethod
     def is_authenticated(self):
@@ -122,7 +122,15 @@ class User(UserMixin, db.Model):
 
         return False
     
-    
+
+@file_upload.Model
+class ImagesModel(db.Model):
+    # The foreign key assigned to this model:
+    image_id = db.Column(db.Integer, db.ForeignKey("images.user_images"))
+    profile_image = file_upload.Column()
+    backdrop_image = file_upload.Column()
+
+
 class Board(db.Model):
     '''User board model.'''
 
@@ -255,3 +263,4 @@ def connect_db(app):
 #     # Initialize login plugin
     # login_manager.init_app(app)
 #     # login_manager(app)
+
