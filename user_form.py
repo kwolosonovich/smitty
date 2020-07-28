@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, FileField
 from wtforms.validators import InputRequired, Email, Length, Optional, URL
+from flask_wtf.file import FileField, FileAllowed
 
 
 # validators
@@ -11,6 +12,9 @@ optional = Optional(strip_whitespace=True)
 min_4 = Length(min=4)
 max_50 = Length(max=50)
 max_80 = Length(max=80)
+
+# images = UploadSet('images', IMAGES)
+file = FileAllowed(['jpg', 'png'], 'jpg or png only')
 
 
 class LoginForm(FlaskForm):
@@ -35,12 +39,12 @@ class RegisterForm(FlaskForm):
         email_validator
         ])
 
-    profile_image = StringField('Profile Photo', validators=[
-                                optional, url_validator
+    profile_image = FileField('Profile Photo', validators=[
+                                optional, file
                                 ])
 
-    backdrop_image = StringField('Profile Photo', validators=[
-                                optional, url_validator
+    backdrop_image = FileField('Profile Background', validators=[
+                                optional, file
                                 ])
 
     password = PasswordField("Password", validators=[
