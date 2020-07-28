@@ -1,5 +1,11 @@
 {% block carousel %}
-
+ 
+{% if current_user.is_authenticated %}
+    {% raw %}
+        {% block carousel %}
+        {% endblock %}
+    {% endraw %}
+{% else %}
 <div class="carousel-main main container-style lt-bg">
     <div id="images" class="carousel mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
         <div class="carousel-inner car" role="listbox">
@@ -68,5 +74,7 @@
         <!--/.Controls-->
     </div>
 </div>
+
+{% endif %}
 
 {% endblock %}
