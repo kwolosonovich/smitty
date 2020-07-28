@@ -4,39 +4,13 @@ from flask import session
 from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_manager
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from sqlalchemy_imageattach.entity import Image, image_attachment
-from app import file_upload, app
-from werkzeug.utils import secure_filename
-from fileupload import FileUpload
-
-
-# TODO: reslove error with seed file and image uploads - 
-# https: // flask-file-upload.readthedocs.io/en/latest/file_upload.html
-
-# environment variables
-UPLOAD_FOLDER = join(User(ImagesModel(__file__)), "uploads")
-ALLOWED_EXTENSIONS = ["jpg", "png", "mov", "mp4", "mpg"]
 
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
-file_upload.init_app(app, db)
 
 # login_manager = LoginManager()
 
-# variables
-# file-upload
-file_upload = FileUpload(
-    app,
-    db,
-    upload_folder=UPLOAD_FOLDER,
-    allowed_extensions=ALLOWED_EXTENSIONS,
-    max_content_length=MAX_CONTENT_LENGTH,
-    sqlalchemy_database_uri=SQLALCHEMY_DATABASE_URI,
-)
-
-    
-@file_upload.Model
 class User(UserMixin, db.Model):
     '''Users model.'''
     
@@ -59,10 +33,14 @@ class User(UserMixin, db.Model):
         unique=True,
     )
     
-    profile_image = file_upload.Column(
+    profile_image = db.Column(
+        db.String,
+        nullable=True
     )
-    
-    backdrop_image = file_upload.Column(
+
+    backdrop_image = db.Column(
+        db.String,
+        nullable=True,
     )
     
     password = db.Column(
@@ -81,8 +59,7 @@ class User(UserMixin, db.Model):
     
     # like_image = db.relationship("Like",
     #                         backref=db.backref('user')
-    #                         )
-    images = db.relationship("ImagesModel", backref="user_images")
+
 
     # @classmethod
     def is_authenticated(self):
@@ -121,15 +98,6 @@ class User(UserMixin, db.Model):
                 return user
 
         return False
-    
-
-@file_upload.Model
-class ImagesModel(db.Model):
-    # The foreign key assigned to this model:
-    image_id = db.Column(db.Integer, db.ForeignKey("images.user_images"))
-    profile_image = file_upload.Column()
-    backdrop_image = file_upload.Column()
-
 
 class Board(db.Model):
     '''User board model.'''
