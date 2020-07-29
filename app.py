@@ -1,4 +1,5 @@
 # TODO: update dependencies
+# TODO: rework flask-login
 
 import requests
 
@@ -6,34 +7,20 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
-from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, load_user
+from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 import simplejson as json
-# from flask.sessions import SecureCookieSessionInterface
+from flask.sessions import SecureCookieSessionInterface
 # from jinja2 import Environment, select_autoescape
 
 
-# class CustomSessionInterface(SecureCookieSessionInterface):
-#     """Prevent creating session from API requests."""
-
-#     def save_session(self, *args, **kwargs):
-#         if g.get('login_via_header'):
-#             return
-#         return super(CustomSessionInterface, self).save_session(*args,
-#                                                                 **kwargs)
-
-
-app.session_interface = CustomSessionInterface()
-
-
-@user_loaded_from_header.connect
 def user_loaded_from_header(self, user=None):
     g.login_via_header = True
 
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
-from models import User, connect_db, db, User, Board, Image, Like, Follow, Like, load_user
+from models import User, connect_db, db, User, Board, Image, Like, Follow, Like
 from seed import seed_database
 from smithsonian_api import search
 
@@ -54,6 +41,24 @@ login_manager.login_view = 'login'
 Bootstrap(app)
 connect_db(app)
 
+# disable session cookie for APIs
+# TODO: need to resolve errors
+# class CustomSessionInterface(SecureCookieSessionInterface):
+#     """Prevent creating session from API requests."""
+
+#     def save_session(self, *args, **kwargs):
+#         if User.get('login_via_header'):
+#             return
+#         return super(CustomSessionInterface, self).save_session(*args, **kwargs)
+
+# app.session_interface = CustomSessionInterface()
+
+# @user_loaded_from_header.connect
+# def user_loaded_from_header(self, user=None):
+#     User.login_via_header = True
+# enable configure session protection
+login_manager.session_protection = "strong"
+
 
 DEBUG = True
 
@@ -70,6 +75,9 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 STATUS = 'login'
 
 @app.route('/')
+@app.route('/login', methods=['GET'])
+@app.route('/register', methods=['GET'])
+
 # TODO: add JS for event listener to direct to section on homepage
 def homepage(id=None):
    '''Render homepage'''
@@ -94,7 +102,7 @@ def homepage(id=None):
 # ********* USER ROUTES *********
 
 
-@app.route('/register', methods=['GET','POST'])
+@app.route('/register', methods=['POST'])
 def register():
    '''Register new user'''
    global STATUS
@@ -113,6 +121,7 @@ def register():
       user = User.create(username, email, profile_image, backdrop_image, password)
 
       db.session.commit()
+      login_user(user)
       flash('Welcome! Your account had been created.', 'success')
       
       # check if the url is safe for redirects
@@ -125,7 +134,7 @@ def register():
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
    return redirect('/') 
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
     
@@ -144,7 +153,7 @@ def login():
       # authenticate user name and password using Bcrypt
       if user:    
          # Login and validate the user
-         User.login_user(user, remember=form.remember.data)
+         login_user(user, remember=form.remember.data)
 
          # check if the url is safe for redirects
          next = flask.request.args.get('next')
@@ -176,7 +185,7 @@ def show_user():
 
 
 @app.route("/user/likes")
-@login_required
+# @login_required
 def show_likes():
    """Render user likes."""
    login_manager.login_message = "Please login"
@@ -185,7 +194,7 @@ def show_likes():
  
  
 @app.route("/user/following")
-@login_required
+# @login_required
 def show_following():
    """Render user following."""
    login_manager.login_message = "Please login"
@@ -194,7 +203,7 @@ def show_following():
  
 
 @app.route("/user/logout", methods=['GET','POST'])
-@login_required
+# @login_required
 def logout():
    '''Logout user.'''
    logout_user()

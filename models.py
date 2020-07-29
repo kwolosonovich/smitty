@@ -1,7 +1,7 @@
 '''SQLAlchemy models'''
 
 from flask import session
-from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_manager
+from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -9,7 +9,7 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
-# login_manager = LoginManager()
+login_manager = LoginManager()
 
 class User(UserMixin, db.Model):
     '''Users model.'''
@@ -63,10 +63,17 @@ class User(UserMixin, db.Model):
 
     @login_manager.user_loader
     def load_user(user_id): 
+        """Check if user is logged-in on every page load."""
         if user_id not in users:
             return False
         user = User.get(user_id)
         return User.get(user)
+    
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        """Redirect unauthorized users to Login page."""
+        flash('You must be logged in to view that page.')
+        return redirect(url_for('homepage'))
 
     def is_authenticated(self):
         """Return True if the user is authenticated."""
@@ -226,7 +233,8 @@ board_images = db.Table('board_images',
                                 db.ForeignKey('images.id'),
                                 primary_key=True)
                         )
-                            
+ 
+
 
 def connect_db(app):
     '''Connect database to Flask app.'''
@@ -234,6 +242,6 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 #     # Initialize login plugin
-    # login_manager.init_app(app)
+    login_manager.init_app(app)
 #     # login_manager(app)
 
