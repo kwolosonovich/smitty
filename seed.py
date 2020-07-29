@@ -1,7 +1,7 @@
 from models import db, User
 
 def seed_database():
-    db.rollback()
+    db.session.rollback()
     db.drop_all()
     db.create_all()
 
