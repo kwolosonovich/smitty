@@ -112,7 +112,7 @@ def search(search_terms=None, max_results=None):
                 # print(date)
                 # print(medium)
                 # print(collection)
-                image = ApiImage(urls, title, artist, date, medium, collection, row)  
+                image = ApiImage(url, title, artist, date, medium, collection, row)  
                 images.append(image)
             else:
                 pass
