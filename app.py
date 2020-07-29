@@ -56,19 +56,20 @@ def homepage(id=None):
    '''Render homepage'''
    global STATUS 
    
-   if current_user.is_authenticated:
-      redirect('/user/profile')
-   else: 
-      if STATUS == 'login':
-         form = LoginForm()
-      elif STATUS == 'register':
-         form = RegisterForm()
-      else:
-         raise Exception(f'Status = {STATUS} not implemented')
-      # get random inages from API 
-      images = search('painting', 5)
+   # if current_user.is_authenticated:
+   #    redirect('/user/profile')
+   # else: 
+   
+   if STATUS == 'login':
+      form = LoginForm()
+   elif STATUS == 'register':
+      form = RegisterForm()
+   else:
+      raise Exception(f'Status = {STATUS} not implemented')
+   # get random inages from API 
+   images = search('"data_source="American Art&painting"', 9)
 
-      return render_template('homepage.html', image_urls=images, form=form, status=STATUS, id=id)
+   return render_template('homepage.html', image_urls=images, form=form, status=STATUS, id=id)
 
 
 # ********* USER ROUTES *********
@@ -127,7 +128,7 @@ def login():
 
    return redirect('/')
 
-# route for user boards - requires login_required decorater
+# route for user boards - verify with login_required
 @app.route("/user/profile")
 @login_required
 def show_user():
