@@ -39,7 +39,7 @@ class RegisterForm(FlaskForm):
         optional, url_validator
         ])
 
-    backdrop_image = StringField('Profile Photo', validators=[
+    backdrop_image = StringField('Background Photo', validators=[
         optional, url_validator
         ])
 

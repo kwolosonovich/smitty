@@ -1,7 +1,6 @@
 # TODO: update dependencies
 
 import requests
-import pprint
 
 from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup
 from flask_login import UserMixin, current_user, login_user, logout_user
@@ -9,6 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
+import simplejson as json
 # from jinja2 import Environment, select_autoescape
 
 
@@ -36,7 +36,7 @@ Bootstrap(app)
 connect_db(app)
 
 
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
    seed_database()
@@ -66,7 +66,7 @@ def homepage(id=None):
       else:
          raise Exception(f'Status = {STATUS} not implemented')
       # get random inages from API 
-      images = search('lincoln', 5)
+      images = search('painting', 5)
 
       return render_template('homepage.html', image_urls=images, form=form, status=STATUS, id=id)
 

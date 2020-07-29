@@ -1,7 +1,7 @@
 {% block navbar %}
 
-    <!-- display profile in sidebar if logged-in -->
-    {% if current_user.is_authenticated %}
+<!-- display profile in sidebar if logged-in -->
+{% if current_user.is_authenticated %}
 
     <nav class="navbar navbar-dark sticky-top blue-bg flex-md-nowrap p-0 shadow">
         <span class="navbar-brand col-md-3 col-lg-2 mr-0 px-3">Mr. Smith</span>
