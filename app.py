@@ -6,15 +6,34 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
-from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user
+from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, load_user
 from flask_wtf import FlaskForm
 import simplejson as json
+# from flask.sessions import SecureCookieSessionInterface
 # from jinja2 import Environment, select_autoescape
+
+
+# class CustomSessionInterface(SecureCookieSessionInterface):
+#     """Prevent creating session from API requests."""
+
+#     def save_session(self, *args, **kwargs):
+#         if g.get('login_via_header'):
+#             return
+#         return super(CustomSessionInterface, self).save_session(*args,
+#                                                                 **kwargs)
+
+
+app.session_interface = CustomSessionInterface()
+
+
+@user_loaded_from_header.connect
+def user_loaded_from_header(self, user=None):
+    g.login_via_header = True
 
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
-from models import User, connect_db, db, Board, Image, Like, Follow, Like
+from models import User, connect_db, db, User, Board, Image, Like, Follow, Like, load_user
 from seed import seed_database
 from smithsonian_api import search
 
@@ -55,10 +74,9 @@ STATUS = 'login'
 def homepage(id=None):
    '''Render homepage'''
    global STATUS 
-   
-   # if current_user.is_authenticated:
-   #    redirect('/user/profile')
-   # else: 
+      
+   if current_user.is_authenticated:
+      return redirect('/user/profile')
    
    if STATUS == 'login':
       form = LoginForm()
@@ -67,17 +85,13 @@ def homepage(id=None):
    else:
       raise Exception(f'Status = {STATUS} not implemented')
    # get random inages from API 
+   
    images = search('"data_source="American Art&painting"', 9)
 
    return render_template('homepage.html', image_urls=images, form=form, status=STATUS, id=id)
 
 
 # ********* USER ROUTES *********
-
-# login manager
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get_or_404(int(user_id))
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -100,7 +114,13 @@ def register():
 
       db.session.commit()
       flash('Welcome! Your account had been created.', 'success')
-      return redirect('/user/profile')
+      
+      # check if the url is safe for redirects
+      next = flask.request.args.get('next')
+      if not is_safe_url(next):
+          return flask.abort(400)
+      else: 
+         return redirect('/user/profile')
    
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
    return redirect('/') 
@@ -112,16 +132,26 @@ def login():
    global STATUS
    STATUS = 'login'
    
-   form = LoginForm()
+   print(request)
+   
+   # form = LoginForm()
 
    if form.validate_on_submit():
       
       user = User.authenticate(form.username.data,
                          form.password.data)
+
       # authenticate user name and password using Bcrypt
-      if user:      
-         login_user(user, remember=form.remember.data)
-         return redirect('/user/profile')
+      if user:    
+         # Login and validate the user
+         User.login_user(user, remember=form.remember.data)
+
+         # check if the url is safe for redirects
+         next = flask.request.args.get('next')
+         if not is_safe_url(next):
+            return flask.abort(400)
+         else:
+            return redirect('/user/profile')
       else: 
          flash('Login unsuccessful, please resubmit. If you do not already\
             have an account please register to join.', 'warning')
@@ -130,17 +160,17 @@ def login():
 
 # route for user boards - verify with login_required
 @app.route("/user/profile")
-@login_required
+# @login_required
 def show_user():
+   
+   user = User.load_user()
+   
    """Render user information and hompage boards"""
    # TODO: login_manager.login_message = "Please login"
    board = 'board'
    # TODO: image_urls from API
 
-   user = current_user
-   image_urls = [
-       'https://ids.si.edu/ids/deliveryService?max_w=800&id=SAAM-1986.6.92_3'
-       ]
+   image_urls = search('"data_source="American Art&painting"', 9)
    
    return render_template('user/profile.html', image_urls=image_urls, user=user)
 

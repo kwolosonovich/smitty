@@ -61,11 +61,16 @@ class User(UserMixin, db.Model):
     #                         backref=db.backref('user')
 
 
-    # @classmethod
+    @login_manager.user_loader
+    def load_user(user_id): 
+        if user_id not in users:
+            return False
+        user = User.get(user_id)
+        return User.get(user)
+
     def is_authenticated(self):
         """Return True if the user is authenticated."""
         return self.authenticated
-
 
     @classmethod
     def create(cls, username, email, profile_image, backdrop_image, password):
@@ -86,18 +91,18 @@ class User(UserMixin, db.Model):
         db.session.add(user)
         return user
     
-    @classmethod
-    def authenticate(cls, username, password):
-        """Valid username and password."""
+    # @classmethod
+    # def authenticate(cls, username, password):
+    #     """Valid username and password."""
         
-        user = cls.query.filter_by(username=username).first()
+    #     user = cls.query.filter_by(username=username).first()
         
-        if user:
-            is_auth = bcrypt.check_password_hash(user.password, password)
-            if is_auth:
-                return user
+    #     if user:
+    #         is_auth = bcrypt.check_password_hash(user.password, password)
+    #         if is_auth:
+    #             return user
 
-        return False
+    #     return False
 
 class Board(db.Model):
     '''User board model.'''
