@@ -1,14 +1,17 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 
 def seed_database():
     db.session.rollback()
     db.drop_all()
     db.create_all()
+    hashed_password = generate_password_hash('avaava', method='sha256')
+
 
     test_user = User(
         username="Ava",
         email="ava@gmail.com", 
-        password="password",
+        password=hashed_password,
         profile_image='https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=703&q=80', 
         backdrop_image='https://images.unsplash.com/photo-1444927714506-8492d94b4e3d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1355&q=80'
     )

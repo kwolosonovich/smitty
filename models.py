@@ -60,11 +60,12 @@ class User(UserMixin, db.Model):
     # like_image = db.relationship("Like",
     #                         backref=db.backref('user')
 
-# ******errors*****
     @login_manager.user_loader
-    def load_user(user_id): 
+    def load_user(user_id):
         """Check if user is logged-in on every page load."""
-        return User.query.get(user_id)
+        return User.query.get(int(user_id))
+    
+# ******errors*****
 
     # @login_manager.unauthorized_handler
     # def unauthorized():

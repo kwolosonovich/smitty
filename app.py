@@ -12,13 +12,14 @@
 import requests
 
 from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup
-from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
-from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 import simplejson as json
 from flask.sessions import SecureCookieSessionInterface
+from werkzeug.security import generate_password_hash, check_password_hash
+
 # from jinja2 import Environment, select_autoescape
 
 
@@ -41,12 +42,12 @@ app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY']= secret_key
 
-
+Bootstrap(app)
 toolbar = DebugToolbarExtension(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-Bootstrap(app)
+
 connect_db(app)
 
 # disable session cookie for APIs
@@ -66,7 +67,7 @@ connect_db(app)
 #     User.login_via_header = True
 # enable configure session protection
 
-login_manager.session_protection = "strong"
+# login_manager.session_protection = "strong"
 
 
 DEBUG = True
@@ -78,6 +79,11 @@ else:
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    """Check if user is logged-in on every page load."""
+    return User.query.get(int(user_id))
 
 @app.route('/')
 @app.route('/login')
@@ -110,8 +116,6 @@ def homepage():
 @app.route('/register', methods=['POST'])
 def register():
    '''Register new user'''
-   # global STATUS
-   # STATUS = 'register'
 
    form = RegisterForm()
    
@@ -121,12 +125,14 @@ def register():
       email=form.email.data
       profile_image=form.profile_image.data
       backdrop_image=form.backdrop_image.data
-      password=form.password.data
+      
+      hashed_password = generate_password_hash(form.password.data, method='sha256')
 
-      user = User.create(username, email, profile_image, backdrop_image, password)
-
+      user = User(username=username, email=email, profile_image=profile_image,
+                  backdrop_image=backdrop_image, password=hashed_password)
+      db.session.add(user)
       db.session.commit()
-      login_user(user)
+      session['current_user'] = user.username
       flash('Welcome! Your account had been created.', 'success')
    
    
@@ -136,8 +142,8 @@ def register():
       # if not is_safe_url(next):
       #     return flask.abort(400)
       # else: 
-      return redirect('/user/profile')
-   
+      return redirect('/profile')
+
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
    return redirect('/') 
 
@@ -149,40 +155,49 @@ def login():
    
    form = LoginForm()
 
+
    if form.validate_on_submit():
-      
+      user = User.query.filter_by(username=form.username.data).first()
+      if user:
+         if check_password_hash(user.password, form.password.data):
+               login_user(user, remember=form.remember.data)
+               return redirect('/profile')
+   
+  
+   
        # authenticate user name and password using Bcrypt
-      user = User.authenticate(form.username.data,
-                         form.password.data)   
-      if user:    
-         login_user(user)
+      # user = User.authenticate(form.username.data,
+      #                    form.password.data)   
+      # if user:    
+      #    login_user(user)
          # check if the url is safe for redirects
          # next = flask.request.args.get('next')
          # if not is_safe_url(next):
          #    return flask.abort(400)
-
-         return redirect('/user/profile')
-      else: 
-         flash('Login unsuccessful, please resubmit. If you do not already\
-            have an account please register to join.', 'warning')
+         # return redirect('/user/profile')
+         
+   else:
+      flash('Login unsuccessful, please resubmit. If you do not already\
+         have an account please register to join.', 'warning')
          
    return redirect('/')
 
 # route for user boards - verify with login_required
-@app.route("/user/profile")
+@app.route("/profile")
 # @login_required
 def show_user():
-   
-   user = current_user
-   
+      
    """Render user information and hompage boards"""
    # TODO: login_manager.login_message = "Please login"
    board = 'board'
    # TODO: image_urls from API
 
-   image_urls = search('"data_source="American Art&painting"', 9)
+   # user = User.query.get_or_404(username)
    
-   return render_template('user/profile.html', image_urls=image_urls, user=user)
+   image_urls = search('"data_source="American Art&painting"', 1)
+   user = User.query.get_or_404(username=session['current_user'])
+   
+   return render_template('profile.html', image_urls=image_urls)
 
 
 @app.route("/user/likes")
