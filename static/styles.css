@@ -69,6 +69,16 @@
 
 /* Navbar & Sidebar */
 
+#profile-picture {
+    max-width: 100px;
+    height: auto;
+}
+
+#profile-images {
+    max-width: 300;
+    height: auto
+}
+
 .sidebar {
     position: fixed;
     top: 0;

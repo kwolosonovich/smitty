@@ -13,13 +13,13 @@
             <div class="sidebar-sticky pt-5 mt-5 align-items-start">
             <ul class="nav flex-column">
                 <li>
-                <div class="profile-images">
+                <div class="profile-images" id="backdrop">
                     <img src="{{current_user.backdrop_image}}" alt="profile background"
                     style="max-width: 100%; height:auto">
                 </div>
                 </li>
-                <li class="nav-item">
-                {{current_user.profile_image}}
+                <li class="profile-images" id="profile-picture">
+                    <img src="{{current_user.profile_image}}" alt="profile image">
                 </li>
                 <li class="nav-item">
                 {{current_user.username}}
@@ -68,10 +68,12 @@
         </nav>
     </div>
     </div>
+
+
         
 
 {% endblock %}
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 align-items-center">
-
+        {% block boards %}{% endblock %}
     </main>
