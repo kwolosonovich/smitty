@@ -50,6 +50,8 @@ login_manager.login_view = 'login'
 
 connect_db(app)
 
+CURR_USER_KEY = "curr_user"
+
 # disable session cookie for APIs
 # TODO: need to resolve errors
 # class CustomSessionInterface(SecureCookieSessionInterface):
@@ -85,6 +87,24 @@ def load_user(user_id):
     """Check if user is logged-in on every page load."""
     return User.query.get(int(user_id))
 
+
+@app.before_request
+def add_user_to_g():
+    """If we're logged in, add curr user to Flask global."""
+
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+
+    else:
+        g.user = None
+
+
+def do_login(user):
+    """Log in user."""
+
+    session[CURR_USER_KEY] = user.id
+    
+
 @app.route('/')
 @app.route('/login')
 @app.route('/register')
@@ -119,6 +139,9 @@ def register():
 
    form = RegisterForm()
    
+   if CURR_USER_KEY in session:
+       del session[CURR_USER_KEY]
+   
    if form.validate_on_submit():
 
       username=form.username.data
@@ -130,11 +153,13 @@ def register():
 
       user = User(username=username, email=email, profile_image=profile_image,
                   backdrop_image=backdrop_image, password=hashed_password)
+      
       db.session.add(user)
       db.session.commit()
-      session['current_user'] = user.username
+
       flash('Welcome! Your account had been created.', 'success')
    
+      do_login(user)
    
    # TODO: troubleshoot is_safe_URL https://flask-login.readthedocs.io/en/latest/login-example
       # check if the url is safe for redirects
@@ -142,7 +167,7 @@ def register():
       # if not is_safe_url(next):
       #     return flask.abort(400)
       # else: 
-      return redirect('/profile')
+      return redirect('/profile', username=username)
 
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
    return redirect('/') 
@@ -157,13 +182,17 @@ def login():
 
 
    if form.validate_on_submit():
+      username = form.username.data
       user = User.query.filter_by(username=form.username.data).first()
       if user:
          if check_password_hash(user.password, form.password.data):
                login_user(user, remember=form.remember.data)
-               return redirect('/profile')
+               
+               do_login(user)
+
+               return redirect('/profile', username=username)
    
-  
+
    
        # authenticate user name and password using Bcrypt
       # user = User.authenticate(form.username.data,
@@ -183,21 +212,21 @@ def login():
    return redirect('/')
 
 # route for user boards - verify with login_required
-@app.route("/profile")
+@app.route("/profile/<username>")
 # @login_required
-def show_user():
+def show_user(username):
       
    """Render user information and hompage boards"""
    # TODO: login_manager.login_message = "Please login"
    board = 'board'
    # TODO: image_urls from API
 
-   # user = User.query.get_or_404(username)
+   user = User.query.get(username=username)
    
    image_urls = search('"data_source="American Art&painting"', 1)
-   user = User.query.get_or_404(username=session['current_user'])
+   # user = User.query.get_or_404(username=session['current_user'])
    
-   return render_template('profile.html', image_urls=image_urls)
+   return render_template('profile.html', image_urls=image_urls, user=user)
 
 
 @app.route("/user/likes")
@@ -223,6 +252,10 @@ def show_following():
 def logout():
    '''Logout user.'''
    logout_user()
+   
+   if CURR_USER_KEY in session:
+       del session[CURR_USER_KEY]
+       
 # TODO:   return render_template('user/logout.html')
    return redirect('/')
 if __name__ == "__main__":
