@@ -64,19 +64,7 @@ class User(UserMixin, db.Model):
     def load_user(user_id):
         """Check if user is logged-in on every page load."""
         return User.query.get(int(user_id))
-    
-# ******errors*****
 
-    # @login_manager.unauthorized_handler
-    # def unauthorized():
-    #     """Redirect unauthorized users to Login page."""
-    #     flash('You must be logged in to view that page.')
-    #     return redirect(url_for('homepage'))
-# **********************
-
-    def is_authenticated(self):
-        """Return True if the user is authenticated."""
-        return self.authenticated
 
     @classmethod
     def create(cls, username, email, profile_image, backdrop_image, password):
@@ -144,6 +132,10 @@ class Image(db.Model):
         db.Integer,
         primary_key=True
     )
+    
+    # image_path = db.Column(
+    #     db.String
+    # )
     
     title = db.Column(
         db.String 

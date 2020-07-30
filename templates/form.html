@@ -1,6 +1,6 @@
 {% block form %}
 
-{% if current_user.is_authenticated %}
+{% if CURR_USER_KEY in session %}
 
     {% raw %}
         {% block carousel %}

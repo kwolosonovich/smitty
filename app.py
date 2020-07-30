@@ -10,11 +10,13 @@
 
 
 import requests
+import random
+
 
 from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+# from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 import simplejson as json
 from flask.sessions import SecureCookieSessionInterface
@@ -44,32 +46,13 @@ app.config['SECRET_KEY']= secret_key
 
 Bootstrap(app)
 toolbar = DebugToolbarExtension(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# login_manager.login_view = 'login'
 
 connect_db(app)
 
 CURR_USER_KEY = "curr_user"
-
-# disable session cookie for APIs
-# TODO: need to resolve errors
-# class CustomSessionInterface(SecureCookieSessionInterface):
-#     """Prevent creating session from API requests."""
-
-#     def save_session(self, *args, **kwargs):
-#         if User.get('login_via_header'):
-#             return
-#         return super(CustomSessionInterface, self).save_session(*args, **kwargs)
-
-# app.session_interface = CustomSessionInterface()
-
-# @user_loaded_from_header.connect
-# def user_loaded_from_header(self, user=None):
-#     User.login_via_header = True
-# enable configure session protection
-
-# login_manager.session_protection = "strong"
 
 
 DEBUG = True
@@ -82,24 +65,13 @@ else:
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    """Check if user is logged-in on every page load."""
-    return User.query.get(int(user_id))
+# @login_manager.user_loader
+# def load_user(user_id):
+#     """Check if user is logged-in on every page load."""
+#     return User.query.get(int(user_id))
 
 
-@app.before_request
-def add_user_to_g():
-    """If we're logged in, add curr user to Flask global."""
-
-    if CURR_USER_KEY in session:
-        g.user = User.query.get(session[CURR_USER_KEY])
-
-    else:
-        g.user = None
-
-
-def do_login(user):
+def user_login(user):
     """Log in user."""
 
     session[CURR_USER_KEY] = user.id
@@ -113,9 +85,6 @@ def do_login(user):
 def homepage():
    '''Render homepage'''
    
-   if current_user.is_authenticated:
-      return redirect('/user/profile')
-   
    form = LoginForm()
    req = request.path 
    
@@ -125,13 +94,11 @@ def homepage():
    else:
       req = "login"
 
-   # TODO: add logic to prevent new images search call   
    images = search('"data_source="American Art&painting"', 9)
 
    return render_template('homepage.html', image_urls=images, form=form, req=req)
 
 # ********* USER ROUTES *********
-
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -159,104 +126,95 @@ def register():
 
       flash('Welcome! Your account had been created.', 'success')
    
-      do_login(user)
-   
-   # TODO: troubleshoot is_safe_URL https://flask-login.readthedocs.io/en/latest/login-example
-      # check if the url is safe for redirects
-      # next = request.args.get('/user/profile')
-      # if not is_safe_url(next):
-      #     return flask.abort(400)
-      # else: 
-      return redirect('/profile', username=username)
+      user_login(user)
 
+      return redirect(f'/profile/{user.username}')
+
+   return redirect('/')
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
-   return redirect('/') 
+
 
 @app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
    
-   print(request)
-   
    form = LoginForm()
-
 
    if form.validate_on_submit():
       username = form.username.data
-      user = User.query.filter_by(username=form.username.data).first()
+      user = User.query.filter_by(username=username).first()
       if user:
          if check_password_hash(user.password, form.password.data):
-               login_user(user, remember=form.remember.data)
-               
-               do_login(user)
-
-               return redirect('/profile', username=username)
-   
-
-   
-       # authenticate user name and password using Bcrypt
-      # user = User.authenticate(form.username.data,
-      #                    form.password.data)   
-      # if user:    
-      #    login_user(user)
-         # check if the url is safe for redirects
-         # next = flask.request.args.get('next')
-         # if not is_safe_url(next):
-         #    return flask.abort(400)
-         # return redirect('/user/profile')
+            user_login(user)
+            return redirect(f'/profile/{user.username}')
          
    else:
       flash('Login unsuccessful, please resubmit. If you do not already\
          have an account please register to join.', 'warning')
-         
-   return redirect('/')
+      return redirect('/')
 
 # route for user boards - verify with login_required
+
+
 @app.route("/profile/<username>")
-# @login_required
 def show_user(username):
       
    """Render user information and hompage boards"""
-   # TODO: login_manager.login_message = "Please login"
-   board = 'board'
+
    # TODO: image_urls from API
-
-   user = User.query.get(username=username)
    
-   image_urls = search('"data_source="American Art&painting"', 1)
-   # user = User.query.get_or_404(username=session['current_user'])
+   if session.get(CURR_USER_KEY, False):
+      
+      user = User.query.get(session[CURR_USER_KEY])
    
-   return render_template('profile.html', image_urls=image_urls, user=user)
+      if user:
+         image_urls = search('"data_source="American Art&painting"', 1)
+         
+         return render_template('profile.html', image_urls=image_urls, user=user)
+     
+   else:
+      return redirect('/')
+   
 
-
-@app.route("/user/likes")
+@app.route("/user/likes/<int:user_id>")
 # @login_required
-def show_likes():
+def show_likes(user_id):
    """Render user likes."""
-   login_manager.login_message = "Please login"
    
-   return render_template('user/likes.html')
- 
- 
-@app.route("/user/following")
-# @login_required
-def show_following():
-   """Render user following."""
-   login_manager.login_message = "Please login"
-   
-   return render_template('user/following.html')
- 
+   if session.get(CURR_USER_KEY, False):
 
-@app.route("/user/logout", methods=['GET','POST'])
+      user = User.query.get(session[CURR_USER_KEY])
+
+      if user:
+         # image_urls = 
+         return render_template('likes.html', image_urls=image_urls, user=user)
+
+ 
+@app.route("/user/following/<int:user_id>")
+# @login_required
+def show_following(user_id):
+   """Render user following."""
+   if session.get(CURR_USER_KEY, False):
+      
+      user = User.query.get(session[CURR_USER_KEY])
+   
+      if user:
+         # image_urls
+         return render_template('following.html', image_urls=image_urls, user=user)
+
+
+@app.route("/logout", methods=['GET', 'POST'])
 # @login_required
 def logout():
    '''Logout user.'''
-   logout_user()
    
    if CURR_USER_KEY in session:
        del session[CURR_USER_KEY]
+       flash('You are now logged-out.', 'success')
        
 # TODO:   return render_template('user/logout.html')
    return redirect('/')
+
+
 if __name__ == "__main__":
      app.run(debug=True)
