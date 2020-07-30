@@ -95,8 +95,9 @@ def homepage():
    
    if req == "/register": 
       form = RegisterForm()
+      req = "register"
    else:
-      req = "/login"
+      req = "login"
 
    # TODO: add logic to prevent new images search call   
    images = search('"data_source="American Art&painting"', 9)
@@ -150,22 +151,15 @@ def login():
 
    if form.validate_on_submit():
       
+       # authenticate user name and password using Bcrypt
       user = User.authenticate(form.username.data,
-                         form.password.data)
-      
-      # user = User.is_authenticate(form.username.data, 
-      #                          form.password.data)
-
-      # authenticate user name and password using Bcrypt
+                         form.password.data)   
       if user:    
-         # Login and validate the user
          login_user(user)
          # check if the url is safe for redirects
          # next = flask.request.args.get('next')
          # if not is_safe_url(next):
          #    return flask.abort(400)
-
-         session["current_user"] = user.username
 
          return redirect('/user/profile')
       else: 
