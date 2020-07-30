@@ -1,15 +1,16 @@
 {% block form %}
 
 {% if current_user.is_authenticated %}
+
     {% raw %}
         {% block carousel %}
         {% endblock %}
     {% endraw %}
 {% else %}
 
-<div class='container container-style' id="{{status}}" style="width: 50%">
+<div class='container container-style' id="{{req}}" style="width: 50%">
 
-    <form method="POST" action='/{{ status }}' class="text-dark form-horizontal justify-content-start" enctype="multipart/form-data">
+    <form method="POST" action='{{ req }}' class="text-dark form-horizontal justify-content-start" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
 
         {% for field in form.errors %}
@@ -35,7 +36,7 @@
 
         <div class="mt-3 p-3">
             <a class="btn btn-outline-secondary text-dark" href="/login">Cancel</a>
-            <button class="btn submit-btn pri-btn" type="submit">{{status}}</button>
+            <button class="btn submit-btn pri-btn" type="submit">{{ req }}</button>
         </div>
 
         <!-- TODO: add logic for login/register link -->

@@ -1,5 +1,13 @@
+# TODO: rework flask-login all functions including - CustomSessionInterface()
+# TODO: troubleshoot cookies and is_safe_URL 
+# https://flask-login.readthedocs.io/en/latest/login-example
+# https://hackersandslackers.com/flask-login-user-authentication/
+# https://flask-login.readthedocs.io/en/latest/_modules/flask_login/login_manager.html
+
+
+
 # TODO: update dependencies
-# TODO: rework flask-login
+
 
 import requests
 
@@ -57,6 +65,7 @@ connect_db(app)
 # def user_loaded_from_header(self, user=None):
 #     User.login_via_header = True
 # enable configure session protection
+
 login_manager.session_protection = "strong"
 
 
@@ -70,34 +79,29 @@ else:
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
 
-# TODO: Disabling Session Cookie for API
-
-STATUS = 'login'
-
 @app.route('/')
-@app.route('/login', methods=['GET'])
-@app.route('/register', methods=['GET'])
+@app.route('/login')
+@app.route('/register')
 
 # TODO: add JS for event listener to direct to section on homepage
-def homepage(id=None):
+def homepage():
    '''Render homepage'''
-   global STATUS 
-      
+   
    if current_user.is_authenticated:
       return redirect('/user/profile')
    
-   if STATUS == 'login':
-      form = LoginForm()
-   elif STATUS == 'register':
+   form = LoginForm()
+   req = request.path 
+   
+   if req == "/register": 
       form = RegisterForm()
    else:
-      raise Exception(f'Status = {STATUS} not implemented')
-   # get random inages from API 
-   
+      req = "/login"
+
+   # TODO: add logic to prevent new images search call   
    images = search('"data_source="American Art&painting"', 9)
 
-   return render_template('homepage.html', image_urls=images, form=form, status=STATUS, id=id)
-
+   return render_template('homepage.html', image_urls=images, form=form, req=req)
 
 # ********* USER ROUTES *********
 
@@ -105,8 +109,8 @@ def homepage(id=None):
 @app.route('/register', methods=['POST'])
 def register():
    '''Register new user'''
-   global STATUS
-   STATUS = 'register'
+   # global STATUS
+   # STATUS = 'register'
 
    form = RegisterForm()
    
@@ -123,13 +127,15 @@ def register():
       db.session.commit()
       login_user(user)
       flash('Welcome! Your account had been created.', 'success')
-      
+   
+   
+   # TODO: troubleshoot is_safe_URL https://flask-login.readthedocs.io/en/latest/login-example
       # check if the url is safe for redirects
-      next = flask.request.args.get('next')
-      if not is_safe_url(next):
-          return flask.abort(400)
-      else: 
-         return redirect('/user/profile')
+      # next = request.args.get('/user/profile')
+      # if not is_safe_url(next):
+      #     return flask.abort(400)
+      # else: 
+      return redirect('/user/profile')
    
 # TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
    return redirect('/') 
@@ -137,34 +143,35 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
-    
-   global STATUS
-   STATUS = 'login'
    
    print(request)
    
-   # form = LoginForm()
+   form = LoginForm()
 
    if form.validate_on_submit():
       
       user = User.authenticate(form.username.data,
                          form.password.data)
+      
+      # user = User.is_authenticate(form.username.data, 
+      #                          form.password.data)
 
       # authenticate user name and password using Bcrypt
       if user:    
          # Login and validate the user
-         login_user(user, remember=form.remember.data)
-
+         login_user(user)
          # check if the url is safe for redirects
-         next = flask.request.args.get('next')
-         if not is_safe_url(next):
-            return flask.abort(400)
-         else:
-            return redirect('/user/profile')
+         # next = flask.request.args.get('next')
+         # if not is_safe_url(next):
+         #    return flask.abort(400)
+
+         session["current_user"] = user.username
+
+         return redirect('/user/profile')
       else: 
          flash('Login unsuccessful, please resubmit. If you do not already\
             have an account please register to join.', 'warning')
-
+         
    return redirect('/')
 
 # route for user boards - verify with login_required
@@ -172,7 +179,7 @@ def login():
 # @login_required
 def show_user():
    
-   user = User.load_user()
+   user = current_user
    
    """Render user information and hompage boards"""
    # TODO: login_manager.login_message = "Please login"

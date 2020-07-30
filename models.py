@@ -1,7 +1,7 @@
 '''SQLAlchemy models'''
 
 from flask import session
-from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user
+from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_manager
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -60,20 +60,18 @@ class User(UserMixin, db.Model):
     # like_image = db.relationship("Like",
     #                         backref=db.backref('user')
 
-
+# ******errors*****
     @login_manager.user_loader
     def load_user(user_id): 
         """Check if user is logged-in on every page load."""
-        if user_id not in users:
-            return False
-        user = User.get(user_id)
-        return User.get(user)
-    
-    @login_manager.unauthorized_handler
-    def unauthorized():
-        """Redirect unauthorized users to Login page."""
-        flash('You must be logged in to view that page.')
-        return redirect(url_for('homepage'))
+        return User.query.get(user_id)
+
+    # @login_manager.unauthorized_handler
+    # def unauthorized():
+    #     """Redirect unauthorized users to Login page."""
+    #     flash('You must be logged in to view that page.')
+    #     return redirect(url_for('homepage'))
+# **********************
 
     def is_authenticated(self):
         """Return True if the user is authenticated."""
@@ -98,18 +96,18 @@ class User(UserMixin, db.Model):
         db.session.add(user)
         return user
     
-    # @classmethod
-    # def authenticate(cls, username, password):
-    #     """Valid username and password."""
+    @classmethod
+    def authenticate(cls, username, password):
+        """Valid username and password."""
         
-    #     user = cls.query.filter_by(username=username).first()
+        user = cls.query.filter_by(username=username).first()
         
-    #     if user:
-    #         is_auth = bcrypt.check_password_hash(user.password, password)
-    #         if is_auth:
-    #             return user
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                return user
 
-    #     return False
+        return False
 
 class Board(db.Model):
     '''User board model.'''
