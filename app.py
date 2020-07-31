@@ -41,7 +41,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY']= secret_key
 
 Bootstrap(app)
@@ -93,8 +93,9 @@ def homepage():
       req = "register"
    else:
       req = "login"
-
-   images = search('"data_source="American Art&painting"', 9)
+   
+   # images = search('"data_source="American Art&painting"', 9, random=True)
+   images = ['https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
 
    return render_template('homepage.html', image_urls=images, form=form, req=req)
 
@@ -120,11 +121,12 @@ def register():
 
       user = User(username=username, email=email, profile_image=profile_image,
                   backdrop_image=backdrop_image, password=hashed_password)
-      
+
       db.session.add(user)
       db.session.commit()
 
-      flash('Welcome! Your account had been created.', 'success')
+      if user: 
+         flash('Welcome! Your account had been created.', 'success')
    
       user_login(user)
 
@@ -154,8 +156,6 @@ def login():
       return redirect('/')
 
 # route for user boards - verify with login_required
-
-
 @app.route("/profile/<username>")
 def show_user(username):
       
@@ -167,10 +167,19 @@ def show_user(username):
       
       user = User.query.get(session[CURR_USER_KEY])
    
-      if user:
-         image_urls = search('"data_source="American Art&painting"', 1)
-         
-         return render_template('profile.html', image_urls=image_urls, user=user)
+      # if user:
+      #    image_urls = search('"data_source="American Art&painting"', 12, random=False)
+      #    if len(image_urls):
+      #       set1 = "image_urls[0]"
+      #       set2 = "image_urls[1]"
+      #    else: 
+      #       set1 = False, 
+      #       set2 = False,
+      image_urls = ['https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
+      
+      return render_template('profile.html', image_urls=image_urls, user=user)
+
+         # return render_template('profile.html', image_urls=image_urls, set1=set1, set2=set2, user=user)
      
    else:
       return redirect('/')
@@ -187,7 +196,8 @@ def show_likes(user_id):
 
       if user:
          # image_urls = 
-         return render_template('likes.html', image_urls=image_urls, user=user)
+         image_urls = ['https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
+         return render_template('likes.html', image_urls=image_urls, user=user, random=False)
 
  
 @app.route("/user/following/<int:user_id>")
@@ -200,7 +210,25 @@ def show_following(user_id):
    
       if user:
          # image_urls
+         image_urls = [
+              'https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
          return render_template('following.html', image_urls=image_urls, user=user)
+
+
+@app.route("/user/search", methods=["GET", "POST"])
+def user_search():
+
+
+   if session.get(CURR_USER_KEY, False):
+      user = User.query.get(session[CURR_USER_KEY])
+      if user:
+         keyword = request.form.get('keyword')
+         image_urls = search(keyword, 1, random=False)
+         
+         # image_urls = [
+         #     'https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
+
+   return render_template('user/search.html', image_urls=image_urls, user=user)
 
 
 @app.route("/logout", methods=['GET', 'POST'])

@@ -25,38 +25,47 @@ class ApiImage:
         self.medium = medium 
         self.collection = collection
         self.raw_response = raw_response
+       
+# TODO: get randome images
+    # @staticmethod
+    # def homepage_carousel(images=None):
         
-    # def get_images(search=None):
-    #     """Request random images from smithsonian API for homepage"""
-    #     # test API requests
 
-    #     # request using keyword
-    #     q = 'data_source="American Art"&online_media_type=images&images=jpeg'
-    #     rows_ = 1
-
-    #     # search for items
-    #     resp = requests.get(url=API_BASE_URL,
-    #                         params={"q": q,
-    #                                 "api_key": api_key,
-    #                                 "rows": rows_})
+       
+    # @staticmethod   
+    # def format_arrays(images=None):
+    #     '''Group arrays into nested arrays with length of 6.'''
+    #     image_array = []
+    #     image_arrays = []
         
-    #     # iterate through the items for image URL
-    #     rows = resp.json()["response"]["rows"]
-    #     for row in rows:
-    #         if "online_media" in row["content"]["descriptiveNonRepeating"]:
-
-    #             url = rows[0]["content"]["descriptiveNonRepeating"]["online_media"]["media"][0]["resources"][2]["url"]
-    #             title = rows[0]["content"]["descriptiveNonRepeating"]["title"]["content"]
-    #             artist = rows[0]["content"]["descriptiveNonRepeating"]["title"]["content"]
-    #             date = rows[0]["content"]["freetext"]["date"][0]["content"]
-    #             medium = rows[0]["content"]["freetext"]["physicalDescription"][0]["content"]
-    #             collection = rows[0]["content"]["freetext"]["setName"][0]["content"]
-
-    #             ApiImage(url, title, artist, date, medium, collection)
+    #     for image in images:
+    #         if len(image_array) < 7:
+    #             images_array.append(image)
+    #         if len(image_array) > 7:
+    #             image_arrays.append(image_array)
+    #             image_array = []
+                
+    #     return image_arrays 
 
 
-def search(search_terms=None, max_results=None):
-    images = []
+# [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+# >> > i = format_images(n, 6, 2)
+# >> > i
+# [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12]]
+
+    # def format_images(images=None, images_per_row=None, max_rows=None):
+    #     formatted_images = []
+    #     for i in range(max_rows):
+    #         start = i * images_per_row
+    #         stop = start + images_per_row
+    #         row = images[start:stop:1]
+    #         formatted_images.append(row)
+    #     return formatted_images
+
+
+def search(search_terms=None, max_results=None, random=False):
+    '''Request images from Smithsonian API'''
+    images_array = []
     for i in range(max_results):
         params = {
             "api_key": api_key,
@@ -106,49 +115,21 @@ def search(search_terms=None, max_results=None):
                 collection = freetext.get("setName", "N/A")
                 if collection != "N/A":
                     collection = freetext["setName"][0]["content"]
-                # print(url)
-                # print(title)
-                # print(artist)
-                # print(date)
-                # print(medium)
-                # print(collection)
+
                 image = ApiImage(url, title, artist, date, medium, collection, row)  
-                images.append(image)
+                images_array.append(image)
             else:
                 pass
         else:
-            pass  
-    return images
+            pass
+        
+    return images_array
+     
+    # if random is True:    
+    #     images = ApiImage.format_arrays(images_array)
+    #     return images
+    # elif random is False:
+    #     return images_array
+    # else:
+    #     return 'Request error'
                 
-
-
-# def get_images(category=None):
-#     """Request random images from smithsonian API for homepage"""
-#     # test API requests
-#     # request using keyword
-#     # q = 'data_source="American Art"&online_media_type=images&images=jpeg'
-#     # q = 'data_source="Dogs"&online_media_type=images&images=jpeg'
-#     q = f'data_source="{category}"&online_media_type=images&images=jpeg'
-#     number_of_rows=1
-#     # search for items
-#     resp = requests.get(url=API_BASE_URL,
-#                         params={"q": q,
-#                                 "api_key": api_key,
-#                                 "rows": number_of_rows})    
-#     # iterate through the items for image URL
-#     rows = resp.json()["response"]["rows"]
-#     images = []
-#     for row in rows:
-#         pprint.pprint(row)
-#         if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
-#             url = rows[0]["content"]["descriptiveNonRepeating"]["online_media"]["media"][0]["resources"][2]["url"]
-#             title = rows[0]["content"]["descriptiveNonRepeating"]["title"]["content"]
-#             artist = rows[0]["content"]["freetext"]["name"][0]["content"]\
-#                 .split(",")[0]
-#             # artist = rows[0]["content"]["descriptiveNonRepeating"]["title"]["content"]
-#             date = rows[0]["content"]["freetext"]["date"][0]["content"]
-#             medium = rows[0]["content"]["freetext"]["physicalDescription"][0]["content"]
-#             collection = rows[0]["content"]["freetext"]["setName"][0]["content"]
-#             image = ApiImage(url, title, artist, date, medium, collection)
-#             images.append(image)
-#     return images
