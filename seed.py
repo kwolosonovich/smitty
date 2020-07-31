@@ -1,19 +1,23 @@
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from models import db, User
+from flask_bcrypt import Bcrypt
+
+
+bcrypt = Bcrypt()
+
 
 def seed_database():
     db.session.rollback()
     db.drop_all()
     db.create_all()
-    hashed_password = generate_password_hash('avaava', method='sha256')
-
+    
+    password = b'margs_utf8'
+    hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
     test_user = User(
-        username="Ava",
-        email="ava@gmail.com", 
+        username="Margaux",
+        email="margaux@gmail.com", 
         password=hashed_password,
-        # profile_image='https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=703&q=80', 
-        # backdrop_image='https://images.unsplash.com/photo-1444927714506-8492d94b4e3d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1355&q=80'
     )
     
     db.session.add(test_user)

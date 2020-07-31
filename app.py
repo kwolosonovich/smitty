@@ -16,7 +16,6 @@ import random
 from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
-# from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 import simplejson as json
 from flask.sessions import SecureCookieSessionInterface
@@ -48,11 +47,8 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 CURR_USER_KEY = "curr_user"
-
-
 DEBUG = True
-
-DEV = False
+DEV = True
 
 if DEBUG:
    seed_database()
@@ -60,11 +56,6 @@ else:
    db.create_all()
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
-
-
-def user_login(user):
-    """Log in user."""
-    session[CURR_USER_KEY] = user.id
 
 
 @app.route('/')
@@ -75,9 +66,8 @@ def user_login(user):
 def homepage():
    '''Render homepage'''
    
-   user = User.verify_login()
-   if user:
-      return redirect(f'/profile/{user.username}')
+   if User.verify_login():
+      return redirect(f"/profile/{session['CURR_USER']}")
    
    form = LoginForm()
    req = request.path 
@@ -98,46 +88,35 @@ def homepage():
 def register():
    '''Register new user'''
    
-   user = User.verify_login()
-   if user:
-      return redirect(f'/profile/{user.username}')
+   # if User.verify_login():
+   #    return redirect(f"/profile/{session['CURR_USER']}")
    
    form = RegisterForm()
 
    if form.validate_on_submit():
 
       username=form.username.data
-      email=form.email.data
-      profile_image=form.profile_image.data
-      backdrop_image=form.backdrop_image.data
-      
-      hashed_password = generate_password_hash(form.password.data, method='sha256')
+      email=form.email.data   
+      password = form.password.data
 
-      user = User(username=username, email=email, profile_image=profile_image,
-                  backdrop_image=backdrop_image, password=hashed_password)
+      user = User.create(username=username, email=email, password=password)
+      db.session.commit()
+      flash('Welcome! Your account had been created.', 'success')
+      return redirect(f'/profile/{username}')
 
-      if user:
-         flash('Welcome! Your account had been created.', 'success')
-         
-         db.session.add(user)
-         db.session.commit()
-         user_login(user)
+      # else: 
+      #    flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
 
-         return redirect(f'/profile/{user.username}')
-
-      else: 
-         flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
-
-   return redirect('/')
+   else: 
+      return redirect('/')
 
 
 @app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
    
-   user = User.verify_login()
-   if user:
-      return redirect(f'/profile/{user.username}')
+   # if User.verify_login():
+   #    return redirect(f"/profile/{session['CURR_USER']}")
    
    form = LoginForm()
 
@@ -146,7 +125,7 @@ def login():
       user = User.query.filter_by(username=username).first()
       if user:
          if check_password_hash(user.password, form.password.data):
-            user_login(user)
+            User.user_login(user.username)
             return redirect(f'/profile/{user.username}')
          else: 
             flash('Username and password not found', 'warning')
@@ -161,15 +140,13 @@ def login():
 def show_user(username):   
    """Render user information and hompage boards"""
 
-   user = User.verify_login()
-   if user:
-      formatted_images = search('"data_source="American Art&painting"',
-                        max_results=12, images_per_row=6, max_rows=2, dev=DEV)
-   
-      return render_template('profile.html', formatted_images=formatted_images, user=user)
+   username = User.query.filter_by(username=username).first()
+
+   formatted_images = search('"data_source="American Art&painting"',
+                     max_results=12, images_per_row=6, max_rows=2, dev=DEV)
+
+   return render_template('profile.html', formatted_images=formatted_images, user=user)
      
-   else:
-      return redirect('/')
    
 
 @app.route("/user/likes/<int:user_id>")
@@ -205,15 +182,15 @@ def show_following(user_id):
 @app.route("/user/search", methods=["GET", "POST"])
 def user_search():
 
-   user = User.verify_login()
-   if user:
-      keyword = request.form.get('keyword')
-      formatted_images = search(
-            search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
-      
+   # if User.verify_login():
+   keyword = request.form.get('keyword')
+   formatted_images = search(
+         search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
+   
 
    return render_template('user/search.html', formatted_images=formatted_images, user=user)
-
+   # else:
+   #    return redirect('/')
 
 @app.route("/logout", methods=['GET', 'POST'])
 # @login_required
