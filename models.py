@@ -101,16 +101,16 @@ class User(UserMixin, db.Model):
     # def user_login(user):
     #     """Log in user."""
     #     session[CURR_USER_KEY] = user.id
-
-    @classmethod
-    def verify_login(user=None):
+    # TODO: resolve error with verify_login
+    # @classmethod
+    def verify_login():
         """Validate if user is logged in."""
 
         if 'CURR_USER_KEY' in session and 'CURR_USER_KEY' == User.query.get('CURR_USER_KEY'):
-            user = User.query.get(session[CURR_USER_KEY])
+            user = User.query.get(session['CURR_USER_KEY'])
             return user
         else: 
-            return None
+            return False
 
 class Board(db.Model):
     '''User board model.'''

@@ -4,7 +4,6 @@ OpenAccess API.
 """
 import urllib.parse
 import requests
-import pprint
 
 from werkzeug import urls
 
@@ -98,7 +97,7 @@ def filter_search_results(search_results=None, dev=False):
                     if date != "N/A" and len(date) > 0:
                         date = date[0]
                     # print(f"date: {date}")
-                    title = descriptive["title"]
+                    title = descriptive["title"]['content']
                 # print(f"titel: {title}")
                 medium = freetext.get("physicalDescription", "N/A")
                 if medium != "N/A":
@@ -119,7 +118,7 @@ def filter_search_results(search_results=None, dev=False):
 
 
 def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
-           max_rows=None, random=False):
+           max_rows=None):
     '''Request images from Smithsonian API'''
     
     if dev:
@@ -156,7 +155,7 @@ class ApiImageMock(object):
     def __init__(self, version=None):
         if version == 1:
             self.url = 'https://ids.si.edu/ids/deliveryService?max_w=800&id=HMSG-66.2399'
-            self.title.content = 'In the Sunlight'
+            self.title = 'In the Sunlight'
             self.artist = 'Childe Hassam'
             self.date = '1897'
             self.medium = 'Oil on canvas'
@@ -164,7 +163,7 @@ class ApiImageMock(object):
             self.raw_response = ''
         elif version == 2:
             self.url = 'https://ids.si.edu/ids/deliveryService?max_w=800&id=NPG-NPG_65_61Pocahontas_d1'
-            self.title.content = 'Pocahontas'
+            self.title = 'Pocahontas'
             self.artist = 'Unidentified Artist'
             self.date = 'Unidentified'
             self.medium = 'Oil on canvas'

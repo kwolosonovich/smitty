@@ -10,13 +10,13 @@
     <div class="gallery" id="gallery">
 
         {% for list in formatted_images %}
-            {% for image in list %} 
+            {% for card in list %} 
             <!-- Grid column -->
             <div class="mb-3 pics animation {{list.index}} card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{image.url}} class="card-img-top" alt="Card image cap">
+                <img class="img-fluid" src={{card.url}} class="card-img-top" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{{image.title}}</h5>
-                    <p class="card-text">{{image.artist}}</p>
+                    <h5 class="card-title">Title: {{ card.title.content }}</h5>
+                    <p class="card-text">Artist: {{ card.artist }}</p>
                     <a href="#" class="btn btn-primary">Fav</a>
                     <a href="#" class="btn btn-primary">Add</a>
                 </div>

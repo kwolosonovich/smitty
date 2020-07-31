@@ -52,6 +52,8 @@ CURR_USER_KEY = "curr_user"
 
 DEBUG = True
 
+DEV = False
+
 if DEBUG:
    seed_database()
 else:
@@ -64,11 +66,6 @@ def user_login(user):
     """Log in user."""
     session[CURR_USER_KEY] = user.id
 
-# def verify_login():
-#    if 'CURR_USER_KEY' in session and 'CURR_USER_KEY' == User.query.get('CURR_USER_KEY'):
-#       user = User.query.get(session[CURR_USER_KEY])
-#       username = user.username
-#       return username
 
 @app.route('/')
 @app.route('/login')
@@ -78,9 +75,9 @@ def user_login(user):
 def homepage():
    '''Render homepage'''
    
-   # user = User.verify_login(user=)
-   # if user:
-   #    return redirect(f'/profile/{user.username}')
+   user = User.verify_login()
+   if user:
+      return redirect(f'/profile/{user.username}')
    
    form = LoginForm()
    req = request.path 
@@ -91,19 +88,19 @@ def homepage():
    else:
       req = "login"
    
-   formatted_images = search('"data_source="American Art&painting"', dev=True, images_per_row=9, max_rows=1, max_results=9)
+   formatted_images = search('"data_source="American Art&painting"', dev=DEV, images_per_row=9, max_rows=1, max_results=9)
 
-   return render_template('homepage.html', formatted_images=formatted_images, form=form, req=req, dev=True)
+   return render_template('homepage.html', formatted_images=formatted_images, form=form, req=req)
 
 # ********* USER ROUTES *********
 
 @app.route('/register', methods=['POST'])
 def register():
    '''Register new user'''
-
-   # user = User.verify_login()
-   # if user:
-   #    return redirect(f'/profile/{user.username}')
+   
+   user = User.verify_login()
+   if user:
+      return redirect(f'/profile/{user.username}')
    
    form = RegisterForm()
 
@@ -138,9 +135,9 @@ def register():
 def login():
    '''Login returning user.'''
    
-   # user = User.verify_login()
-   # if user:
-   #    return redirect(f'/profile/{user.username}')
+   user = User.verify_login()
+   if user:
+      return redirect(f'/profile/{user.username}')
    
    form = LoginForm()
 
@@ -161,21 +158,15 @@ def login():
 
 # route for user boards - verify with login_required
 @app.route("/profile/<username>")
-def show_user(username):
-      
+def show_user(username):   
    """Render user information and hompage boards"""
 
-   # TODO: image_urls from API
+   user = User.verify_login()
+   if user:
+      formatted_images = search('"data_source="American Art&painting"',
+                        max_results=12, images_per_row=6, max_rows=2, dev=DEV)
    
-   if session.get(CURR_USER_KEY, False):
-      
-      user = User.query.get(session[CURR_USER_KEY])
-   
-      if user:
-         formatted_images = search('"data_source="American Art&painting"',
-                         max_results=12, random=False,  images_per_row=6, max_rows=2, dev=True)
-      
-      return render_template('profile.html', formatted_images=formatted_images, user=user, dev=True)
+      return render_template('profile.html', formatted_images=formatted_images, user=user)
      
    else:
       return redirect('/')
@@ -214,21 +205,21 @@ def show_following(user_id):
 @app.route("/user/search", methods=["GET", "POST"])
 def user_search():
 
+   user = User.verify_login()
+   if user:
+      keyword = request.form.get('keyword')
+      formatted_images = search(
+            search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
+      
 
-   if session.get(CURR_USER_KEY, False):
-      user = User.query.get(session[CURR_USER_KEY])
-      if user:
-         keyword = request.form.get('keyword')
-         image_urls = search(keyword, 1, random=False)
-
-   return render_template('user/search.html', image_urls=image_urls, user=user, dev=True, images_per_row=6, max_rows=2, max_results=24)
+   return render_template('user/search.html', formatted_images=formatted_images, user=user)
 
 
 @app.route("/logout", methods=['GET', 'POST'])
 # @login_required
 def logout():
    '''Logout user.'''
-   
+  
    if CURR_USER_KEY in session:
        del session[CURR_USER_KEY]
        flash('You are now logged-out.', 'success')
