@@ -9,45 +9,33 @@
     <!-- Grid row -->
     <div class="gallery" id="gallery">
 
-        {% for image_url in image_urls[0] %} 
+        {% for list in formatted_images %}
+            {% for image in list %} 
             <!-- Grid column -->
-            <div class="mb-3 pics animation 1 card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
+            <div class="mb-3 pics animation {{list.index}} card-body" style="max-width: 300px; height:auto;">
+                <img class="img-fluid" src={{image.url}} class="card-img-top" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">{{image.title}}</h5>
+                    <p class="card-text">{{image.artist}}</p>
+                    <a href="#" class="btn btn-primary">Fav</a>
+                    <a href="#" class="btn btn-primary">Add</a>
                 </div>
             </div>
             <!-- Grid column -->
             {% endfor %}
-            <div class="row mt-5">
-            {% for image_url in image_urls[1] %} 
-            <!-- Grid column -->
-            <div class="mb-3 pics animation 2 card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <!-- Grid column -->
         {% endfor %}
 
         <div class="row">
-
             <!-- Grid column -->
             <div class="col-md-12 d-flex justify-content-center mb-5">
-
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="1">Previous</button>
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2">Next</button>
-
+            {% for nav in formatted_images%}
+                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="{{i}}">{{i}}</button>
+            {% endfor %}
             </div>
             <!-- Grid column -->
         </div>
-    </div>
 
-    {% endblock %}
+    </div>
+</main>
+
+{% endblock %}

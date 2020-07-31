@@ -114,21 +114,19 @@
                             Logout
                         </a>
                     </li>
-                     <li class="nav-item">
-                         <form action="/user/search" method="POST">
+                    <li class="nav-item">
+                        <form action="/user/search" method="POST">
                             <label for="search">Search the Smithsonian</label>
                             <input class="form-control form-control-dark w-100" id="search" name= "keyword" type="text" placeholder="Keyword" aria-label="Search">
                             <button class="btn submit-btn pri-btn" type="submit">Search</button>
                         </form>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="feather feather-bar-chart-2">
                                 <line x1="18" y1="20" x2="18" y2="10"></line>
                                 <line x1="12" y1="20" x2="12" y2="4"></line>
                                 <line x1="6" y1="20" x2="6" y2="14"></line>
-                            </svg>
-                            Logout
-                        </a>
+                            </svg> -->
                     </li>
                 </ul>
                 <!-- TODO: add share/social media options -->
@@ -137,6 +135,9 @@
 
         {% block content %}{% endblock %}
 
+    <!-- closing tags are in templates
+    </div>
+    </div>   -->
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

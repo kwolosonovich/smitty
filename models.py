@@ -97,6 +97,20 @@ class User(UserMixin, db.Model):
                 return user
 
         return False
+    
+    # def user_login(user):
+    #     """Log in user."""
+    #     session[CURR_USER_KEY] = user.id
+
+    @classmethod
+    def verify_login(user=None):
+        """Validate if user is logged in."""
+
+        if 'CURR_USER_KEY' in session and 'CURR_USER_KEY' == User.query.get('CURR_USER_KEY'):
+            user = User.query.get(session[CURR_USER_KEY])
+            return user
+        else: 
+            return None
 
 class Board(db.Model):
     '''User board model.'''
@@ -200,18 +214,6 @@ class Follow(db.Model):
                       #   ondelete='CASCADE'
                       )
     )
-
-    #TODO: remove class if db.Table below continues to work
-# class Board_Images(db.Model):
-#     __tablename__ = 'board_images'
-    
-#     board_id = db.Column(db.Integer,
-#                          db.ForeignKey('boards.id', ondelete="cascade"),
-#                          primary_key=True)
- 
-#     images_id = db.Column(db.Integer,
-#                          db.ForeignKey('images.id', ondelete="cascade"),
-#                          primary_key=True)
     
 '''Boards and images table'''
 board_images = db.Table('board_images', 

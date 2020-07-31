@@ -151,20 +151,12 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
                         max_rows=max_rows)        
             
     return formatted_results
-    
-    # if random is True:    
-    #     images = ApiImage.format_arrays(images_array)
-    #     return images
-    # elif random is False:
-    #     return images_array
-    # else:
-    #     return 'Request error'
                 
 class ApiImageMock(object):
     def __init__(self, version=None):
         if version == 1:
             self.url = 'https://ids.si.edu/ids/deliveryService?max_w=800&id=HMSG-66.2399'
-            self.title = 'In the Sunlight'
+            self.title.content = 'In the Sunlight'
             self.artist = 'Childe Hassam'
             self.date = '1897'
             self.medium = 'Oil on canvas'
@@ -172,7 +164,7 @@ class ApiImageMock(object):
             self.raw_response = ''
         elif version == 2:
             self.url = 'https://ids.si.edu/ids/deliveryService?max_w=800&id=NPG-NPG_65_61Pocahontas_d1'
-            self.title = 'Pocahontas'
+            self.title.content = 'Pocahontas'
             self.artist = 'Unidentified Artist'
             self.date = 'Unidentified'
             self.medium = 'Oil on canvas'

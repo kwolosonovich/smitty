@@ -62,9 +62,13 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
 def user_login(user):
     """Log in user."""
-
     session[CURR_USER_KEY] = user.id
-    
+
+# def verify_login():
+#    if 'CURR_USER_KEY' in session and 'CURR_USER_KEY' == User.query.get('CURR_USER_KEY'):
+#       user = User.query.get(session[CURR_USER_KEY])
+#       username = user.username
+#       return username
 
 @app.route('/')
 @app.route('/login')
@@ -73,6 +77,10 @@ def user_login(user):
 # TODO: add JS for event listener to direct to section on homepage
 def homepage():
    '''Render homepage'''
+   
+   # user = User.verify_login(user=)
+   # if user:
+   #    return redirect(f'/profile/{user.username}')
    
    form = LoginForm()
    req = request.path 
@@ -93,11 +101,12 @@ def homepage():
 def register():
    '''Register new user'''
 
+   # user = User.verify_login()
+   # if user:
+   #    return redirect(f'/profile/{user.username}')
+   
    form = RegisterForm()
-   
-   if CURR_USER_KEY in session:
-       del session[CURR_USER_KEY]
-   
+
    if form.validate_on_submit():
 
       username=form.username.data
@@ -113,20 +122,25 @@ def register():
       if user:
          flash('Welcome! Your account had been created.', 'success')
          
-      db.session.add(user)
-      db.session.commit()
+         db.session.add(user)
+         db.session.commit()
+         user_login(user)
 
-      user_login(user)
+         return redirect(f'/profile/{user.username}')
 
-      return redirect(f'/profile/{user.username}')
+      else: 
+         flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
 
    return redirect('/')
-# TODO: flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
 
 
 @app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
+   
+   # user = User.verify_login()
+   # if user:
+   #    return redirect(f'/profile/{user.username}')
    
    form = LoginForm()
 
@@ -158,19 +172,10 @@ def show_user(username):
       user = User.query.get(session[CURR_USER_KEY])
    
       if user:
-         images = search('"data_source="American Art&painting"',
-                         max_results=24, random=False,  images_per_row=6, max_rows=2)
-         
-         
-         if len(images):
-            set1 = "image_urls[0]"
-            set2 = "image_urls[1]"
-         else: 
-            set1 = False, 
-            set2 = False,
+         formatted_images = search('"data_source="American Art&painting"',
+                         max_results=12, random=False,  images_per_row=6, max_rows=2, dev=True)
       
-
-      return render_template('profile.html', image_urls=image_urls, set1=set1, set2=set2, user=user, dev=True)
+      return render_template('profile.html', formatted_images=formatted_images, user=user, dev=True)
      
    else:
       return redirect('/')
@@ -179,6 +184,10 @@ def show_user(username):
 @app.route("/user/likes/<int:user_id>")
 def show_likes(user_id):
    """Render user likes."""
+   
+   # username = User.verify_login()
+   # if not username:
+   #    return redirect('/')
    
    if session.get(CURR_USER_KEY, False):
 
