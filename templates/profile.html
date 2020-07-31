@@ -5,161 +5,40 @@
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
-    <h1 id="boards">Boards</h1>
-    
-    <div class="container">
-        <div class="row mt-5">
-            {% if set1 is True %}
-                {% for image_url in image_urls[0] %} 
-                    <!-- Grid column -->
-                    <div class="mb-3 pics animation 1 card-body" style="max-width: 300px; height:auto;">
-                        <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                                card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <!-- Grid column -->
-                    {% endfor %}
-                <div class="row mt-5">
-                {% for image_url in image_urls[1] %} 
-                <!-- Grid column -->
-                <div class="mb-3 pics animation 2 card-body" style="max-width: 300px; height:auto;">
-                    <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
+        <h1 id="boards">My Boards</h1>
+
+        {% block boards %}{% endblock %}
+
+        </div>
+        </div>
+
+    </main>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        {% block search %}{% endblock %}
+
+        <div class="container">
+            <div class="row mt-5">
+                {% for list in images %}
+                <!-- list = [image1, image2, imageN] -->
+                {% for card in list %}
+                <!-- card = imageN -->
+                <div class="mb-3 pics animation {{i}} card-body" style="max-width: 300px; height:auto;">
+                    <img class="img-fluid" src={{card.url}} class="card-img-top" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card's content.</p>
+                        <h5 class="card-title">{{ card.title }}</h5>
+                        <p class="card-text">{{ card.artist }}</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
-                <!-- Grid column -->
-                {% endfor %}
-                <div class="row">
-            <!-- Grid column -->
-            <div class="col-md-12 d-flex justify-content-center mb-5">
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="1">Previous</button>
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2">Next</button>
-            </div>
-            <!-- Grid column -->
             </div>
         </div>
-        {% else %}
-            {% for image_url in image_urls[0] %} 
-                <!-- Grid column -->
-                <div class="mb-3 pics animation 1 card-body" style="max-width: 300px; height:auto;">
-                    <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <!-- Grid column -->
-                {% endfor %}
-        {% endif %}
-    </div>
-    </div>
-        
-</main>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-    <h1 id="following">Following</h1>
-        <div class="container">
-        <div class="row mt-5">
-            {% for image_url in image_urls[0] %} 
-            <!-- Grid column -->
-            <div class="mb-3 pics animation 1 card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <!-- Grid column -->
-            {% endfor %}
-            <div class="row mt-5">
-            {% for image_url in image_urls[1] %} 
-            <!-- Grid column -->
-            <div class="mb-3 pics animation 2 card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <!-- Grid column -->
-            {% endfor %}
-        </div>
-        </div>
-        <div class="row">
-            <!-- Grid column -->
-            <div class="col-md-12 d-flex justify-content-center mb-5">
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="1">Previous</button>
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2">Next</button>
-            </div>
-            <!-- Grid column -->
-            </div>
-        </div>
-</main>
+    </main>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-    <h1 id="following">Following</h1>
-        <div class="container">
-        <div class="row mt-5">
-            {% for image_url in image_urls[0] %} 
-            <!-- Grid column -->
-            <div class="mb-3 pics animation 1 card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <!-- Grid column -->
-            {% endfor %}
-            <div class="row mt-5">
-            {% for image_url in image_urls[1] %} 
-            <!-- Grid column -->
-            <div class="mb-3 pics animation 2 card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{image_url.url}} class="card-img-top" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <!-- Grid column -->
-            {% endfor %}
-        </div>
-        </div>
-        <div class="row">
-            <!-- Grid column -->
-            <div class="col-md-12 d-flex justify-content-center mb-5">
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="1">Previous</button>
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2">Next</button>
-            </div>
-            <!-- Grid column -->
-            </div>
-        </div>
-</main>
-
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-    {% block search %}{% endblock %}
-
-</main>
 </div>
 </div>
 

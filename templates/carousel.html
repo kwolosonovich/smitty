@@ -1,0 +1,53 @@
+
+{% block carousel %}
+ 
+{% if CURR_USER_KEY in session %}
+    {% raw %}
+        {% block carousel %}
+        {% endblock %}
+    {% endraw %}
+{% else %}
+
+<div class="carousel-main main container-style lt-bg">
+    <div id="images" class="carousel mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
+        <div class="carousel-inner car" role="listbox">
+            {% for list in formatted_images %}
+                {% for image in list %}
+                    {% if loop.index == 1 %}                
+                        <div class="carousel-item active">
+                            <div class="col-12 col-md-4" style="margin: auto">
+                                <div class="card mb-2">
+                                    <img class="card-img-top img-fluid" src={{image.url}} alt="Card image cap responsive">
+                                    <div class="card-body">
+                                        <h4 class="card-title font-weight-bold">Title: {{image.title}}</h4>
+                                        <p class="card-text">Artist: {{image.artist}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                    {% else %}
+                        <div class="carousel-item">
+                    <div class="col-12 col-md-4" style="margin: auto">
+                        <div class="card mb-2">
+                            <img class="card-img-top img-fluid" src={{image.url}} alt="Card image cap responsive">
+                            <div class="card-body">
+                                <h4 class="card-title font-weight-bold">Title: {{image.title}}</h4>
+                                <p class="card-text">Artist: {{image.artist}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>  
+                {% endfor %}
+            {% endfor %}
+        </div>
+            <br>
+        <div class="controls text-center">
+            <a class="btn-floating" href="#images" data-slide="prev"><i class="fas fa-chevron-left text-blue"></i></a>
+            <a class="btn-floating" href="#images" data-slide="next"><i class="fas fa-chevron-right text-blue"></i></a>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

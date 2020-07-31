@@ -24,7 +24,7 @@
 
     {% block head %}{% endblock %}
 
-    <!-- {% include "carousel.html" ignore missing %} -->
+    {% include "carousel.html" ignore missing %}
 
     {% for category, message in get_flashed_messages(with_categories=True) %}
         <div class="alert alert-{{ category }} mx-auto alert-dismissible fade show" style="width: 50%">{{ message }}
