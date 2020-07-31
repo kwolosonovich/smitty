@@ -66,8 +66,8 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 def homepage():
    '''Render homepage'''
    
-   if User.verify_login():
-      return redirect(f"/profile/{session['CURR_USER']}")
+   # if User.verify_login():
+   #    return redirect(f"/profile/{session['CURR_USER']}")
    
    form = LoginForm()
    req = request.path 
