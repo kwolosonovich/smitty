@@ -170,3 +170,13 @@
         padding-right: 1.1rem;
     }
 }
+
+.icon {
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.fa:hover {
+    color: #007bff;
+}

@@ -20,8 +20,10 @@
                             <div class="card-body">
                                 <h5 class="card-title">Title: {{ card.title }}</h5>
                                 <p class="card-text">Artist: {{ card.artist }}</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <p>
+                                    <i class="far fa-thumbs-up like"></i>
+                                    <i onclick="likeImages(this)" class="fa fa-thumbs-up like"></i>
+                                </p>
                             </div>
                         </div>
                     {% endfor %}

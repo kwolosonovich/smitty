@@ -1,5 +1,11 @@
-$(document).ready(function () {
-  
+document.addEventListener("DOMContentLoaded", function () {
+  // get elements
+  let like = document.getElementsByClassName("like");
+  var likeImages = document.querySelectorAll(".like");
+
+  like.addEventListener("click", addLike);
+
+  // carousel
   $(".carousel.carousel-multi-item.v-2 .carousel-item").each(function () {
     var next = $(this).next();
     if (!next.length) {
@@ -20,7 +26,6 @@ $(document).ready(function () {
   $(".alert").alert();
 
   // render search results
-
   var selectedClass = "";
 
   $(".filter").click(function () {
@@ -38,5 +43,42 @@ $(document).ready(function () {
     }, 300);
   });
 
+  // like image event listener - change to solid
+  // function add_like(x) {
+  //   x.classList.toggle("fas fa-thumbs-up");
+  // }
 
+  //event listener for like
+  like.addEventListener("click", function (e) {
+    e.preventDefault();
+    console.log(e);
+    // change to solid
+    like.classList.toggle("fas fa-thumbs-up");
+  });
+
+  function likeImage(like) {
+    like.classList.toggle("fa-thumbs-down");
+  }
+
+  function addLike() {
+    console.log("clicked");
+  }
+  likeImages.addEventListener("click", function (e) {
+    e.preventDefault();
+    console.log(e);
+    like.classList.toggle("fas fa-thumbs-up");
+  });
+
+  function likeImages(like) {
+    like.classList.toggle("fas fa-thumbs-up");
+  }
+
+  function likeImages() {
+    console.log("clicked");
+  }
+
+  $('.like').on('click',function(e) {
+    e.preventDefault();
+    console.log('clicked')
+  } )
 });
