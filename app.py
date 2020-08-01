@@ -142,7 +142,7 @@ def show_user(username):
    
    if User.verify_login():
 
-      username = User.query.filter_by(username=username).first()
+      user = User.query.filter_by(username=username).first()
 
       formatted_images = search('"data_source="American Art&painting"',
                         max_results=12, images_per_row=6, max_rows=2, dev=DEV)
