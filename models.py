@@ -86,10 +86,10 @@ class User(db.Model):
         else: 
             return False
         
-    # def user_login(username):
-    #     """Log in user."""
-    #     session['CURR_USER'] = username
-    #     return True
+    def user_login(username):
+        """Log in user."""
+        session['CURR_USER'] = username
+        return True
 
 class Board(db.Model):
     '''User board model.'''

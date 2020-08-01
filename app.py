@@ -114,24 +114,22 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
-   
-   if User.verify_login():
-      return redirect(f"/profile/{session['CURR_USER']}")
-   
+
    form = LoginForm()
 
    if form.validate_on_submit():
       username = form.username.data
+      password = form.password.data
       user = User.query.filter_by(username=username).first()
+      user = User.authenticate(username=username, password=password)
       if user:
-         if check_password_hash(user.password, form.password.data):
-            User.user_login(user.username)
-            return redirect(f'/profile/{user.username}')
-         else: 
-            flash('Username and password not found', 'warning')
+         User.user_login(user.username)
+         return redirect(f'/profile/{user.username}')
+      else:
+         flash('Username and password not found', 'warning')
    else:
       flash('Login unsuccessful, please resubmit. If you do not already\
-         have an account please register to join.', 'warning')
+         have an account please register to join.', 'danger')
       return redirect('/')
    
 
