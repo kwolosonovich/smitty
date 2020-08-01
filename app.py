@@ -1,11 +1,3 @@
-# TODO: rework flask-login all functions including - CustomSessionInterface()
-# TODO: troubleshoot cookies and is_safe_URL 
-# https://flask-login.readthedocs.io/en/latest/login-example
-# https://hackersandslackers.com/flask-login-user-authentication/
-# https://flask-login.readthedocs.io/en/latest/_modules/flask_login/login_manager.html
-
-
-
 # TODO: update dependencies
 
 
@@ -47,8 +39,9 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 CURR_USER_KEY = "curr_user"
-DEBUG = True
+# use test api responses
 DEV = True
+DEBUG = False
 
 if DEBUG:
    seed_database()
@@ -140,7 +133,7 @@ def login():
 def show_user(username):   
    """Render user information and hompage boards"""
 
-   username = User.query.filter_by(username=username).first()
+   user = User.query.filter_by(username=username).first()
 
    formatted_images = search('"data_source="American Art&painting"',
                      max_results=12, images_per_row=6, max_rows=2, dev=DEV)
@@ -157,43 +150,42 @@ def show_likes(user_id):
    # if not username:
    #    return redirect('/')
    
-   if session.get(CURR_USER_KEY, False):
+   # if session.get(CURR_USER_KEY, False):
 
-      user = User.query.get(session[CURR_USER_KEY])
+   # user = User.query.get(session[CURR_USER_KEY])
 
-      if user:
-         image_urls = ['https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
-         return render_template('likes.html', image_urls=image_urls, user=user, dev=True, images_per_row=6, max_rows=2, max_results=24)
+   # if user:
+   #    image_urls = ['https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
+   #    return render_template('likes.html', image_urls=image_urls, user=user, dev=True, images_per_row=6, max_rows=2, max_results=24)
 
  
 @app.route("/user/following/<int:user_id>")
 def show_following(user_id):
    """Render user following."""
-   if session.get(CURR_USER_KEY, False):
+   # if session.get(CURR_USER_KEY, False):
       
-      user = User.query.get(session[CURR_USER_KEY])
+   #    user = User.query.get(session[CURR_USER_KEY])
    
-      if user:
-         image_urls = [
-              'https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
-         return render_template('following.html', image_urls=image_urls, user=user, dev=True,  images_per_row=6, max_rows=2, max_results=24)
+   #    if user:
+   #       image_urls = [
+   #            'https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
+   #       return render_template('following.html', image_urls=image_urls, user=user, dev=True,  images_per_row=6, max_rows=2, max_results=24)
 
 
 @app.route("/user/search", methods=["GET", "POST"])
 def user_search():
-
    # if User.verify_login():
-   keyword = request.form.get('keyword')
-   formatted_images = search(
-         search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
-   
+      keyword = request.form.get('keyword')
+      
+      formatted_images = search(
+            search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
+      
 
-   return render_template('user/search.html', formatted_images=formatted_images, user=user)
-   # else:
-   #    return redirect('/')
+      return render_template('user/search.html', formatted_images=formatted_images, user=user)
+      # else:
+      # return redirect('/')
 
 @app.route("/logout", methods=['GET', 'POST'])
-# @login_required
 def logout():
    '''Logout user.'''
   
