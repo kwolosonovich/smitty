@@ -19,7 +19,6 @@ h1, h5 {
 }
 
 #form-style {
-    /* border: 8px solid #FFCD00; */
     border-left: 2px solid #002554;
     border-top-left-radius: 0%;
     border-bottom-left-radius: 0%;
@@ -32,7 +31,7 @@ h1, h5 {
 }
 
 #form-section {
-    background-color: #FFCD00;
+    background-color: #74D1EA;
     min-width: 100%;
     margin: 0;
     padding: 0;
@@ -44,6 +43,7 @@ h1, h5 {
 #form-side {
     text-align: center;
     padding: 100px 80px;
+    font-family: 'Cinzel Decorative', cursive;
 }
 
 .blue-bg {
@@ -54,7 +54,15 @@ h1, h5 {
     background-color: white;
 }
 
-.text-dark h1 {
+.bg-yellow {
+    background-color: #FFCD00;
+}
+
+.text-yellow, hr{
+    color: #FFCD00;
+}
+
+.text-dark, card-text {
     color: #002554;
 }
 
@@ -68,12 +76,18 @@ h1, h5 {
 
 .pri-btn {
     color: white;
-    background-color: #002550;
+    background-color: #FFCD00;
     border-radius: 7px;
 }
 
 .pri-btn:hover {
-    background-color: #FFCD00;
+    background-color: #002550;
+    color: white
+}
+
+.sec-btn:hover {
+    background-color: #002550;
+    color: white;
 }
 
 .sec-btn {
@@ -111,7 +125,6 @@ h1, h5 {
     bottom: 0;
     left: 0;
     z-index: 100;
-    /* Behind the navbar */
     padding: 0;
     /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1); */
 }
