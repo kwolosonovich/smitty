@@ -88,8 +88,8 @@ def homepage():
 def register():
    '''Register new user'''
    
-   # if User.verify_login():
-   #    return redirect(f"/profile/{session['CURR_USER']}")
+   if User.verify_login():
+      return redirect(f"/profile/{session['CURR_USER']}")
    
    form = RegisterForm()
 
@@ -115,8 +115,8 @@ def register():
 def login():
    '''Login returning user.'''
    
-   # if User.verify_login():
-   #    return redirect(f"/profile/{session['CURR_USER']}")
+   if User.verify_login():
+      return redirect(f"/profile/{session['CURR_USER']}")
    
    form = LoginForm()
 
@@ -139,13 +139,15 @@ def login():
 @app.route("/profile/<username>")
 def show_user(username):   
    """Render user information and hompage boards"""
+   
+   if User.verify_login():
 
-   username = User.query.filter_by(username=username).first()
+      username = User.query.filter_by(username=username).first()
 
-   formatted_images = search('"data_source="American Art&painting"',
-                     max_results=12, images_per_row=6, max_rows=2, dev=DEV)
+      formatted_images = search('"data_source="American Art&painting"',
+                        max_results=12, images_per_row=6, max_rows=2, dev=DEV)
 
-   return render_template('profile.html', formatted_images=formatted_images, user=user)
+      return render_template('profile.html', formatted_images=formatted_images, user=user)
      
    
 
