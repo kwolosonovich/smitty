@@ -6,37 +6,31 @@
 
     <h1>Search Results</h1>
 
-    <!-- Grid row -->
     <div class="gallery" id="gallery">
 
         {% for list in formatted_images %}
             {% for card in list %} 
-            <!-- Grid column -->
             <div class="mb-3 pics animation {{list.index}} card-body" style="max-width: 300px; height:auto;">
                 <img class="img-fluid" src={{card.url}} class="card-img-top" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Title: {{ card.title.content }}</h5>
-                    <p class="card-text">Artist: {{ card.artist }}</p>
-                    <p><i class="far fa-thumbs-up like" onclick="like_image(this)"></i></p>
-
-                    <a href="#" class="btn btn-primary">Add</a>
+                <div class="card-body pt-1">
+                    <p class="text-right mt-0 mb-0">
+                        <i onclick="likeImages(this)" class="far fa-thumbs-up like"></i>
+                        <i class="fas fa-plus"></i>
+                    </p>
+                    <h5 class="card-title mt-0 pb-0">Title: {{ card.title }}</h5>
+                    <p class="card-text mt-0">Artist: {{ card.artist }}</p>
                 </div>
             </div>
-            <!-- Grid column -->
             {% endfor %}
         {% endfor %}
-
-        <div class="row">
-            <!-- Grid column -->
-            <div class="col-md-12 d-flex justify-content-center mb-5">
-            {% for nav in formatted_images%}
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="{{i}}">{{i}}</button>
-            {% endfor %}
-            </div>
-            <!-- Grid column -->
-        </div>
-
     </div>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center mb-5">
+            <button type="button" class="btn btn-outline-black waves-effect filter align-center" data-rel="1"><i class="fas fa-angle-double-left"></i></button>
+            <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2"><i class="fas fa-angle-double-right"></i></button>
+        </div>
+    </div>
+
 </main>
 
 {% endblock %}

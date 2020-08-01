@@ -1,6 +1,3 @@
-# TODO: update dependencies
-
-
 import requests
 import random
 
@@ -39,7 +36,7 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 CURR_USER_KEY = "curr_user"
-# use test api responses
+# test images for api response
 DEV = True
 DEBUG = False
 
@@ -55,12 +52,9 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 @app.route('/login')
 @app.route('/register')
 
-# TODO: add JS for event listener to direct to section on homepage
+
 def homepage():
    '''Render homepage'''
-   
-   # if User.verify_login():
-   #    return redirect(f"/profile/{session['CURR_USER']}")
    
    form = LoginForm()
    req = request.path 
@@ -75,14 +69,10 @@ def homepage():
 
    return render_template('homepage.html', formatted_images=formatted_images, form=form, req=req)
 
-# ********* USER ROUTES *********
 
 @app.route('/register', methods=['POST'])
 def register():
    '''Register new user'''
-   
-   # if User.verify_login():
-   #    return redirect(f"/profile/{session['CURR_USER']}")
    
    form = RegisterForm()
 
@@ -94,11 +84,7 @@ def register():
 
       user = User.create(username=username, email=email, password=password)
       db.session.commit()
-      flash('Welcome! Your account had been created.', 'success')
       return redirect(f'/profile/{username}')
-
-      # else: 
-      #    flash('Registration unsuccessful, Please resubmit. If you already have an account please login.', 'warning')
 
    else: 
       return redirect('/')
@@ -107,9 +93,6 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
-   
-   # if User.verify_login():
-   #    return redirect(f"/profile/{session['CURR_USER']}")
    
    form = LoginForm()
 
@@ -124,11 +107,10 @@ def login():
             flash('Username and password not found', 'warning')
    else:
       flash('Login unsuccessful, please resubmit. If you do not already\
-         have an account please register to join.', 'warning')
+         have an account please register to join.', 'danger')
       return redirect('/')
    
 
-# route for user boards - verify with login_required
 @app.route("/profile/<username>")
 def show_user(username):   
    """Render user information and hompage boards"""
@@ -138,52 +120,21 @@ def show_user(username):
    formatted_images = search('"data_source="American Art&painting"',
                      max_results=12, images_per_row=6, max_rows=2, dev=DEV)
 
-   return render_template('profile.html', formatted_images=formatted_images, user=user)
+   return render_template('user/profile.html', formatted_images=formatted_images, user=user)
      
+
+@app.route("/user/<username>/search", methods=["GET", "POST"])
+def user_search(username):
+   """User search and display results."""
+   keyword = request.form.get('keyword')
    
-
-@app.route("/user/likes/<int:user_id>")
-def show_likes(user_id):
-   """Render user likes."""
+   user = User.query.filter_by(username=username).first()
    
-   # username = User.verify_login()
-   # if not username:
-   #    return redirect('/')
+   formatted_images = search(
+         search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
    
-   # if session.get(CURR_USER_KEY, False):
+   return render_template('user/search.html', formatted_images=formatted_images, user=user)
 
-   # user = User.query.get(session[CURR_USER_KEY])
-
-   # if user:
-   #    image_urls = ['https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
-   #    return render_template('likes.html', image_urls=image_urls, user=user, dev=True, images_per_row=6, max_rows=2, max_results=24)
-
- 
-@app.route("/user/following/<int:user_id>")
-def show_following(user_id):
-   """Render user following."""
-   # if session.get(CURR_USER_KEY, False):
-      
-   #    user = User.query.get(session[CURR_USER_KEY])
-   
-   #    if user:
-   #       image_urls = [
-   #            'https://images.unsplash.com/photo-1595970331019-3b2bc16e9890?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60']
-   #       return render_template('following.html', image_urls=image_urls, user=user, dev=True,  images_per_row=6, max_rows=2, max_results=24)
-
-
-@app.route("/user/search", methods=["GET", "POST"])
-def user_search():
-   # if User.verify_login():
-      keyword = request.form.get('keyword')
-      
-      formatted_images = search(
-            search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
-      
-
-      return render_template('user/search.html', formatted_images=formatted_images, user=user)
-      # else:
-      # return redirect('/')
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
@@ -192,8 +143,6 @@ def logout():
    if CURR_USER_KEY in session:
        del session[CURR_USER_KEY]
        flash('You are now logged-out.', 'success')
-       
-# TODO:   return render_template('user/logout.html')
    return redirect('/')
 
 

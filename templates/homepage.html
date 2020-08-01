@@ -3,12 +3,13 @@
 {% block title %}Welcome{% endblock %}
 
 {% block head %}
-<div class="jumbotron jumbotron-fluid blue-bg mb-0">
-  <div class="container">
-    <h1 class="display-4 text-lt text-right pr-5 text-lt">{% block name %}Mr. Smith{% endblock %}</h1>
-    <p class="lead"></p>
+  <div class="jumbotron jumbotron-fluid blue-bg mb-0">
+    <div class="container">
+      <h1 class="display-3 text-right pr-5 text-white">{% block name %}Mr. Smith{% endblock %}</h1>
+      <hr>
+      <h6 class="text-right pr-5 text-white">Virtually explore the Smithsonian’s nineteen museums, research centers, libraries, archives and the National Zoo.</h6>
+    </div>
   </div>
-</div>
 {% endblock %}
 
 {% block navbar %}
@@ -17,15 +18,11 @@
 
 {% block carousel %}{% endblock %}
 
-<span id="login"></span> 
-  {% block login%}{% endblock %} 
+  <span id="login"></span> 
+{% block login%}{% endblock %} 
 
-  {% block content %}
+{% block content %}
 
-    <div class="container container-style text-center text-blue">
-      <a class="btn pri-btn" href="/register">Register</a>
-    </div>
-
-  {% endblock %}
+{% endblock %}
 
 </div>

@@ -8,37 +8,48 @@
     {% endraw %}
 {% else %}
 
-<div class='container container-style' id="{{req}}" style="width: 50%">
+<div class="container no-gutters" id="form-section">
+    <div class="row no-gutters">
 
-    <form method="POST" action='/{{ req }}' class="text-dark form-horizontal justify-content-start" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-
-        {% for field in form.errors %}
-            <div class="alert alert-danger">{{ field }}:
-                <ul>
-                    {% for error in form.errors[field] %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endfor %}
-
-            {% for field in form if field.widget.input_type != 'hidden' %}
-            <!-- TODO: add style -->
-                <div class="form-group row">
-                    
-                    {{ field.label(class_="col-sm-3 col-form-label")}}
-                    <div class="col-sm-9">
-                        {{ field(class_="form-control ") }}
-                    </div>
-                </div>
-            {% endfor %}
-
-        <div class="mt-3 p-3">
-            <a class="btn btn-outline-secondary text-dark" href="/login">Cancel</a>
-            <button class="btn submit-btn pri-btn" type="submit">{{ req|capitalize }}</button>
+        <div class="container col-md-6 no-gutters" id="form-side">
+            <h6>Access to over 175 years of history, art, science and culture.</h6>
         </div>
-    </form>
+
+
+        <div class="container col-md-6" id="form-style">
+
+            <form method="POST" action='/{{ req }}' class="text-dark form-horizontal justify-content-start" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                {% for field in form.errors %}
+                    <div class="alert alert-danger">{{ field }}:
+                        <ul>
+                            {% for error in form.errors[field] %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+
+                    {% for field in form if field.widget.input_type != 'hidden' %}
+                        <div class="form-group row">
+                            
+                            {{ field.label(class_="col-sm-3 col-form-label")}}
+                            <div class="col-sm-9">
+                                {{ field(class_="form-control ") }}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                <div class="mt-3 pt-3">
+                    <a class="btn sec-btn mr-2 shadow" href="/login">Cancel</a>
+                    <button class="btn submit-btn pri-btn shadow" type="submit">{{ req|capitalize }}</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
 </div>
 
 {% endif %}

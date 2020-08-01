@@ -1,6 +1,6 @@
 '''SQLAlchemy models'''
 
-from flask import session
+from flask import session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt, check_password_hash, generate_password_hash
 
@@ -62,6 +62,7 @@ class User(db.Model):
             email=email,
             password=hashed_password,
         )
+        flash('Welcome! Your account had been created.', 'success')
         # add user to session
         db.session.add(user)
         session['CURR_USER'] = user.username
@@ -77,19 +78,7 @@ class User(db.Model):
             return user
         else:
             return False
-    
-    # def verify_login():
-    #     """Validate if user is logged in."""
-    #     curr_user = session["CURR_USER"]
-    #     if 'CURR_USER' in session:
-    #         return True
-    #     else: 
-    #         return False
-        
-    # def user_login(username):
-    #     """Log in user."""
-    #     session['CURR_USER'] = username
-    #     return True
+
 
 class Board(db.Model):
     '''User board model.'''
