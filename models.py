@@ -80,7 +80,7 @@ class User(db.Model):
     
     def verify_login():
         """Validate if user is logged in."""
-        curr_user = session["CURR_USER"]
+        # curr_user = session["CURR_USER"]
         if 'CURR_USER' in session:
             return True
         else: 
