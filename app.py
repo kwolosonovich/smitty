@@ -98,13 +98,14 @@ def login():
 
    if form.validate_on_submit():
       username = form.username.data
+      password = form.password.data
       user = User.query.filter_by(username=username).first()
-      if user:
-         if check_password_hash(user.password, form.password.data):
-            User.user_login(user.username)
-            return redirect(f'/profile/{user.username}')
-         else: 
-            flash('Username and password not found', 'warning')
+      user = User.authenticate(username=username, password=password)
+      if user:         
+         User.user_login(user.username)
+         return redirect(f'/profile/{user.username}')
+      else: 
+         flash('Username and password not found', 'warning')
    else:
       flash('Login unsuccessful, please resubmit. If you do not already\
          have an account please register to join.', 'danger')
