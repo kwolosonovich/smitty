@@ -78,6 +78,19 @@ class User(db.Model):
             return user
         else:
             return False
+        
+    def user_login(username):
+        """Log in user."""
+        session['CURR_USER'] = username
+        return True
+    
+    def verify_login():
+        """Validate if user is logged in."""
+        # curr_user = session["CURR_USER"]
+        if 'CURR_USER' in session:
+            return True
+        else:
+            return False
 
 
 class Board(db.Model):

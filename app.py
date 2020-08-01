@@ -115,26 +115,31 @@ def login():
 @app.route("/profile/<username>")
 def show_user(username):   
    """Render user information and hompage boards"""
+   
+   if User.verify_login():
 
-   user = User.query.filter_by(username=username).first()
+      user = User.query.filter_by(username=username).first()
 
-   formatted_images = search('"data_source="American Art&painting"',
-                     max_results=12, images_per_row=6, max_rows=2, dev=DEV)
+      formatted_images = search('"data_source="American Art&painting"',
+                        max_results=12, images_per_row=6, max_rows=2, dev=DEV)
 
-   return render_template('user/profile.html', formatted_images=formatted_images, user=user)
+      return render_template('user/profile.html', formatted_images=formatted_images, user=user)
      
 
 @app.route("/user/<username>/search", methods=["GET", "POST"])
 def user_search(username):
    """User search and display results."""
-   keyword = request.form.get('keyword')
    
-   user = User.query.filter_by(username=username).first()
-   
-   formatted_images = search(
-         search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
-   
-   return render_template('user/search.html', formatted_images=formatted_images, user=user)
+   if User.verify_login():
+      
+      keyword = request.form.get('keyword')
+      
+      user = User.query.filter_by(username=username).first()
+      
+      formatted_images = search(
+            search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
+      
+      return render_template('user/search.html', formatted_images=formatted_images, user=user)
 
 
 @app.route("/logout", methods=['GET', 'POST'])
