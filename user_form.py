@@ -22,8 +22,6 @@ class LoginForm(FlaskForm):
         required, min_4, max_80
         ])
 
-    remember = BooleanField('Remember me')
-
 
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[

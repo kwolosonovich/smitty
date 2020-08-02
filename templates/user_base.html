@@ -2,28 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-    <!-- Bootstrap core CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Raleway:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@700&family=Cinzel+Decorative:wght@900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-
-    <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/"> -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"> -->
-    <script src= "/static/script.js"></script> 
+    <script src="/static/script.js"></script> 
     <link rel="stylesheet" href="/static/styles.css">
-
 
 
     <title>
@@ -41,7 +31,7 @@
     </button>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="/user/logout">Logout</a>
+            <a class="nav-link" href="/logout">Logout</a>
         </li>
     </ul>
 </nav>
@@ -51,99 +41,40 @@
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky pt-5 mt-5 align-items-start">
-                <ul class="nav flex-column">
-                    <li>
-                        <div class="profile-images">
-                            <img src="{{user.backdrop_image}}" id="backdrop" alt="profile background"
-                                style="max-width: 100%; height:auto">
-                            <img src="{{user.profile_image}}" id="profile-picture" alt="profile image">
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <h5>{{user.username}}</h5>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" href="#boards">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="feather feather-users">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                            My Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" href="#following">
+                <ul class="nav flex-column pl-2 pr-2">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="feather feather-users">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                            Following
-                        </a>
+                    <li class="nav-item pl-2">
+                        <h4><i class="far fa-user pr-4"></i>{{user.username}}</h5>         
                     </li>
-                    <li class="nav-item">
-                            <a class="nav-link" href="#likes">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="feather feather-users">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                            Likes
-                        </a>
+                    <li class="nav-item pl-2 pt-2">
+                            <h4><i class="fas fa-thumbs-up inline"></i><a class="nav-link inline" href="#likes">Likes</a></h4>
                     </li>
+
+                    <br>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="feather feather-bar-chart-2">
-                                <line x1="18" y1="20" x2="18" y2="10"></line>
-                                <line x1="12" y1="20" x2="12" y2="4"></line>
-                                <line x1="6" y1="20" x2="6" y2="14"></line>
-                            </svg>
-                            Logout
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="/user/search" method="POST">
-                            <label for="search">Search the Smithsonian</label>
-                            <input class="form-control form-control-dark w-100" id="search" name= "keyword" type="text" placeholder="Keyword" aria-label="Search">
-                            <button class="btn submit-btn pri-btn" type="submit">Search</button>
+                        <form action="/user/{{user.username}}/search" method="POST">
+                            <label for="search" class="pl-1 mt-2">Search the Smithsonian</label>
+                            <input class="form-control form-control-dark w-100 mb-3" id="search" name= "keyword" type="text" placeholder="Keyword" aria-label="Search">
+                            <button class="btn submit-btn pri-btn m-0" id="search-req" type="submit">Search</button>
                         </form>
-                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="feather feather-bar-chart-2">
-                                <line x1="18" y1="20" x2="18" y2="10"></line>
-                                <line x1="12" y1="20" x2="12" y2="4"></line>
-                                <line x1="6" y1="20" x2="6" y2="14"></line>
-                            </svg> -->
                     </li>
                 </ul>
-                <!-- TODO: add share/social media options -->
             </div>
         </nav>
 
         {% block content %}{% endblock %}
 
-    <!-- closing tags are in templates
+    <!-- closing tags for search.htnl
     </div>
     </div>   -->
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <script src= "/static/script.js"></script>
 
 </body>
 

@@ -25,32 +25,6 @@ class ApiImage:
         self.collection = collection
         self.raw_response = raw_response
        
-# TODO: get randome images
-    # @staticmethod
-    # def homepage_carousel(images=None):
-        
-
-       
-    # @staticmethod   
-    # def format_arrays(images=None):
-    #     '''Group arrays into nested arrays with length of 6.'''
-    #     image_array = []
-    #     image_arrays = []
-        
-    #     for image in images:
-    #         if len(image_array) < 7:
-    #             images_array.append(image)
-    #         if len(image_array) > 7:
-    #             image_arrays.append(image_array)
-    #             image_array = []
-                
-    #     return image_arrays 
-
-
-# [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-# >> > i = format_images(n, 6, 2)
-# >> > i
-# [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12]]
 
     def format_images(images=None, images_per_row=None, max_rows=None):
         formatted_images = []
@@ -68,12 +42,7 @@ def filter_search_results(search_results=None, dev=False):
     images_array = []
     for resp in search_results:
         content_found = True if resp.json()["response"].get("message", False) == "content found" else False
-        if content_found:
-            # row = resp.json()["response"].get("rows", "N/A")
-            # print(f"row: {row}")
-            
-            # if row != "N/A" and len(row) > 0:
-                # print("**********************************")            
+        if content_found:          
             row = resp.json()["response"]["rows"][0]
             descriptive = row["content"].get("descriptiveNonRepeating", "N/A")
             freetext = row["content"].get("freetext", "N/A")
@@ -179,7 +148,6 @@ def create_test_response(max_results=None):
         responses.append(mock_image)
         
     return responses
-
 
 
 def format_images(images=None, images_per_row=None, max_rows=None):    

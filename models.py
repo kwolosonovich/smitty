@@ -1,6 +1,6 @@
 '''SQLAlchemy models'''
 
-from flask import session
+from flask import session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt, check_password_hash, generate_password_hash
 
@@ -35,21 +35,6 @@ class User(db.Model):
         db.String,
         nullable=False,
     )
-    
-    # boards = db.relationship("Board",
-    #                          backref="user", 
-    #                          cascade="all, delete")
-    
-    boards = db.relationship("Board",
-                             backref=db.backref('user'),
-                             cascade='all, delete-orphan' 
-                             )
-    
-    # like_image = db.relationship("Like",
-    #                         backref=db.backref('user')
-
-
-
 
     @classmethod
     def create(cls, username, email, password):
@@ -62,7 +47,6 @@ class User(db.Model):
             email=email,
             password=hashed_password,
         )
-        # add user to session
         db.session.add(user)
         session['CURR_USER'] = user.username
         return user
@@ -77,43 +61,41 @@ class User(db.Model):
             return user
         else:
             return False
-    
-    def verify_login():
-        """Validate if user is logged in."""
-        # curr_user = session["CURR_USER"]
-        if 'CURR_USER' in session:
-            return True
-        else: 
-            return False
         
     def user_login(username):
         """Log in user."""
         session['CURR_USER'] = username
         return True
+    
+    def verify_login():
+        """Validate if user is logged in."""
+        if 'CURR_USER' in session:
+            return True
+        else:
+            return False
 
-class Board(db.Model):
-    '''User board model.'''
 
-    __tablename__= 'boards'
+# class Board(db.Model):
+#     '''User board model.'''
+
+#     __tablename__= 'boards'
     
-    id = db.Column(
-        db.Integer,
-        primary_key=True,
-        # cascade='all, delete-orphan'
-    )
+#     id = db.Column(
+#         db.Integer,
+#         primary_key=True,
+#         # cascade='all, delete-orphan'
+#     )
     
-    user_id = db.Column(
-        db.Integer,
-        # db.ForeignKey('users.id', cascade="all, delete-orphan")
-        db.ForeignKey('users.id')
-    )
+#     user_id = db.Column(
+#         db.Integer,
+#         # db.ForeignKey('users.id', cascade="all, delete-orphan")
+#         db.ForeignKey('users.id')
+#     )
     
-    name = db.Column(
-        db.String
-    )
-    # TODO: revisit to find out why it causes a mapper error
-    # board_images = db.relationship('board_images',
-    #                                backref=db.backref('board'))
+#     name = db.Column(
+#         db.String
+#     )
+
     
     
 class Image(db.Model):
@@ -126,7 +108,7 @@ class Image(db.Model):
         primary_key=True
     )
     
-    image_path = db.Column(
+    url = db.Column(
         db.String
     )
     
@@ -139,10 +121,6 @@ class Image(db.Model):
     )
     
     date = db.Column(
-        db.String
-    )
-    
-    medium = db.Column(
         db.String
     )
     
@@ -163,7 +141,6 @@ class Like(db.Model):
 
     user_id = db.Column(
         db.Integer,
-        # db.ForeignKey('users.id', cascade="all, delete-orphan"),
         db.ForeignKey('users.id', 
                     #   ondelete='CASCADE'
                       )
@@ -176,44 +153,44 @@ class Like(db.Model):
                       )
     )
     
-
-class Follow(db.Model):
-    '''User following boards model.'''
-
-    __tablename__ = 'follows'
-
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
-
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id',
-                      #   ondelete='CASCADE'
-                      )
-    )
-
-    board_id = db.Column(
-        db.Integer,
-        db.ForeignKey('images.id'
-                      #   ondelete='CASCADE'
-                      )
-    )
     
-'''Boards and images table'''
-board_images = db.Table('board_images', 
-                        db.Column('boards.id', 
-                                  db.Integer, 
-                                  db.ForeignKey('boards.id'), 
-                                  primary_key=True),
-                        db.Column('images.id',
-                                db.Integer,
-                                db.ForeignKey('images.id'),
-                                primary_key=True)
-                        )
- 
 
+# class Follow(db.Model):
+#     '''User following boards model.'''
+
+#     __tablename__ = 'follows'
+
+#     id = db.Column(
+#         db.Integer,
+#         primary_key=True
+#     )
+
+#     user_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('users.id',
+#                       #   ondelete='CASCADE'
+#                       )
+#     )
+
+#     board_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('images.id'
+#                       #   ondelete='CASCADE'
+#                       )
+    # )
+    
+# '''Boards and images table'''
+# board_images = db.Table('board_images', 
+#                         db.Column('boards.id', 
+#                                   db.Integer, 
+#                                   db.ForeignKey('boards.id'), 
+#                                   primary_key=True),
+#                         db.Column('images.id',
+#                                 db.Integer,
+#                                 db.ForeignKey('images.id'),
+#                                 primary_key=True)
+#                         )
+ 
 
 def connect_db(app):
     '''Connect database to Flask app.'''

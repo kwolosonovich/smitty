@@ -2,40 +2,38 @@
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="{{user.username}}">
 
     <h1>Search Results</h1>
 
-    <!-- Grid row -->
     <div class="gallery" id="gallery">
 
         {% for list in formatted_images %}
             {% for card in list %} 
-            <!-- Grid column -->
-            <div class="mb-3 pics animation {{list.index}} card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{card.url}} class="card-img-top" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Title: {{ card.title.content }}</h5>
-                    <p class="card-text">Artist: {{ card.artist }}</p>
-                    <a href="#" class="btn btn-primary">Fav</a>
-                    <a href="#" class="btn btn-primary">Add</a>
+            <div class="mb-3 pics animation {{ list.index }} card-body" style="max-width: 300px; height:auto;">
+                <img class="img-fluid" src={{ card.url }} class="card-img-top" id="img" alt="Card image cap" data-toggle="popover" data-placement="bottom" data-content="Date: {{card.date}} - Collection: {{card.collection}}">
+                <div class="card-body pt-1">
+                    <p class="text-right mt-0 mb-0">
+                        <i class="far fa-thumbs-up like"></i>
+                    </p>
+                    <h5 class="card-title mt-0 pb-0" value= {{ card.title }}>Title: {{ card.title }}</h5>
+                    <p class="card-text mt-0 value= {{ card.artist }}">Artist: {{ card.artist }}</p>
+                    <input type="hidden" value="{{ card.date }}">
+                    <input type="hidden" value="{{ card.collection }}">
+                    <input type="hidden" value="{{ card.url }}">
+                    <input type="hidden" value="{{ user.id }}">
                 </div>
             </div>
-            <!-- Grid column -->
             {% endfor %}
         {% endfor %}
-
-        <div class="row">
-            <!-- Grid column -->
-            <div class="col-md-12 d-flex justify-content-center mb-5">
-            {% for nav in formatted_images%}
-                <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="{{i}}">{{i}}</button>
-            {% endfor %}
-            </div>
-            <!-- Grid column -->
-        </div>
-
     </div>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center mb-5">
+            <button type="button" class="btn btn-outline-black waves-effect filter align-center" data-rel="1"><i class="fas fa-angle-double-left"></i></button>
+            <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2"><i class="fas fa-angle-double-right"></i></button>
+        </div>
+    </div>
+
 </main>
 
 {% endblock %}

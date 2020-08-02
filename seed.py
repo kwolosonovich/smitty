@@ -1,6 +1,6 @@
 from werkzeug.security import generate_password_hash
 from models import db, User
-from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 
 
 bcrypt = Bcrypt()
@@ -22,10 +22,3 @@ def seed_database():
     
     db.session.add(test_user)
     db.session.commit()
-    
-    
-# code to delete db: 
-# SELECT pg_terminate_backend(pg_stat_activity.pid)
-# FROM pg_stat_activity
-# WHERE pg_stat_activity.datname = 'smithsonian'
-# AND pid <> pg_backend_pid()
