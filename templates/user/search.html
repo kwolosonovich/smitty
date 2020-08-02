@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="{{user.username}}">
 
     <h1>Search Results</h1>
 
@@ -10,15 +10,18 @@
 
         {% for list in formatted_images %}
             {% for card in list %} 
-            <div class="mb-3 pics animation {{list.index}} card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{card.url}} class="card-img-top" alt="Card image cap">
+            <div class="mb-3 pics animation {{ list.index }} card-body" style="max-width: 300px; height:auto;">
+                <img class="img-fluid" src={{ card.url }} class="card-img-top" id="img" alt="Card image cap" data-toggle="popover" data-placement="bottom" data-content="Date: {{card.date}} - Collection: {{card.collection}}">
                 <div class="card-body pt-1">
                     <p class="text-right mt-0 mb-0">
                         <i class="far fa-thumbs-up like"></i>
-                        <i class="fas fa-plus"></i>
                     </p>
-                    <h5 class="card-title mt-0 pb-0">Title: {{ card.title }}</h5>
-                    <p class="card-text mt-0">Artist: {{ card.artist }}</p>
+                    <h5 class="card-title mt-0 pb-0" value= {{ card.title }}>Title: {{ card.title }}</h5>
+                    <p class="card-text mt-0 value= {{ card.artist }}">Artist: {{ card.artist }}</p>
+                    <input type="hidden" value="{{ card.date }}">
+                    <input type="hidden" value="{{ card.collection }}">
+                    <input type="hidden" value="{{ card.url }}">
+                    <input type="hidden" value="{{ user.id }}">
                 </div>
             </div>
             {% endfor %}

@@ -2,13 +2,12 @@ import requests
 import random
 
 
-from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup
+from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap 
 from flask_wtf import FlaskForm
 import simplejson as json
 from flask.sessions import SecureCookieSessionInterface
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def user_loaded_from_header(self, user=None):
@@ -17,7 +16,7 @@ def user_loaded_from_header(self, user=None):
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
-from models import User, connect_db, db, User, Board, Image, Like, Follow, Like
+from models import User, connect_db, db, Image, Like
 from seed import seed_database
 from smithsonian_api import search, format_images
 
@@ -37,8 +36,8 @@ connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 # test images for api response
-DEV = True
-DEBUG = False
+DEV = False
+DEBUG = True
 
 if DEBUG:
    seed_database()
@@ -119,6 +118,7 @@ def show_user(username):
    if User.verify_login():
 
       user = User.query.filter_by(username=username).first()
+      print(user)
 
       formatted_images = search('"data_source="American Art&painting"',
                         max_results=12, images_per_row=6, max_rows=2, dev=DEV)
@@ -152,5 +152,39 @@ def logout():
    return redirect('/')
 
 
+@app.route('/api/<user_id>/like', methods=["POST"])
+def add_like(user_id):
+    '''Add liked image to database.'''
+
+    data = request.json
+   
+    image = Image(
+        url=data['url'],
+        title=data['title'],
+        artist=data['artist'],
+        date=data['date'],
+        collection=data['collection']
+    )
+
+    db.session.add(image)
+    db.session.commit()
+
+   #  liked_image = Image.query.filter(Image.like(f"%{image.url}")).all()
+    liked_image = Image.query.filter_by(url=image.url).all()
+
+    
+    like = Like(
+        user_id=user_id,       
+        image_id=liked_image.id
+    )
+    
+    db.session.add(image)
+    db.session.commit()
+
+    # return HTTP status of created
+    return (jsonify(like=like.to_dict()), 201)
+
 if __name__ == "__main__":
      app.run(debug=True)
+
+

@@ -1,12 +1,26 @@
+"use strict";
+
 document.addEventListener("DOMContentLoaded", function () {
-  // get elements
+  // variables
+  const BASE_URL = "http://127.0.0.1:5000/api";
   let likes = document.getElementsByClassName("far fa-thumbs-up like");
-  // var like = document.querySelectorAll(".like");
-  console.log(likes)
-  // like.addEventListener("click", addLike);
+
+  // image class
+  class Image {
+    constructor(url, title, artist, date, collection) {
+      this.url = url;
+      this.title = title;
+      this.artist = artist;
+      this.date = date;
+      this.collection = collection;
+    }
+  }
+  // popovers Initialization
+  $(function () {
+    $('[data-toggle="popover"]').popover();
+  });
 
   // carousel
-
   $(".carousel.carousel-multi-item.v-2 .carousel-item").each(function () {
     var next = $(this).next();
     if (!next.length) {
@@ -23,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // dismissal of an alert message
+  // dismissal of alert message
   $(".alert").alert();
 
   // render search results
@@ -44,52 +58,36 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 300);
   });
 
-  // for(i=0; i < like.length; i++) {
-  //   like[i].addEventListener("click", function (e) {
-  //     e.preventDefault();
-  //     console.log(e);
-  //     // change to solid
-  //     console.log(like[i])
-  //     like[i].toggle("fas fa-thumbs-up liked");
 
-  //   });
+  // toggle image like icon
+  function toggleLike(e) {
+    e.preventDefault;
 
-  // }
-
-  // like.forEach(function (element) {
-  //   element.addEventListener("click", function(e){
-  //     e.preventDefault();
-  //     console.log(e);
-  //     // change to solid
-  //     // console.log(like[i])
-  //     element.toggle("fas fa-thumbs-up liked");
-  //   })
-  // })
-  function toggleLike() {
-    var icon = this.className
-    // console.log(icon)
-    if (icon === "far fa-thumbs-up like"){
+    var icon = this.className;
+    if (icon === "far fa-thumbs-up like") {
       // console.log("if")
-      this.classList.remove("far")      
-      this.classList.remove("fa-thumbs-up")
-      this.classList.remove("like")
+      this.classList.remove("far");
+      this.classList.remove("fa-thumbs-up");
+      this.classList.remove("like");
       this.classList.add("fas");
-      this.classList.add("fa-thumbs-up")
-      this.classList.add("like")
+      this.classList.add("fa-thumbs-up");
+      this.classList.add("like");
 
+      let parentTag = this.parentElement;
+      let elements = parentTag.parentElement;
+      addFavorite(elements);
     } else {
       // console.log("else")
-      this.classList.remove("fas")
-      this.classList.remove("fa-thumbs-up")
-      this.classList.remove("like")
-      this.classList.add("far")
-      this.classList.add("fa-thumbs-up")
-      this.classList.add("like")
-
+      this.classList.remove("fas");
+      this.classList.remove("fa-thumbs-up");
+      this.classList.remove("like");
+      this.classList.add("far");
+      this.classList.add("fa-thumbs-up");
+      this.classList.add("like");
     }
   }
-  for (var i=0; i < likes.length; i++) {
-    likes[i].addEventListener('click', toggleLike, false)
+  // add event listener to like icon
+  for (var i = 0; i < likes.length; i++) {
+    likes[i].addEventListener("click", toggleLike, false);
   }
-
 });
