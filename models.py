@@ -154,7 +154,7 @@ class Like(db.Model):
 
     image_id = db.Column(
         db.Integer,
-        db.ForeignKey('images.id' 
+        db.ForeignKey('images.id', 
                     #   ondelete='CASCADE'
                       )
     )

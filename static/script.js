@@ -70,11 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let collection = elmts.children[4].getAttribute("value");
     let userId = elmts.children[6].getAttribute("value")
 
-    // console.log(title, artist, collection, userId)
-
     let newImage = new Image(url, title, artist, date, collection)
-    // console.log(newImage)
-    // console.log(elem.children);
+
     addFavorite(newImage, userId)
   }
 
@@ -88,16 +85,38 @@ document.addEventListener("DOMContentLoaded", function () {
     if (response === 201) {
       console.log('added')
     }
-    
+
   }
 
+  function removeFav(elmts) {
+    let userId = elmts.children[6].getAttribute("value");
+    let url = elmts.children[5].getAttribute("value");
+  
+    let imageToUnlike = {
+      'url': url
+    }
+    console.log(imageToUnlike);
+      unlike(imageToUnlike, userId);
+  }
+
+  async function unlike(imageToUnlike, userId) {
+    const response = await axios.post(
+      `${BASE_URL}/${userId}/unlike`,
+      imageToUnlike
+    );
+
+    console.log("removeFav");
+
+    if (response === 201) {
+      console.log("removed");
+    }
+  }
 
   // toggle image like icon
   function toggleLike(e) {
     e.preventDefault();
     var icon = this.className;
     if (icon === "far fa-thumbs-up like") {
-      console.log("if")
       this.classList.remove("far");
       this.classList.remove("fa-thumbs-up");
       this.classList.remove("like");
@@ -109,13 +128,16 @@ document.addEventListener("DOMContentLoaded", function () {
       let elmts = parentTag.parentElement;
       favImage(elmts);
     } else {
-      console.log("else")
       this.classList.remove("fas");
       this.classList.remove("fa-thumbs-up");
       this.classList.remove("like");
       this.classList.add("far");
       this.classList.add("fa-thumbs-up");
       this.classList.add("like");
+
+      let parentTag = this.parentElement;
+      let elmts = parentTag.parentElement;
+      removeFav(elmts)
     }
   }
   // add event listener to like icon

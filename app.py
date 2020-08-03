@@ -184,7 +184,36 @@ def add_like(user_id):
     db.session.commit()
     
     # return HTTP status of created
+    flash('Added', 'success')
     return ('201')
+ 
+
+@app.route('/api/<user_id>/unlike', methods=["POST"])
+def unlike(user_id):
+    '''Removed liked image from database.'''
+    
+    data = request.json
+    
+    url = data['url']
+
+    
+    unlike_images = Image.query.filter_by(url=url).all()
+    for image in unlike_images:
+       row = Like.query.filter_by(user_id=user_id,
+                                  image_id=image.id).first()
+       
+       
+       db.session.delete(row)
+   #  db.session.commit()
+   
+   #  user = User.query.get_or_404(user_id)
+
+   #  user.likes.remove(unlike_image)
+    
+    db.session.commit()
+    flash('Removed', 'success')
+    return ('201')
+    
  
 if __name__ == "__main__":
      app.run(debug=True)

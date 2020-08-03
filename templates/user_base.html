@@ -47,6 +47,9 @@
                     </li>
                     <li class="nav-item pl-2 pt-2">
                             <h4><i class="fas fa-thumbs-up inline"></i><a class="nav-link inline" href="#likes">Likes</a></h4>
+                            {% for category, message in get_flashed_messages(with_categories=True) %}
+                                <div class="alert alert-{{ category }}" style="width: 75%">{{ message }}</div>
+                            {% endfor %}
                     </li>
 
                     <br>
@@ -57,6 +60,7 @@
                             <button class="btn submit-btn pri-btn m-0" id="search-req" type="submit">Search</button>
                         </form>
                     </li>
+                    
                 </ul>
             </div>
         </nav>
