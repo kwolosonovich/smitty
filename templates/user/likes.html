@@ -1,10 +1,12 @@
-{% extends 'user_base.html' %}
+{% block title %}My Favorites{% endblock %}
+
+{% block name %}My Favorites{% endblock %}
 
 {% block content %}
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="{{user.username}}">
 
-    <h1>Search Results</h1>
+    <h1>Favorites</h1>
 
     <div class="gallery" id="gallery">
 
@@ -16,8 +18,8 @@
                     <p class="text-right mt-0 mb-0">
                         <i class="far fa-thumbs-up like"></i>
                     </p>
-                    <h5 class="card-title mt-0 pb-0" value="{{ card.title }}">Title: {{ card.title }}</h5>
-                    <p class="card-text mt-0" value="{{ card.artist }}">Artist: {{ card.artist }}</p>
+                    <h5 class="card-title mt-0 pb-0" value= {{ card.title }}>Title: {{ card.title }}</h5>
+                    <p class="card-text mt-0 value= {{ card.artist }}">Artist: {{ card.artist }}</p>
                     <input type="hidden" value="{{ card.date }}">
                     <input type="hidden" value="{{ card.collection }}">
                     <input type="hidden" value="{{ card.url }}">
