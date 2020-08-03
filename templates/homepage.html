@@ -3,11 +3,15 @@
 {% block title %}Welcome{% endblock %}
 
 {% block head %}
-  <div class="jumbotron jumbotron-fluid blue-bg mb-0">
-    <div class="container">
-      <h1 class="display-3 text-right pr-5 text-white">{% block name %}Mr. Smith{% endblock %}</h1>
+  <div class="jumbotron jumbotron-fluid blue-bg pb-5 pt-4">
+    <div class="container w-100 mr-5">
+      <img src="/static/images/2.png" alt="" class="float-right mr-4" style="width: 100px;">
+      <h1 class="display-3 text-right pr-5 text-white">{% block name %}mrSMITH{% endblock %}</h1>
+      <!-- <div class="align-content-right">
+      <img src="/static/1.png" alt="" class="">
+      </div> -->
       <hr>
-      <h6 class="text-right pr-5 text-white">Virtually explore the Smithsonian’s nineteen museums, research centers, libraries, archives and the National Zoo.</h6>
+      <h4 class="text-right pr-5 text-white">Access to over 175 years of history, art, science and culture.</h4>
     </div>
   </div>
 {% endblock %}

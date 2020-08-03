@@ -36,7 +36,7 @@ connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 # test images for api response
-DEV = False
+DEV = True
 DEBUG = True
 
 if DEBUG:
