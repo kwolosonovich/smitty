@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // variables
   const BASE_URL = "http://127.0.0.1:5000/api";
   let likes = document.getElementsByClassName("far fa-thumbs-up like");
+
   
   // popovers Initialization
   $(function () {
@@ -49,6 +50,37 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
+  // ********likes***********
+
+
+  let userLikes = document.getElementById("likes").addEventListener("click", getUserId);
+  
+  function getUserId(e) {
+    e.preventDefault();
+
+    let parentTag = this.parentElement;
+    let userId = parentTag.getAttribute('value')
+
+    console.log(parentTag)
+    console.log(userId)
+    
+    getLikes(userId)
+  }
+
+  async function getLikes(userId) {
+    console.log('at likes')
+    const response = await axios.get(`${BASE_URL}/${userId}/likes`);
+
+    if (response === 201) {
+      console.log("success");
+    }
+  }
+
+
+
+
+  // ********search**********
+
   // image class
   class Image {
     constructor(url, title, artist, date, collection) {
@@ -60,9 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function favImage(elmts) {
-    console.log(elmts.children)
-    
+  function favImage(elmts) {    
     let url = elmts.children[5].getAttribute("value");
     let title = elmts.children[1].getAttribute("value");
     let artist = elmts.children[2].getAttribute('value');
@@ -79,9 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function addFavorite(newImage, userId) {
 
     const response = await axios.post(`${BASE_URL}/${userId}/like`, newImage)
-    
-    console.log('addFavorite')
-    
+        
     if (response === 201) {
       console.log('added')
     }
@@ -95,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let imageToUnlike = {
       'url': url
     }
-    console.log(imageToUnlike);
       unlike(imageToUnlike, userId);
   }
 
@@ -104,8 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
       `${BASE_URL}/${userId}/unlike`,
       imageToUnlike
     );
-
-    console.log("removeFav");
 
     if (response === 201) {
       console.log("removed");

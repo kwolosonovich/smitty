@@ -37,7 +37,7 @@ connect_db(app)
 CURR_USER_KEY = "curr_user"
 # test images for api response
 DEV = True
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
    seed_database()
@@ -213,6 +213,26 @@ def unlike(user_id):
     db.session.commit()
     flash('Removed', 'success')
     return ('201')
+ 
+@app.route('/api/<user_id>/likes') 
+def get_likes(user_id):
+   '''Get user likes.'''
+    
+   user = User.query.get_or_404(user_id)
+   #  = "6 - accurate id"
+   
+   # likes = Like.query.filter_by(user_id=user_id).all()
+   # error - 'list' object has no attribute 'id'
+   
+   likes = Like.query.filter(Like.user_id == user.id for user in Like).all()
+   
+   images = Image.query.filter_by(likes.id).all
+   
+   print(images)
+   
+   
+   
+   return render_template('user/likes.html', user=user)
     
  
 if __name__ == "__main__":
