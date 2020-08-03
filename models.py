@@ -35,6 +35,12 @@ class User(db.Model):
         db.String,
         nullable=False,
     )
+    
+    likes = db.relationship(
+        'Image',
+        secondary="likes"
+    )
+    
 
     @classmethod
     def create(cls, username, email, password):
@@ -142,7 +148,7 @@ class Like(db.Model):
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', 
-                    #   ondelete='CASCADE'
+                      ondelete='CASCADE'
                       )
     )
 

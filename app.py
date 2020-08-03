@@ -169,21 +169,23 @@ def add_like(user_id):
     db.session.add(image)
     db.session.commit()
 
+
    #  liked_image = Image.query.filter(Image.like(f"%{image.url}")).all()
     liked_image = Image.query.filter_by(url=image.url).all()
-
     
+    user = User.query.get_or_404(user_id)
+      
     like = Like(
-        user_id=user_id,       
-        image_id=liked_image.id
+        user_id=user.id,
+        image_id=liked_image[0].id
     )
     
-    db.session.add(image)
+    db.session.add(like)
     db.session.commit()
-
+    
     # return HTTP status of created
-    return (jsonify(like=like.to_dict()), 201)
-
+    return ('201')
+ 
 if __name__ == "__main__":
      app.run(debug=True)
 
