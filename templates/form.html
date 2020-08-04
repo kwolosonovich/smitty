@@ -8,21 +8,22 @@
     {% endraw %}
 {% else %}
 
-<div class="container no-gutters" id="form-section">
-    <div class="row no-gutters">
+<div class="jumbotron jumbotron-fluid ml-5 mr-5" id="form-section">
+    <div class="row">
 
-        <div class="container col-md-6 no-gutters" id="form-side">
-            <h6>Virtually explore the Smithsonianâ€™s nineteen museums, research centers, libraries, archives and the National Zoo.</h6>
+        <div class="container col-md-4" id="form-side">
+            
+            <h3 styled-text text-blue>Begin your discovery by creating an account <br> <a class="text-white" href="/register"><i class="h1 fas fa-sign-in-alt"></i></a>
         </div>
 
 
-        <div class="container col-md-6" id="form-style">
+        <div class="container col-md-8 " id="form-style">
 
-            <form method="POST" action='/{{ req }}' class="text-dark form-horizontal justify-content-start" enctype="multipart/form-data">
+            <form method="POST" action='/{{ req }}' class="text-dark m-5" style="width: 100" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
                 {% for field in form.errors %}
-                    <div class="alert alert-danger">{{ field }}:
+                    <div class="alert alert-danger center-style">{{ field }}:
                         <ul>
                             {% for error in form.errors[field] %}
                             <li>{{ error }}</li>
@@ -32,10 +33,10 @@
                     {% endfor %}
 
                     {% for field in form if field.widget.input_type != 'hidden' %}
-                        <div class="form-group row">
+                        <div class="form-group row center-style">
                             
                             {{ field.label(class_="col-sm-3 col-form-label")}}
-                            <div class="col-sm-9">
+                            <div class="col-sm-9 center-style">
                                 {{ field(class_="form-control ") }}
                             </div>
                         </div>

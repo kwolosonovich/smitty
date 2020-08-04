@@ -7,13 +7,45 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="{{user.username}}">
 
-        <h1>Search the Smithsonian's OpenAccess Content</h1>
+        <!-- <div class="container w-60">
+            <h1>Search the Smithsonian's OpenAccess Content</h1>
 
-            <form action="/user/{{user.username}}/search" method="POST">
-                <label for="search" class="pl-1 mt-2">Search the Smithsonian</label>
-                <input class="form-control form-control-dark w-100 mb-3" id="search" name= "keyword" type="text" placeholder="Keyword" aria-label="Search">
-                <button class="btn submit-btn pri-btn m-0" id="search-req" type="submit">Search</button>
-            </form>
+                <form action="/user/{{user.username}}/search" method="POST">
+                    <label for="search" class="pl-1 mt-2">Search the Smithsonian</label>
+                    <input class="form-control form-control-dark w-100 mb-3" id="search" name= "keyword" type="text" placeholder="Keyword" aria-label="Search">
+                    <button class="btn submit-btn pri-btn m-0" id="search-req" type="submit">Search</button>
+                </form>
+        <div> -->
+
+        <div class="container w-50 container-style text-center">
+              <div class="row row-cols-2" style="height: 300px">
+                <div class="col">
+                    <i class="fas fa-university icon-category" style="font-size: 50px;"></i>
+                    <h2>History</h2>
+                </div>
+                <div class="col">
+                    <i class="fas fa-palette icon-category" style="font-size: 50px;"></i>
+                    <h2>Art</h2>
+                </div>
+                <div class="col">
+                    <i class="fas fa-flask icon-category" style="font-size: 50px;"></i>
+                    <h2>Science</h2>
+                </div>
+                <div class="col">
+                    <i class="fas fa-user-friends icon-category" style="font-size: 50px;"></i>
+                    <h2>Culture</h2>
+                </div>
+                <div class="col">
+                    <i class="fas fa-leaf icon-category" style="font-size: 50px;"></i>
+                    <h2>Nature</h2>
+                </div>
+                <div class="col">
+                     <i class="fas fa-rocket icon-category" style="font-size: 50px;"></i>
+                    <h2>Space</h2>
+                </div>
+            </div>
+     
+        </div>
     </main>
     
 <!-- these divs close user_base -->

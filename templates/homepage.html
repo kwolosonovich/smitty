@@ -3,15 +3,10 @@
 {% block title %}Welcome{% endblock %}
 
 {% block head %}
-  <div class="jumbotron jumbotron-fluid blue-bg pb-5 pt-4">
-    <div class="container w-100 mr-5">
-      <img src="/static/images/2.png" alt="" class="float-right mr-4" style="width: 100px;">
-      <h1 class="display-3 text-right pr-5 text-white">{% block name %}mrSMITH{% endblock %}</h1>
-      <!-- <div class="align-content-right">
-      <img src="/static/1.png" alt="" class="">
-      </div> -->
-      <hr>
-      <h4 class="text-right pr-5 text-white">Access to over 175 years of history, art, science and culture.</h4>
+  <div class="jumbotron jumbotron-fluid blue-bg pt-4 ml-5 mr-5 mb-0" style="min-height: 280px;">
+    <div class="container mr-5">
+        <img src="/static/images/1.png" alt="" class="logo float-right mr-4">
+        <h1 class="display-1 title text-right">{% block name %}Smitty{% endblock %}</h1>
     </div>
   </div>
 {% endblock %}
@@ -20,13 +15,22 @@
 
 {% endblock %}
 
-{% block carousel %}{% endblock %}
+{% block content %}
+
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ category }} mx-auto alert-dismissible fade show" style="width: 50%">{{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+    {% endfor %}
+
+{% endblock %}
 
   <span id="login"></span> 
 {% block login%}{% endblock %} 
 
-{% block content %}
+{% block carousel %}{% endblock %}
 
-{% endblock %}
 
-</div>
+

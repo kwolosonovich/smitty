@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-<link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Snippet&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Monoton&family=Oleo+Script&family=Quicksand&family=Rouge+Script&family=Snippet&family=Yellowtail&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/styles.css">
@@ -39,16 +39,13 @@
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky pt-5 mt-5 align-items-start">
-                <ul class="nav flex-column pl-2 pr-2">
-
+                <ul class="nav flex-column pl-2 pr-2 h-100">
+                    
                     <li class="nav-item pl-2">
                         <h4><i class="far fa-user pr-4"></i>{{user.username}}</h5>         
                     </li>
                     <li class="nav-item pl-2 pt-2">
                             <h4 value="{{user.id}}"><i class="fas fa-thumbs-up inline"></i><a class="nav-link inline" id="likes" value="{{user.id}}" href="/api/{{user.id}}/likes">Likes</a></h4>
-                            {% for category, message in get_flashed_messages(with_categories=True) %}
-                                <div class="alert alert-{{ category }}" style="width: 75%">{{ message }}</div>
-                            {% endfor %}
                     </li>
 
                     <br>
@@ -56,8 +53,12 @@
                         <form action="/user/{{user.username}}/search" method="POST">
                             <label for="search" class="pl-1 mt-2">Search the Smithsonian</label>
                             <input class="form-control form-control-dark w-100 mb-3" id="search" name= "keyword" type="text" placeholder="Keyword" aria-label="Search">
-                            <button class="btn submit-btn pri-btn m-0" id="search-req" type="submit">Search</button>
+                            <button class="btn submit-btn pri-btn m-0 w-100" id="search-req" type="submit">Search</button>
                         </form>
+                    </li>
+
+                    <li class=mb-2>
+                        <img src="/static/images/2.png" alt="logo">
                     </li>
                     
                 </ul>

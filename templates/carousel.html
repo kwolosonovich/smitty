@@ -1,53 +1,80 @@
-
 {% block carousel %}
- 
+
 {% if CURR_USER_KEY in session %}
-    {% raw %}
-        {% block carousel %}
-        {% endblock %}
-    {% endraw %}
+{% raw %}
+{% block carousel %}
+{% endblock %}
+{% endraw %}
 {% else %}
 
-<div class="carousel-main main container-style">
-    <div id="images" class="carousel mx-auto container-fluid slide carousel-multi-item" data-ride="carousel">
-        <div class="carousel-inner car" role="listbox">
-            {% for list in formatted_images %}
-                {% for image in list %}
-                    {% if loop.index == 1 %}                
+<div class="container carousel-block mx-auto">
+
+    <div class="row mx-auto">
+        <div class="col-8">
+
+            <div class="carousel-main">
+                <div id="images" class="carousel mx-auto container-fluid slide carousel-multi-item"
+                    data-ride="carousel">
+                    <div class="carousel-inner car" role="listbox">
+                        {% for list in formatted_images %}
+                        {% for image in list %}
+                        {% if loop.index == 1 %}
                         <div class="carousel-item active">
-                            <div class="col-12 col-md-4" style="margin: auto">
-                                <div class="card mb-2 shadow">
-                                    <img class="card-img-top img-fluid shadow" src={{image.url}} alt="Card image cap responsive">
-                                    <div class="card-body">
-                                        <h4 class="card-title font-weight-bold">Title: {{image.title}}</h4>
-                                        <p class="card-text">Artist: {{image.artist}}</p>
+                                <div class="card mb-2 shadow container-overlay" style="height: auto; max-width: 20rem; margin: auto">
+                                    <img class="card-img-top img-fluid shadow img-thumbnail" src={{image.url}}
+                                        alt="Image from collection">
+                                    <div class="overlay">
+                                        Artist: {{image.artist}} <br> Date: {{image.date}} <br> Collection:
+                                        {{image.collection}}
                                     </div>
-                                </div>
+                                    <div class="card-body">
+                                        <p class="card-title font-weight-bold text-center card-text">Title:</p>                                     
+                                        <h4 class="text-center card-text">{{image.title}}</h4>
+                                    </div>
                             </div>
-                    {% else %}
-                        <div class="carousel-item">
-                    <div class="col-12 col-md-4" style="margin: auto">
-                        <div class="card mb-2 shadow">
-                            <img class="card-img-top img-fluid" src={{image.url}} alt="Card image cap responsive">
-                            <div class="card-body">
-                                <h4 class="card-title font-weight-bold">Title: {{image.title}}</h4>
-                                <p class="card-text">Artist: {{image.artist}}</p>
+                            {% else %}
+                            <div class="carousel-item">
+                                <div class="card mb-2 shadow container-overlay" style="height: auto; max-width: 20rem; margin: auto">
+                                        <img class="card-img-top img-fluid shadow" src={{image.url}}
+                                            alt="Card image cap responsive">
+                                        <div class="overlay">
+                                            Artist: {{image.artist}} <br> Date: {{image.date}} <br> Collection:
+                                            {{image.collection}}
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-title font-weight-bold text-center card-text">Title:</p>
+                                            <h4 class="text-center card-text">{{image.title}}</h4>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div class="controls text-center">
+                            <a class="btn-floating text-yellow mr-2" href="#images" data-slide="prev"><i
+                                    class="fas fa-chevron-left text-blue"></i></a>
+                            <a class="btn-floating text-yellow ml-2" href="#images" data-slide="next"><i
+                                    class="fas fa-chevron-right text-blue"></i></a>
                         </div>
                     </div>
-                    {% endif %}
-                </div>  
-                {% endfor %}
-            {% endfor %}
+                </div>
+            </div>
+        <div class="col-4 cnter-style mt-5 p-0">
+            <!-- <div class="container pl-0" id="form-side"> -->
+                <h1 class="text-blue w-100 text-center">Access over 175 years of: <br> History <br> Art <br> Science <br> Nature <br> culture <br> and more!</h1>
+            <!-- </div> -->
         </div>
-            <br>
-        <div class="controls text-center">
-            <a class="btn-floating text-yellow" href="#images" data-slide="prev"><i class="fas fa-chevron-left text-blue"></i></a>
-            <a class="btn-floating text-yellow" href="#images" data-slide="next"><i class="fas fa-chevron-right text-blue"></i></a>
+
         </div>
     </div>
-</div>
+</div>  
 
 {% endif %}
+
+    <div class="jumbotron jumbotron-fluid bg-yellow rounded m-5 p-5">
+        <h3 class="text-left pr-3">Virtually explore the Smithsonian's nineteen <br> museums, research centers, libraries, archives and the National Zoo.</h3>
+    </div>
 
 {% endblock %}

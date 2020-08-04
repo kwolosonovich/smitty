@@ -5,19 +5,25 @@
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="{{user.username}}">
 
     <h1>Search Results</h1>
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{ category }}" style="width: 75%">{{ message }}</div>
+        {% endfor %}
 
     <div class="gallery" id="gallery">
 
         {% for list in formatted_images %}
             {% for card in list %} 
-            <div class="mb-3 pics animation {{ list.index }} card-body" style="max-width: 300px; height:auto;">
-                <img class="img-fluid" src={{ card.url }} class="card-img-top" id="img" alt="Card image cap" data-toggle="popover" data-placement="bottom" data-content="Date: {{card.date}} - Collection: {{card.collection}}">
+            <div class="mb-3 pics animation {{ list.index }} card-body container-overlay" style="max-width: 300px; height:auto;">
+                <img class="img-fluid shadow" src={{ card.url }} class="card-img-top" id="img" alt="Card image cap">
+                    <div class="overlay">
+                        Artist: {{card.artist}} <br> Date: {{card.date}} <br> Collection: {{card.collection}}
+                    </div>
                 <div class="card-body pt-1">
                     <p class="text-right mt-0 mb-0">
                         <i class="far fa-thumbs-up like"></i>
                     </p>
-                    <h5 class="card-title mt-0 pb-0" value="{{ card.title }}">Title: {{ card.title }}</h5>
-                    <p class="card-text mt-0" value="{{ card.artist }}">Artist: {{ card.artist }}</p>
+                    <p class="card-title font-weight-bold text-center" value="{{ card.title }}">Title: <br> <h4 class="text-center">{{card.title}}</h4></p>
+                    <p class="hidden" value="{{ card.artist }}">Artist: {{ card.artist }}</p>
                     <input type="hidden" value="{{ card.date }}">
                     <input type="hidden" value="{{ card.collection }}">
                     <input type="hidden" value="{{ card.url }}">

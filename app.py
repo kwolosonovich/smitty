@@ -36,7 +36,7 @@ connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 # test images for api response
-DEV = False
+DEV = True
 DEBUG = False
 
 if DEBUG:
@@ -64,7 +64,7 @@ def homepage():
    else:
       req = "login"
    
-   formatted_images = search('"data_source="American Art&painting"', dev=DEV, images_per_row=9, max_rows=1, max_results=9)
+   formatted_images = search(search_terms="None", dev=DEV, images_per_row=9, max_rows=1, max_results=9)
 
    return render_template('homepage.html', formatted_images=formatted_images, form=form, req=req)
 

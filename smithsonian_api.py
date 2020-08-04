@@ -4,6 +4,8 @@ OpenAccess API.
 """
 import urllib.parse
 import requests
+import random
+
 
 from werkzeug import urls
 
@@ -47,32 +49,24 @@ def filter_search_results(search_results=None, dev=False):
             descriptive = row["content"].get("descriptiveNonRepeating", "N/A")
             freetext = row["content"].get("freetext", "N/A")
             indexed = row["content"].get("indexedStructured", "N/A")
-            # print(f"row: {row}")
             if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
-                # content = row["content"]
                 if descriptive != "N/A":
                     data_source = descriptive["data_source"]
-                    # url = descriptive["online_media"]["media"][0].get("resources", "N/A")
                     
                     url = descriptive["online_media"]["media"][0].get("content", "N/A")
                     if url == "N/A":
                         url = descriptive["online_media"]["media"][0].get("thumbnail", "N/A")
-                    # print(f"url: {url}")
                     artist = descriptive.get("name", "N/A")
                     if artist != "N/A" and len(artist) > 0:
                         artist = artist[0] 
-                    # print(f"artist: {artist}")                   
                     date = descriptive.get("date", "N/A")
                     if date != "N/A" and len(date) > 0:
                         date = date[0]
-                    # print(f"date: {date}")
                     title = descriptive["title"]['content']
-                # print(f"titel: {title}")
                 medium = freetext.get("physicalDescription", "N/A")
                 if medium != "N/A":
                     if medium != "N/A" and len(medium) > 0:
                         medium = medium[0]["content"]
-                # print(f"medium: {medium}")
                 collection = freetext.get("setName", "N/A")
                 if collection != "N/A":
                     collection = freetext["setName"][0]["content"]
@@ -89,6 +83,9 @@ def filter_search_results(search_results=None, dev=False):
 def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
            max_rows=None):
     '''Request images from Smithsonian API'''
+    
+    if not search_terms:
+        search_terms = randomSearchCategory
     
     if dev:
         search_results = \
@@ -158,3 +155,18 @@ def format_images(images=None, images_per_row=None, max_rows=None):
         row = images[start:stop:1]
         formatted_images.append(row)        
     return formatted_images
+
+
+
+def randomSearchCategory():
+    '''Generate random categories'''
+    categories = [
+        "photograpy",
+        "painting",
+        "design",
+        "sculpture"
+    ]
+    
+    random_category = random.choice(categories)
+    
+    return random_category
