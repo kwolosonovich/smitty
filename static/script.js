@@ -50,36 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  // ********likes***********
-
-
-  let userLikes = document.getElementById("likes").addEventListener("click", getUserId);
-  
-  function getUserId(e) {
-    e.preventDefault();
-
-    let parentTag = this.parentElement;
-    let userId = parentTag.getAttribute('value')
-
-    console.log(parentTag)
-    console.log(userId)
-    
-    getLikes(userId)
-  }
-
-  async function getLikes(userId) {
-    console.log('at likes')
-    const response = await axios.get(`${BASE_URL}/${userId}/likes`);
-
-    if (response === 201) {
-      console.log("success");
-    }
-  }
-
-
-
-
-  // ********search**********
+  // ********likes**********
 
   // image class
   class Image {
@@ -169,4 +140,39 @@ document.addEventListener("DOMContentLoaded", function () {
   for (var i = 0; i < likes.length; i++) {
     likes[i].addEventListener("click", toggleLike, false);
   }
+
+  // ********render likes***********
+
+  let userLikes = document.getElementById("likes").addEventListener("click", getUserId);
+  
+  function getUserId(e) {
+    e.preventDefault();
+
+    let parentTag = this.parentElement;
+    let userId = parentTag.getAttribute('value')
+
+    getLikes(userId)
+  }
+
+  async function getLikes(userId) {
+    const response = await axios.get(`${BASE_URL}/${userId}/likes`);
+
+      console.log(response.data);
+            console.log('status')
+
+      renderLikes(response);
+  }
+  
+
+  async function renderLikes(response) {
+
+    console.log('response');
+    console.log(response);
+    console.log("response.data");
+    console.log(response.data)
+    console.log('response.data[0]');
+    console.log(response.data[0]);
+    console.log(response.data[0].artist)
+  }
+
 });

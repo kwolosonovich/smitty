@@ -1,6 +1,7 @@
+from smithsonian_api import search, format_images, ApiImage
 import requests
 import random
-
+# import pdb
 
 from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
@@ -9,18 +10,17 @@ from flask_wtf import FlaskForm
 import simplejson as json
 from flask.sessions import SecureCookieSessionInterface
 
-
 def user_loaded_from_header(self, user=None):
     g.login_via_header = True
-
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
 from models import User, connect_db, db, Image, Like
 from seed import seed_database
-from smithsonian_api import search, format_images
+from smithsonian_api import search, format_images, ApiImage
 
 app = Flask(__name__)
+# pdb.set_trace()
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
@@ -36,7 +36,7 @@ connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 # test images for api response
-DEV = True
+DEV = False
 DEBUG = False
 
 if DEBUG:
@@ -169,7 +169,6 @@ def add_like(user_id):
     db.session.add(image)
     db.session.commit()
 
-
    #  liked_image = Image.query.filter(Image.like(f"%{image.url}")).all()
     liked_image = Image.query.filter_by(url=image.url).all()
     
@@ -195,7 +194,6 @@ def unlike(user_id):
     data = request.json
     
     url = data['url']
-
     
     unlike_images = Image.query.filter_by(url=url).all()
     for image in unlike_images:
@@ -204,11 +202,6 @@ def unlike(user_id):
        
        
        db.session.delete(row)
-   #  db.session.commit()
-   
-   #  user = User.query.get_or_404(user_id)
-
-   #  user.likes.remove(unlike_image)
     
     db.session.commit()
     flash('Removed', 'success')
@@ -219,22 +212,29 @@ def get_likes(user_id):
    '''Get user likes.'''
     
    user = User.query.get_or_404(user_id)
-   #  = "6 - accurate id"
+
+   user = User.query.get_or_404(user_id)
+   user_likes = user.likes
    
-   # likes = Like.query.filter_by(user_id=user_id).all()
-   # error - 'list' object has no attribute 'id'
+   formatted_likes = []
+
+   for image in user_likes:
+      formatted_img = {
+                        'url': user.likes[0].url, 
+                        'title': user.likes[0].title, 
+                        'artist': user.likes[0].artist, 
+                        'date': user.likes[0].date, 
+                        'medium': None,
+                        'collection': user.likes[0].collection, 
+                        'raw_response': None}
+      formatted_likes.append(formatted_img)
    
-   likes = Like.query.filter(Like.user_id == user.id for user in Like).all()
-   
-   images = Image.query.filter_by(likes.id).all
-   
-   print(images)
-   
-   
-   
-   return render_template('user/likes.html', user=user)
+   response = formatted_likes
+   response = jsonify(response)
+
+   return (response)
     
- 
+
 if __name__ == "__main__":
      app.run(debug=True)
 
