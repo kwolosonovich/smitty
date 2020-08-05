@@ -17,7 +17,7 @@ def user_loaded_from_header(self, user=None):
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
-from models import User, connect_db, db, Image, Like
+from models import User, connect_db, db
 from seed import seed_database
 from smithsonian_api import search, format_images, ApiImage
 
