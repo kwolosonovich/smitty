@@ -139,10 +139,8 @@ def user_search(username):
    
    if User.verify_login():
       
-      keyword = request.form.get('keyword')
-      
-      user = User.query.filter_by(username=username).first()
-      
+      keyword = request.form.get('keyword')     
+      user = User.query.filter_by(username=username).first()      
       formatted_images = search(
             search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
       
@@ -198,16 +196,13 @@ def add_like(user_id):
 def unlike(user_id):
     '''Removed liked image from database.'''
     
-    data = request.json
-    
-    url = data['url']
-    
+    data = request.json    
+    url = data['url']   
     unlike_images = Image.query.filter_by(url=url).all()
     for image in unlike_images:
        row = Like.query.filter_by(user_id=user_id,
                                   image_id=image.id).first()
-       
-       
+            
        db.session.delete(row)
     
     db.session.commit()
@@ -219,10 +214,8 @@ def get_likes(user_id):
    '''Get user likes.'''
     
    user = User.query.get_or_404(user_id)
-
    user = User.query.get_or_404(user_id)
-   user_likes = user.likes
-   
+   user_likes = user.likes 
    formatted_likes = []
 
    for image in user_likes:
