@@ -17,9 +17,6 @@ The Smitty Application provides access to over 175 years of history, art, scienc
     - Follow your favorite topics
     - Create galleries and save your favorite images
 
- 
-
-
 ## Approach
 API requests will filter for only Creative Commons Zero (CCO) to ensure that only context that does not require attribution or citation is accessed. Search results will include the following content: content URL, title, author, date and collection.
 

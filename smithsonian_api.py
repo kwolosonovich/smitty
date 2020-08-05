@@ -55,17 +55,17 @@ def filter_search_results(search_results=None, dev=False):
                     url = descriptive["online_media"]["media"][0].get("content", "N/A")
                     if url == "N/A":
                         url = descriptive["online_media"]["media"][0].get("thumbnail", "N/A")
-                    # artist = descriptive.get("name", "N/A")
-                    # if artist != "N/A" and len(artist) > 0:
-                    #     artist = artist[0] 
+                    artist = descriptive.get("name", "N/A")
+                    if artist != "N/A" and len(artist) > 0:
+                        artist = artist[0] 
                     date = descriptive.get("date", "N/A")
                     if date != "N/A" and len(date) > 0:
                         date = date[0]
                     title = descriptive["title"]['content']      
-                artist = indexed.get("name", "N/A")
-                if artist != "N/A":
-                    if artist != "N/A" and len(artist) > 0:
-                        artist = artist[0]['name'][0]    
+                # artist = indexed.get("name", "N/A")
+                # if artist != "N/A":
+                #     if artist != "N/A" and len(artist) > 0:
+                #         artist = artist[0]['name'][0]    
                 medium = freetext.get("physicalDescription", "N/A")
                 if medium != "N/A":
                     if medium != "N/A" and len(medium) > 0:
@@ -73,10 +73,6 @@ def filter_search_results(search_results=None, dev=False):
                 collection = freetext.get("setName", "N/A")
                 if collection != "N/A":
                     collection = freetext["setName"][0]["content"]
-                    
-                response.rows[0].content.indexedStructured.name
-
-
                 image = ApiImage(url, title, artist, date, medium, collection, row)  
                 images_array.append(image)
             else:

@@ -35,7 +35,7 @@ connect_db(app)
 CURR_USER_KEY = "curr_user"
 
 DEV = False
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
    seed_database()
@@ -44,7 +44,7 @@ if DEBUG:
    
 else:
    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-   app.debug = True
+   app.debug = False
    db.create_all()
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
