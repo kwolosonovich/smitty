@@ -30,10 +30,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-
-Bootstrap(app)
-toolbar = DebugToolbarExtension(app)
-
 connect_db(app)
 
 CURR_USER_KEY = "curr_user"
@@ -51,6 +47,8 @@ else:
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
+Bootstrap(app)
+toolbar = DebugToolbarExtension(app)
 
 @app.route('/')
 @app.route('/login')
