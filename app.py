@@ -47,8 +47,8 @@ if DEBUG:
    
 else:
    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-   db.session.rollback()
-   db.drop_all()
+   # db.session.rollback()
+   # db.drop_cascade()
    db.create_all()
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
