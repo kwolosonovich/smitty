@@ -62,14 +62,14 @@ h1, h5 {
 /* login form */
 
 #form-section {
-    background-color: #74D1EA;
+    background-color: #EDE9E8;
     align-content: center;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 }
 
 #form-style {
-    border-left: 5px solid #002554;
+    border-left: 5px solid #030D26;
     border-top-left-radius: 0%;
     border-bottom-left-radius: 0%;
     border-top-right-radius: 7px;
@@ -82,7 +82,7 @@ h1, h5 {
 }
 
 #form-section {
-    background-color: #74D1EA;
+    background-color: ;
     padding-right: 40px;
     padding-left: 40px;
 }
@@ -106,7 +106,7 @@ h1, h5 {
 /* colors */
 
 .blue-bg {
-    background-color: #002554;
+    background-color: #030D26;
 }
 
 .lt-bg {
@@ -114,11 +114,11 @@ h1, h5 {
 }
 
 .bg-yellow {
-    background-color: #F0B323;
+    background-color: #EDE9E8;
 }
 
 .text-yellow, hr {
-    color: #F0B323;
+    color: #030D26;
 }
 
 .text-dark, card-text {
@@ -130,28 +130,28 @@ h1, h5 {
 }
 
 .text-blue {
-    color: #002550;
+    color: #030D26;
 }
 
 .pri-btn {
     color: white;
-    background-color: #F0B323;
+    background-color: #030D26;
     border-radius: 7px;
 }
 
 .pri-btn:hover {
-    background-color: #002550;
-    color: white
+    background-color: white;
+    color: #030D26
 }
 
 .sec-btn:hover {
-    background-color: #002550;
+    background-color: #030D26;
     color: white;
 }
 
 .sec-btn {
-    color: #002550;
-    border: 1px solid #002550;
+    color: #030D26;
+    border: 1px solid #030D26;
     border-radius: 7px;
 }
 
@@ -193,11 +193,11 @@ h1, h5 {
 
 .sidebar .nav-link .feather {
     margin-right: 4px;
-    color: #999;
+    color: #EDE9E8;
 }
 
 .sidebar .nav-link.active {
-    color: #47D1FF;
+    color: #030D26;
 }
 
 .sidebar .nav-link:hover .feather, .sidebar .nav-link.active .feather {
@@ -221,13 +221,9 @@ h1, h5 {
 
 .nav-hr {
     width: 40%;
-    border-top: 1px solid #b1b1b1;
+    border-top: 1px solid #EDE9E8;
 }
 
-#profile-div {
-    border: 3px solid #b1b1b1;
-    border-style: outset;
-}
 
 /* search results */
 
@@ -272,7 +268,7 @@ h1, h5 {
 .icon {
     font-size: 30px;
     cursor: pointer;
-    color: #002550;
+    color: #030D26;
 }
 
 .icon-category {
@@ -292,7 +288,7 @@ h1, h5 {
 /* images overlays */
 
 .overlay {
-    background: #002550dc;
+    background: #030D26dc;
     position: absolute;
     top: 0;
     bottom: 0;

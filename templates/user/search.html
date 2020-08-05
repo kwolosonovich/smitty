@@ -2,15 +2,8 @@
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="{{user.username}}">
-
-    <h1>Search Results</h1>
-        {% for category, message in get_flashed_messages(with_categories=True) %}
-            <div class="alert alert-{{ category }}" style="width: 75%">{{ message }}</div>
-        {% endfor %}
-
-    <div class="gallery" id="gallery">
-
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 pl-5 ml-5 mr-0 pr-0" id="{{user.username}}">
+    <div class="gallery ml-5" id="gallery">
         {% for list in formatted_images %}
             {% for card in list %} 
             <div class="mb-3 pics animation {{ list.index }} card-body container-overlay" style="max-width: 300px; height:auto;">

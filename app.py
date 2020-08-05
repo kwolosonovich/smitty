@@ -1,13 +1,14 @@
 from smithsonian_api import search, format_images, ApiImage
 import requests
 import random
+import simplejson as json
 # import pdb
 
 from flask import Flask, render_template, request, flash, redirect, session, g, abort, url_for, Markup, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy.exc import IntegrityError
 from flask_bootstrap import Bootstrap 
 from flask_wtf import FlaskForm
-import simplejson as json
 from flask.sessions import SecureCookieSessionInterface
 
 def user_loaded_from_header(self, user=None):
@@ -74,21 +75,25 @@ def register():
    '''Register new user'''
    
    form = RegisterForm()
+   try:
+      if form.validate_on_submit():
 
-   if form.validate_on_submit():
+         username=form.username.data
+         email=form.email.data   
+         password = form.password.data
 
-      username=form.username.data
-      email=form.email.data   
-      password = form.password.data
-
-      user = User.create(username=username, email=email, password=password)
-      db.session.commit()
-      return redirect(f'/profile/{username}')
-
-   else: 
+         user = User.create(username=username, email=email, password=password)
+         db.session.commit()
+         flash('Account created', 'success')
+         return redirect(f'/profile/{username}')
+      else: 
+         flash('Registration unsuccessful', 'danger')
+         return redirect('/')
+      
+   except IntegrityError as e:
+      flash('Sorry that username is already taken. Please enter a new username')
       return redirect('/')
-
-
+   
 @app.route('/login', methods=['POST'])
 def login():
    '''Login returning user.'''
