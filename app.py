@@ -34,7 +34,7 @@ connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 # test images for api response
-DEV = False
+DEV = True
 DEBUG = False
 
 if DEBUG:
@@ -59,8 +59,7 @@ def homepage():
    '''Render homepage'''
    
    form = LoginForm()
-   req = request.path 
-   
+   req = request.path    
    if req == "/register": 
       form = RegisterForm()
       req = "register"
@@ -83,7 +82,6 @@ def register():
          username=form.username.data
          email=form.email.data   
          password = form.password.data
-
          user = User.create(username=username, email=email, password=password)
          db.session.commit()
          flash('Account created', 'success')
@@ -110,11 +108,7 @@ def login():
       if user:         
          User.user_login(user.username)
          return redirect(f'/profile/{user.username}')
-      else: 
-         flash('Username and password not found', 'warning')
    else:
-      flash('Login unsuccessful, please resubmit. If you do not already\
-         have an account please register to join.', 'danger')
       return redirect('/')
    
 
@@ -123,10 +117,8 @@ def show_user(username):
    """Render user information and hompage boards"""
    
    if User.verify_login():
-
       user = User.query.filter_by(username=username).first()
       print(user)
-
       formatted_images = search('"data_source="American Art&painting"',
                         max_results=12, images_per_row=6, max_rows=2, dev=DEV)
 
@@ -137,8 +129,7 @@ def show_user(username):
 def user_search(username):
    """User search and display results."""
    
-   if User.verify_login():
-      
+   if User.verify_login():     
       keyword = request.form.get('keyword')     
       user = User.query.filter_by(username=username).first()      
       formatted_images = search(
@@ -174,11 +165,8 @@ def add_like(user_id):
     db.session.add(image)
     db.session.commit()
 
-   #  liked_image = Image.query.filter(Image.like(f"%{image.url}")).all()
     liked_image = Image.query.filter_by(url=image.url).all()
-    
     user = User.query.get_or_404(user_id)
-      
     like = Like(
         user_id=user.id,
         image_id=liked_image[0].id

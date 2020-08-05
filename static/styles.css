@@ -288,19 +288,19 @@ h1, h5 {
 /* images overlays */
 
 .overlay {
-    background: #030D26dc;
+    background: #030d26d2;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 30px;
+    /* bottom: 190px; */
     left: 0;
     right: 0;
-    height: 100%;
+    height: 200px;
     width: 100%;
     opacity: 0;
     transition: .5s ease;
     color: white;
     font-size: 20px;
-    padding-top: 70px;
+    padding-top: 30px;
     text-align: center;
 }
 
