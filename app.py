@@ -1,3 +1,4 @@
+import os
 from smithsonian_api import search, format_images, ApiImage
 import requests
 import random
@@ -24,11 +25,11 @@ app = Flask(__name__)
 # pdb.set_trace()
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///smithsonian'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.get.environ('DATABASE_URI', 'postgresql:///smithsonian')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY']= secret_key
+
 
 Bootstrap(app)
 toolbar = DebugToolbarExtension(app)
@@ -37,13 +38,16 @@ connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 # test images for api response
-DEV = True
+DEV = False
 DEBUG = False
 
 if DEBUG:
    seed_database()
+   app.config['SECRET_KEY'] = secret_key
+   
 else:
    db.create_all()
+   app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
