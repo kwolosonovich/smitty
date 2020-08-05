@@ -7,7 +7,6 @@ h1, h5 {
     font-family: 'Oleo Script', cursive;
 }
 
-
 .logo {
     position: absolute;
     right: 350px;
@@ -19,16 +18,10 @@ h1, h5 {
 
 .title {
     position: relative;
-    float: right;    
+    float: right;
     z-index: 2;
     color: white;
     font-size: 180px;
-
-}
-
-.navbar {
-    border-top-right-radius: 7px;
-    border-top-left-radius: 7px;
 }
 
 .feather {
@@ -83,7 +76,6 @@ h1, h5 {
     border-bottom-right-radius: 7px;
     padding-top: 40px;
     padding-bottom: 40px;
-    /* min-width: 20%; */
     background-color: white;
     align-content: center;
     font-size: 20px;
@@ -91,8 +83,6 @@ h1, h5 {
 
 #form-section {
     background-color: #74D1EA;
-    /* margin: 0;
-    padding: 0; */
     padding-right: 40px;
     padding-left: 40px;
 }
@@ -165,33 +155,17 @@ h1, h5 {
     border-radius: 7px;
 }
 
-.bg {
-    /* The image used */
-    background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");
-    /* Full height */
-    height: 100%;
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-/* .card-img-top {
-    width: 100%;
-    height: 15vw;
-    object-fit: fill;
-} */
-
 /* Navbar & Sidebar */
 
-#profile-picture {
-    max-width: 100px;
-    height: auto;
+#navbar-welcome {
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
 }
 
-#profile-images {
-    max-width: 300;
-    height: auto
+#navbar-user-home {
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
 
 .sidebar {
@@ -201,7 +175,6 @@ h1, h5 {
     left: 0;
     z-index: 100;
     padding: 0;
-    /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1); */
 }
 
 .sidebar-sticky {
@@ -237,6 +210,25 @@ h1, h5 {
     border-radius: 0;
 }
 
+.sidebar {
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+.navIcon {
+    vertical-align: bottom;
+}
+
+.nav-hr {
+    width: 40%;
+    border-top: 1px solid #b1b1b1;
+}
+
+#profile-div {
+    border: 3px solid #b1b1b1;
+    border-style: outset;
+}
+
 /* search results */
 
 .gallery {
@@ -261,12 +253,12 @@ h1, h5 {
 
 @media (max-width: 450px) {
     .gallery {
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        column-count: 1;
-        -webkit-column-width: 100%;
-        -moz-column-width: 100%;
-        column-width: 100%;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        -webkit-column-width: 50%;
+        -moz-column-width: 50%;
+        column-width: 50%;
     }
 }
 
@@ -278,9 +270,9 @@ h1, h5 {
 }
 
 .icon {
-    font-size: 20px;
+    font-size: 30px;
     cursor: pointer;
-    user-select: none;
+    color: #002550;
 }
 
 .icon-category {
@@ -314,7 +306,6 @@ h1, h5 {
     font-size: 20px;
     padding-top: 70px;
     text-align: center;
-    
 }
 
 .container-overlay:hover .overlay {

@@ -11,13 +11,12 @@
 <div class="jumbotron jumbotron-fluid ml-5 mr-5" id="form-section">
     <div class="row">
 
-        <div class="container col-md-4" id="form-side">
-            
-            <h3 styled-text text-blue>Begin your discovery by creating an account <br> <a class="text-white" href="/register"><i class="h1 fas fa-sign-in-alt"></i></a>
+        <div class="container col-12 col-md-4" id="form-side">
+            <h3 class="styled-text">Begin your discovery by creating an account <br> <a class="text-white" href="/register"><i class="h1 fas fa-sign-in-alt"></i></a>
         </div>
 
 
-        <div class="container col-md-8 " id="form-style">
+        <div class="container col-12 col-md-8 " id="form-style">
 
             <form method="POST" action='/{{ req }}' class="text-dark m-5" style="width: 100" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
