@@ -81,8 +81,9 @@ def filter_search_results(search_results=None, dev=False):
 
 
 def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
-           max_rows=None):
+           max_rows=None, is_homepage=False):
     '''Request images from Smithsonian API'''
+    randoms = list(range(100))
     
     if not search_terms:
         search_terms = randomSearchCategory
@@ -96,10 +97,13 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
     else:
         search_results = []        
         for i in range(max_results):
+            start = i
+            if is_homepage:
+                start = random.choice(randoms)
             params = {
                 "api_key": api_key,
                 "q": search_terms + "&online_media_type=images&images=jpeg",
-                "start": i,
+                "start": start,
                 "rows": 1
             }
             resp = requests.get(url=API_BASE_URL,
