@@ -25,7 +25,7 @@ app = Flask(__name__)
 # pdb.set_trace()
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.get.environ('DATABASE_URI', 'postgresql:///smithsonian')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'postgresql:///smithsonian')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
