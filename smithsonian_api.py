@@ -85,8 +85,8 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
     '''Request images from Smithsonian API'''
     randoms = list(range(100))
     
-    if not search_terms:
-        search_terms = randomSearchCategory
+    if search_terms is None:
+        search_terms = random_search_category()
     
     if dev:
         search_results = \
@@ -162,7 +162,7 @@ def format_images(images=None, images_per_row=None, max_rows=None):
 
 
 
-def randomSearchCategory():
+def random_search_category():
     '''Generate random categories'''
     categories = [
         "photograpy",
