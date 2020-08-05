@@ -33,16 +33,18 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 connect_db(app)
 
 CURR_USER_KEY = "curr_user"
-# test images for api response
-DEV = True
+
+DEV = False
 DEBUG = False
 
 if DEBUG:
    seed_database()
    app.config['SECRET_KEY'] = secret_key
+   app.debug = True
    
 else:
    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+   app.debug = True
    db.create_all()
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
