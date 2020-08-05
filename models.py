@@ -36,10 +36,10 @@ class User(db.Model):
         nullable=False,
     )
     
-    likes = db.relationship(
-        'Image',
-        secondary="likes"
-    )
+    # likes = db.relationship(
+    #     'Image',
+    #     secondary="likes"
+    # )
     
 
     @classmethod
