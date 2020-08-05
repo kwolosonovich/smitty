@@ -104,60 +104,60 @@ class User(db.Model):
 
     
     
-class Image(db.Model):
-    '''Images model'''
+# class Image(db.Model):
+#     '''Images model'''
 
-    __tablename__= 'images'
+#     __tablename__= 'images'
     
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
+#     id = db.Column(
+#         db.Integer,
+#         primary_key=True
+#     )
     
-    url = db.Column(
-        db.String
-    )
+#     url = db.Column(
+#         db.String
+#     )
     
-    title = db.Column(
-        db.String 
-    )
+#     title = db.Column(
+#         db.String 
+#     )
     
-    artist = db.Column (
-        db.String
-    )
+#     artist = db.Column (
+#         db.String
+#     )
     
-    date = db.Column(
-        db.String
-    )
+#     date = db.Column(
+#         db.String
+#     )
     
-    collection = db.Column(
-        db.Text
-    )
+#     collection = db.Column(
+#         db.Text
+#     )
     
 
-class Like(db.Model):
-    '''User likes for images model.'''
+# class Like(db.Model):
+#     '''User likes for images model.'''
 
-    __tablename__ = 'likes'
+#     __tablename__ = 'likes'
 
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
+#     id = db.Column(
+#         db.Integer,
+#         primary_key=True
+#     )
 
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', 
-                      ondelete='CASCADE'
-                      )
-    )
+#     user_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('users.id', 
+#                       ondelete='CASCADE'
+#                       )
+#     )
 
-    image_id = db.Column(
-        db.Integer,
-        db.ForeignKey('images.id', 
-                    #   ondelete='CASCADE'
-                      )
-    )
+#     image_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('images.id', 
+#                     #   ondelete='CASCADE'
+#                       )
+#     )
     
     
 
