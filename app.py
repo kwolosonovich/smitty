@@ -35,7 +35,7 @@ connect_db(app)
 CURR_USER_KEY = "curr_user"
 
 DEV = False
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
    seed_database()
