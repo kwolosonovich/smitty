@@ -76,6 +76,8 @@ def filter_search_results(search_results=None, dev=False):
                 image = ApiImage(url, title, artist, date, medium, collection, row)  
                 images_array.append(image)
             else:
+                
+                
                 pass
         else:
             pass
