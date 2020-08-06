@@ -75,9 +75,7 @@ def filter_search_results(search_results=None, dev=False):
                     collection = freetext["setName"][0]["content"]
                 image = ApiImage(url, title, artist, date, medium, collection, row)  
                 images_array.append(image)
-            else:
-                
-                
+            else:       
                 pass
         else:
             pass

@@ -6,8 +6,8 @@ from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 bcrypt = Bcrypt()
 
 def seed_database():
-    # db.session.rollback()
-    # db.drop_all()
+    db.session.rollback()
+    db.drop_all()
     db.create_all()
     
     password = b'margs_utf8'
