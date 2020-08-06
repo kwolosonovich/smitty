@@ -15,17 +15,17 @@ API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
 class ApiImage:
     """Create API image."""
-    def __init__(self, url, title, 
+    def __init__(self, 
+                 url, 
+                 title, 
                  artist, 
                  date, 
-                 medium, collection, raw_response):        
+                 collection):        
         self.url = url
         self.title = title
         self.artist = artist
         self.date = date
-        self.medium = medium 
         self.collection = collection
-        self.raw_response = raw_response
        
 
     def format_images(images=None, images_per_row=None, max_rows=None):
@@ -66,14 +66,10 @@ def filter_search_results(search_results=None, dev=False):
                 # if artist != "N/A":
                 #     if artist != "N/A" and len(artist) > 0:
                 #         artist = artist[0]['name'][0]    
-                medium = freetext.get("physicalDescription", "N/A")
-                if medium != "N/A":
-                    if medium != "N/A" and len(medium) > 0:
-                        medium = medium[0]["content"]
                 collection = freetext.get("setName", "N/A")
                 if collection != "N/A":
                     collection = freetext["setName"][0]["content"]
-                image = ApiImage(url, title, artist, date, medium, collection, row)  
+                image = ApiImage(url, title, artist, date, collection)  
                 images_array.append(image)
             else:       
                 pass
@@ -130,17 +126,13 @@ class ApiImageMock(object):
             self.title = 'In the Sunlight'
             self.artist = 'Childe Hassam'
             self.date = '1897'
-            self.medium = 'Oil on canvas'
             self.collection = 'Hirshhorn Museum and Sculpture Garden'
-            self.raw_response = ''
         elif version == 2:
             self.url = 'https://ids.si.edu/ids/deliveryService?max_w=800&id=NPG-NPG_65_61Pocahontas_d1'
             self.title = 'Pocahontas'
             self.artist = 'Unidentified Artist'
             self.date = 'Unidentified'
-            self.medium = 'Oil on canvas'
             self.collection = 'National Portrait Gallery'
-            self.raw_response = ''
     
     
 def create_test_response(max_results=None):

@@ -17,7 +17,7 @@ def user_loaded_from_header(self, user=None):
 
 from user_form import LoginForm, RegisterForm
 from secure import secret_key
-from models import User, connect_db, db
+from models import User, connect_db, db, Like, Image
 from seed import seed_database
 from smithsonian_api import search, format_images, ApiImage
 
@@ -34,8 +34,8 @@ connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 
-DEV = False
-DEBUG = False
+DEV = True
+DEBUG = True
 
 if DEBUG:
    seed_database()
@@ -94,7 +94,8 @@ def register():
       
    except IntegrityError as e:
       flash('Sorry that username is already taken. Please enter a new username')
-      return redirect('/')
+      
+   return redirect('/')
    
 @app.route('/login', methods=['POST'])
 def login():
@@ -178,7 +179,6 @@ def add_like(user_id):
     db.session.commit()
     
     # return HTTP status of created
-    flash('Added', 'success')
     return ('201')
  
 
@@ -196,14 +196,12 @@ def unlike(user_id):
        db.session.delete(row)
     
     db.session.commit()
-    flash('Removed', 'success')
     return ('201')
  
 @app.route('/api/<user_id>/likes') 
 def get_likes(user_id):
    '''Get user likes.'''
     
-   user = User.query.get_or_404(user_id)
    user = User.query.get_or_404(user_id)
    user_likes = user.likes 
    formatted_likes = []
@@ -214,9 +212,8 @@ def get_likes(user_id):
                         'title': user.likes[0].title, 
                         'artist': user.likes[0].artist, 
                         'date': user.likes[0].date, 
-                        'medium': None,
                         'collection': user.likes[0].collection, 
-                        'raw_response': None}
+                        }
       formatted_likes.append(formatted_img)
    
    response = formatted_likes

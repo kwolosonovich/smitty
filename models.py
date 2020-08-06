@@ -36,10 +36,10 @@ class User(db.Model):
         nullable=False,
     )
     
-    # likes = db.relationship(
-    #     'Image',
-    #     secondary="likes"
-    # )
+    likes = db.relationship(
+        'Image',
+        secondary="likes"
+    )
     
 
     @classmethod
@@ -79,87 +79,64 @@ class User(db.Model):
             return True
         else:
             return False
+    
+    
+class Image(db.Model):
+    '''Images model'''
 
-
-# class Board(db.Model):
-#     '''User board model.'''
-
-#     __tablename__= 'boards'
+    __tablename__= 'images'
     
-#     id = db.Column(
-#         db.Integer,
-#         primary_key=True,
-#         # cascade='all, delete-orphan'
-#     )
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
     
-#     user_id = db.Column(
-#         db.Integer,
-#         # db.ForeignKey('users.id', cascade="all, delete-orphan")
-#         db.ForeignKey('users.id')
-#     )
+    url = db.Column(
+        db.String
+    )
     
-#     name = db.Column(
-#         db.String
-#     )
-
+    title = db.Column(
+        db.String 
+    )
     
+    artist = db.Column (
+        db.String
+    )
     
-# class Image(db.Model):
-#     '''Images model'''
-
-#     __tablename__= 'images'
+    date = db.Column(
+        db.String
+    )
     
-#     id = db.Column(
-#         db.Integer,
-#         primary_key=True
-#     )
-    
-#     url = db.Column(
-#         db.String
-#     )
-    
-#     title = db.Column(
-#         db.String 
-#     )
-    
-#     artist = db.Column (
-#         db.String
-#     )
-    
-#     date = db.Column(
-#         db.String
-#     )
-    
-#     collection = db.Column(
-#         db.Text
-#     )
+    collection = db.Column(
+        db.Text
+    )
     
 
-# class Like(db.Model):
-#     '''User likes for images model.'''
+class Like(db.Model):
+    '''User likes for images model.'''
 
-#     __tablename__ = 'likes'
+    __tablename__ = 'likes'
 
-#     id = db.Column(
-#         db.Integer,
-#         primary_key=True
-#     )
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
-#     user_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('users.id', 
-#                       ondelete='CASCADE'
-#                       )
-#     )
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', 
+                      ondelete='CASCADE'
+                      )
+    )
 
-#     image_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('images.id', 
-#                     #   ondelete='CASCADE'
-#                       )
-#     )
+    image_id = db.Column(
+        db.Integer,
+        db.ForeignKey('images.id', 
+                    #   ondelete='CASCADE'
+                      )
+    )
     
-    
+    # future tasks
 
 # class Follow(db.Model):
 #     '''User following boards model.'''
@@ -184,6 +161,28 @@ class User(db.Model):
 #                       #   ondelete='CASCADE'
 #                       )
     # )
+    
+    
+# class Board(db.Model):
+#     '''User board model.'''
+
+#     __tablename__= 'boards'
+
+#     id = db.Column(
+#         db.Integer,
+#         primary_key=True,
+#         # cascade='all, delete-orphan'
+#     )
+
+#     user_id = db.Column(
+#         db.Integer,
+#         # db.ForeignKey('users.id', cascade="all, delete-orphan")
+#         db.ForeignKey('users.id')
+#     )
+
+#     name = db.Column(
+#         db.String
+#     )
     
 # '''Boards and images table'''
 # board_images = db.Table('board_images', 
