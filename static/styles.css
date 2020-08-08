@@ -59,6 +59,10 @@ h1, h5 {
     vertical-align: middle;
 }
 
+.inline {
+    display: inline;
+}
+
 /* login form */
 
 #form-section {
@@ -82,9 +86,9 @@ h1, h5 {
 }
 
 #form-section {
-    background-color: ;
-    padding-right: 40px;
-    padding-left: 40px;
+    background-color: #EDE9E8;
+    /* padding-right: 40px;
+    padding-left: 40px; */
 }
 
 .center-style {
@@ -100,7 +104,16 @@ h1, h5 {
 
 #form-side {
     text-align: center;
-    padding: 100px 80px;
+    padding: 80px 60px;
+}
+
+/* like button */
+
+#like-btn {
+    display: inline;
+    text-align: right;
+    border: none;
+    border-radius: 100%;
 }
 
 /* colors */
@@ -113,7 +126,7 @@ h1, h5 {
     background-color: white;
 }
 
-.bg-yellow {
+.bg-silver {
     background-color: #EDE9E8;
 }
 
@@ -224,7 +237,6 @@ h1, h5 {
     border-top: 1px solid #EDE9E8;
 }
 
-
 /* search results */
 
 .gallery {
@@ -249,12 +261,12 @@ h1, h5 {
 
 @media (max-width: 450px) {
     .gallery {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-        -webkit-column-width: 50%;
-        -moz-column-width: 50%;
-        column-width: 50%;
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+        -webkit-column-width: 100%;
+        -moz-column-width: 100%;
+        column-width: 100%;
     }
 }
 
@@ -276,15 +288,6 @@ h1, h5 {
     margin-bottom: 10px;
 }
 
-.svg-inline--fa .fa:hover {
-    color: #F0B323;
-    font-size: 50px;
-}
-
-.inline {
-    display: inline;
-}
-
 /* images overlays */
 
 .overlay {
@@ -292,16 +295,17 @@ h1, h5 {
     position: absolute;
     top: 30px;
     /* bottom: 190px; */
-    left: 0;
+    left: 0%;
     right: 0;
-    height: 200px;
+    /* height: 160px; */
+    max-height: min-content;
     width: 100%;
     opacity: 0;
     transition: .5s ease;
     color: white;
-    font-size: 20px;
-    padding-top: 30px;
+    padding-top: 0px;
     text-align: center;
+    font-size: 16px;
 }
 
 .container-overlay:hover .overlay {
