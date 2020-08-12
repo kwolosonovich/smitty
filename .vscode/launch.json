@@ -29,7 +29,7 @@
                 "--no-reload"
             ],
             "jinja": true,
-            "pythonPath": "/home/kelly/virtualenvs/smithsonian/bin/python3",
+            "pythonPath": "/home/kelly/virtualenvs/smitty/bin/python3",
         }
     ]
 }
