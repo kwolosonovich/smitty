@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid w-100 ml-0 mr-0 pl-0 pr-0" id="form-section">
+    <div class="row w-100">
+
+        <div class="container col-12 col-md-4" id="form-side">
+            <h1 class="styled-text text-yellow"> Login <br> <a class="text-yellow" href="/login"><i
+                        class="h1 fas fa-sign-in-alt"></i></a></h1>
+        </div>
+
+        <div class="container col-12 col-md-8 " id="form-style">
+
+            <form method="POST" action='/login' class="text-dark m-5" style="width: 100"
+                enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                    {% for field in form.errors %}
+                    <div class="alert alert-danger">{{ field }}:
+                        <ul>
+                        {% for error in form.errors[field] %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                        </div>
+                    {% endfor %}
+
+                        {% for field in form if field.widget.input_type != 'hidden' %}
+
+                    <div class="form-group row">
+                        {{field.label(class="col-sm-4 col-form-label")}}
+                        <div class="col-sm-8">
+                        {{field(class="form-control")}}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class=" row mt-3 pt-3">
+                    <div class="col-sm-4">
+                        <a class="btn sec-btn mr-2 shadow w-100" href="/login">Cancel</a>
+                    </div>
+                    <div class="col-sm-8">
+                        <button class="btn submit-btn pri-btn shadow w-100" type="submit">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

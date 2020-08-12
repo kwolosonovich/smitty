@@ -1,38 +1,34 @@
-{% extends 'user_base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 pl-5 ml-5 mr-0 pr-0" id="{{user.username}}">
-    <div class="gallery ml-5" id="gallery">
+<main role="main" class="ml-5 pl-5 mr-0 pr-0" id="{{user.username}}">
+
+    <div class="container ml-5 pl-5 mr-0 pr-0 w-100" id="gallery">
+        <div class="row w-100">
         {% for list in formatted_images %}
+            {% set listloop = loop %}
             {% for card in list %} 
-            <div class="mb-3 pics animation {{ list.index }} card-body container-overlay" style="max-width: 300px; height:auto;">
+            <div class="col-md-3 card-body container-overlay all" style="max-width: 300px; height:auto;">
                 <img class="img-fluid shadow" src={{ card.url }} class="card-img-top" id="img" alt="Card image cap">
                     <div class="overlay">
-                        Artist: {{card.artist}} <br> Date: {{card.date}} <br> Collection: {{card.collection}}
+                        Artist: {{card.artist}} <br> Date: {{card.date}} <br> Collection: {{card.collection}} 
                     </div>
                 <div class="card-body pt-1">
-                    <p class="text-right mt-0 mb-0">
-                        <i class="far fa-thumbs-up like"></i>
-                    </p>
-                    <p class="card-title font-weight-bold text-center" value="{{ card.title }}">Title: <br> <h4 class="text-center">{{card.title}}</h4></p>
-                    <input class="hidden" value="{{ card.artist }}">
-                    <input type="hidden" value="{{ card.date }}">
-                    <input type="hidden" value="{{ card.collection }}">
-                    <input type="hidden" value="{{ card.url }}">
-                    <input type="hidden" value="{{ user.id }}">
+                    <!-- <form action="/user/{{ user.id }}/like", method="POST" value="{{card.url}}"> -->
+                    <form action="/user/{{ user.id }}/like", method="POST" value="{{card.api_id}}">
+                        <p class="card-title font-weight-bold text-left" value="{{ card.title }}" style="display: inline;">Title:
+                        <!-- <button class="far fa-thumbs-up like" type=submit id="like-btn" name="index" value="{{card.url}}, {{card.title}}, {{card.artist}}, {{card.date}}, {{card.collection}}"></button> -->
+                        <button class="far fa-thumbs-up like button" type="submit" id="like-btn" name="index" value="{{card.api_id}}"></button>
+                        </p>
+                    </form>
+                    <p class="font-weight-bold text-left">{{card.title}}</p>
                 </div>
             </div>
             {% endfor %}
         {% endfor %}
     </div>
-    <div class="row">
-        <div class="col-md-12 d-flex justify-content-center mb-5">
-            <button type="button" class="btn btn-outline-black waves-effect filter align-center" data-rel="1"><i class="fas fa-angle-double-left"></i></button>
-            <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2"><i class="fas fa-angle-double-right"></i></button>
-        </div>
     </div>
-
 </main>
 
 {% endblock %}

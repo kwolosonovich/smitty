@@ -1,42 +1,29 @@
-{% block title %}My Favorites{% endblock %}
-
-{% block name %}My Favorites{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+<main role="main" class="ml-5 pl-5 mr-0 pr-0" id="{{user.username}}">
+    <div class="container ml-5 pl-5 mr-0 pr-0 w-100" id="gallery">
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 pl-5 ml-5 mr-0 pr-0" id="{{user.username}}">
-    <div class="gallery ml-5" id="gallery">
-        {% for list in formatted_images %}
-            {% for card in list %} 
-            <div class="mb-3 pics animation {{ list.index }} card-body container-overlay" style="max-width: 300px; height:auto;">
-                <img class="img-fluid shadow" src={{ card.url }} class="card-img-top" id="img" alt="Card image cap">
-                    <div class="overlay">
-                        Artist: {{card.artist}} <br> Date: {{card.date}} <br> Collection: {{card.collection}}
-                    </div>
-                <div class="card-body pt-1">
-                    <p class="text-right mt-0 mb-0">
-                        <i class="far fa-thumbs-up like"></i>
-                    </p>
-                    <p class="card-title font-weight-bold text-center" value="{{ card.title }}">Title: <br> <h4 class="text-center">{{card.title}}</h4></p>
-                    <input class="hidden" value="{{ card.artist }}">
-                    <input type="hidden" value="{{ card.date }}">
-                    <input type="hidden" value="{{ card.collection }}">
-                    <input type="hidden" value="{{ card.url }}">
-                    <input type="hidden" value="{{ user.id }}">
+        {% for like in formatted_images %} 
+        <div class="col-md-3 card-body container-overlay" style="max-width: 300px; height:auto;">
+            <img class="img-fluid shadow" src={{ like.url }} class="card-img-top" id="img" alt="Card image cap">
+                <div class="overlay">
+                    Artist: {{like.artist}} <br> Date: {{like.date}} <br> Collection: {{like.collection}} 
                 </div>
+            <div class="card-body pt-1">
+                <!-- <form action="/user/{{ like.id }}/unlike", method="POST" value="{{like.url}}"> -->
+                <form action="/user/{{ like.search_image_id }}/unlike", method="POST" value="{{like.url}}">
+                        <p class="card-title text-left inline" value="{{ like.title }}" style="display: inline;">Title:
+                        <button class="far fa-thumbs-up like inline" type=submit id="like-btn"></button>
+                        </p>
+                    </form>
+                <p class="text-left font-weight-bold ">{{like.title}}</p>
             </div>
-            {% endfor %}
+        </div>
         {% endfor %}
     </div>
-    <div class="row">
-        <div class="col-md-12 d-flex justify-content-center mb-5">
-            <button type="button" class="btn btn-outline-black waves-effect filter align-center" data-rel="1"><i class="fas fa-angle-double-left"></i></button>
-            <button type="button" class="btn btn-outline-black waves-effect filter" data-rel="2"><i class="fas fa-angle-double-right"></i></button>
-        </div>
     </div>
-
 </main>
 
 {% endblock %}
