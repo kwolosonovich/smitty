@@ -50,12 +50,14 @@ def user_logout():
     '''User logout.'''
     if CURR_USER in session:
         del session[CURR_USER]
+        
+DEV=False
 
 
 @app.route('/')
 def homepage():
 
-    formatted_images = search(search_terms=None, dev=True,
+    formatted_images = search(search_terms=None, dev=DEV,
                               images_per_row=9, max_rows=1, max_results=9, is_homepage=True)
 
     return render_template('homepage.html', formatted_images=formatted_images)
@@ -120,7 +122,7 @@ def search_results(user_id):
 
     keyword = request.form.get('keyword')
     formatted_images = search(
-        search_terms=keyword, max_results=12, dev=True, images_per_row=6, max_rows=2)
+        search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
 
     return render_template('user/search.html', formatted_images=formatted_images, user=user)
 
@@ -163,7 +165,7 @@ def add_like(search_image_id):
         # image.collection = liked_image.collection
 
         # save updated image to Image table
-        # db.session.commit()
+
 
         # add user like to database
         g.user.likes.append(liked_image)

@@ -5,7 +5,7 @@ import urllib.parse
 import requests
 import random
 from models import Image
-from models import db
+from models import db, Image
 
 from werkzeug import urls
 
@@ -21,12 +21,14 @@ class ApiImage:
                  title,
                  artist,
                  date,
-                 collection):
+                 collection,
+                 search_image_id):
         self.url = url
         self.title = title
         self.artist = artist
         self.date = date
         self.collection = collection
+        self.search_image_id = search_image_id
 
     def format_images(images=None, images_per_row=None, max_rows=None):
         formatted_images = []
@@ -46,31 +48,34 @@ def filter_search_results(search_results=None, dev=False):
     for resp in search_results:
         content_found = True if resp.json()["response"].get(
             "message", False) == "content found" else False
-        if content_found:
+        if content_found:           
             row = resp.json()["response"]["rows"][0]
+            search_image_id = row['id']
             descriptive = row["content"].get("descriptiveNonRepeating", "N/A")
             freetext = row["content"].get("freetext", "N/A")
-            url = descriptive["online_media"]["media"][0].get(
-                "content", "N/A")
-            if url == "N/A":
+            if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
                 url = descriptive["online_media"]["media"][0].get(
-                    "thumbnail", "N/A")
-            artist = descriptive.get("name", "N/A")
-            if artist != "N/A" and len(artist) > 0:
-                artist = artist[0]
-            date = descriptive.get("date", "N/A")
-            if date != "N/A" and len(date) > 0:
-                date = date[0]
-            title = descriptive["title"]['content']
-            search_image_id = descriptive["record_ID"]
-            collection = freetext.get("setName", "N/A")
-            if collection != "N/A":
-                collection = freetext["setName"][0]["content"]
-            image = ApiImage(url, title, artist, date,
-                                collection, search_image_id)
-            images_array.append(image)
+                    "content", "N/A")
+                if url == "N/A":
+                    url = descriptive["online_media"]["media"][0].get(
+                        "thumbnail", "N/A")
+                artist = descriptive.get("name", "N/A")
+                if artist != "N/A" and len(artist) > 0:
+                    artist = artist[0]
+                date = descriptive.get("date", "N/A")
+                if date != "N/A" and len(date) > 0:
+                    date = date[0]
+                title = descriptive["title"]['content']
+                collection = freetext.get("setName", "N/A")
+                if collection != "N/A":
+                    collection = freetext["setName"][0]["content"]
+                image = ApiImage(url=url, title=title, artist=artist, date=date,
+                                collection=collection, search_image_id=search_image_id)
+                images_array.append(image)
+            else:
+                pass
         else:
-            return None
+            pass
     return images_array
 
 
@@ -105,7 +110,7 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
 
             search_results.append(resp)
     filtered_search_results = \
-        filter_search_results(search_results=search_results, dev=dev)
+        filter_search_results(search_results=search_results, dev=False)
 
     formatted_results = \
         format_images(images=filtered_search_results,
@@ -120,50 +125,53 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
 def get_liked_image(search_image_id):
     params = {
         'api_key': api_key,
-        # 'id': search_image_id,
-    }
+    }                             
     search_results = requests.get(url=f'https://api.si.edu/openaccess/api/v1.0/content/{search_image_id}',
                                   params=params)
+    
     # if search_results.json()['message']['rowcount'] == 0:
     #     return None
     # // get values from response and create API image from values
-    formatted_like = get_liked_results(search_results=search_results)
+    formatted_like = get_liked_results(search_results, search_image_id)
     # add image to db
-    db.session.add(formatted_like)
-    db.session.commit()
     # return response to add_like()
     return formatted_like
 
 
-def get_liked_results(search_results):
+def get_liked_results(search_results, search_image_id):
     # print(search_results)
     row = search_results.json()["response"]
     descriptive = row["content"].get("descriptiveNonRepeating", "N/A"),
     freetext = row["content"].get("freetext", "N/A"),
     indexed = row["content"].get("indexedStructured", "N/A")
     if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
+        desc = descriptive[0]
         if descriptive != "N/A":
-            url = descriptive["online_media"]["media"][0].get(
+            url = desc["online_media"]["media"][0].get(
                 "content", "N/A")
             if url == "N/A":
-                url = descriptive["online_media"]["media"][0].get(
+                url = desc["online_media"]["media"][0].get(
                     "thumbnail", "N/A")
-            artist = descriptive.get("name", "N/A")
+            artist = desc.get("name", "N/A")
             if artist != "N/A" and len(artist) > 0:
                 artist = artist[0]
-            date = descriptive.get("date", "N/A")
+            date = desc.get("date", "N/A")
             if date != "N/A" and len(date) > 0:
                 date = date[0]
-            title = descriptive["title"]['content']
+            title = desc["title"]['content']
         if indexed != "N/A":
             artist = indexed.get("name", "N/A")
             if artist != "N/A" and len(artist) > 0:
                 artist = artist[0]
-        collection = freetext.get("setName", "N/A")
+        collection = freetext[0].get("setName", "N/A")
         if collection != "N/A":
-            collection = freetext["setName"][0]["content"]
-        image = ApiImage(url, title, artist, date, collection)
-        return image
+            collection = freetext[0]["setName"][0]["content"]
+        liked_image = Image.add_image(url=url, title=title, artist=artist,
+                                      date=date, collection=collection, search_image_id=search_image_id)
+        # save image to database and return image
+        db.session.add(liked_image)
+        db.session.commit()
+        return liked_image
     else:
         return None
 
