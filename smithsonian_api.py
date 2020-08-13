@@ -121,18 +121,18 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
 
 # liked image
 
-API_BASE_ID = 'https://api.si.edu/openaccess/api/v1.0/content'
+# API_BASE_ID = f'https://api.si.edu/openaccess/api/v1.0/content/{search_image_id}'
 
 
 def get_liked_image(search_image_id):
     params = {
         'api_key': api_key,
-        'id': search_image_id,
+        # 'id': search_image_id,
     }
-    search_results = requests.get(url=API_BASE_ID,
-                                  params=params)
-    if search_results.json()['message']['rowcount'] == 0:
-        return None
+    # search_results = requests.get(url=f'https://api.si.edu/openaccess/api/v1.0/content/{search_image_id}',
+    #                               params=params)
+    # if search_results.json()['message']['rowcount'] == 0:
+    #     return None
     # // get values from response and create API image from values
     formatted_like = get_liked_results(search_results=search_results)
     # return response to add_like()
