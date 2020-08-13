@@ -66,10 +66,12 @@ def filter_search_results(search_results=None, dev=False):
                     if date != "N/A" and len(date) > 0:
                         date = date[0]
                     title = descriptive["title"]['content']
+                    search_image_id = descriptive["record_ID"]
                 collection = freetext.get("setName", "N/A")
                 if collection != "N/A":
                     collection = freetext["setName"][0]["content"]
-                image = ApiImage(url, title, artist, date, collection)
+                image = ApiImage(url, title, artist, date,
+                                 collection, search_image_id)
                 images_array.append(image)
             else:
                 pass
@@ -121,33 +123,33 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
 
 # liked image
 
-# API_BASE_ID = f'https://api.si.edu/openaccess/api/v1.0/content/{search_image_id}'
-
-
 def get_liked_image(search_image_id):
     params = {
         'api_key': api_key,
         # 'id': search_image_id,
     }
-    # search_results = requests.get(url=f'https://api.si.edu/openaccess/api/v1.0/content/{search_image_id}',
-    #                               params=params)
+    search_results = requests.get(url=f'https://api.si.edu/openaccess/api/v1.0/content/{search_image_id}',
+                                  params=params)
     # if search_results.json()['message']['rowcount'] == 0:
     #     return None
     # // get values from response and create API image from values
     formatted_like = get_liked_results(search_results=search_results)
+    # add image to db
+    db.session.add(formatted_like)
+    db.session.commit()
     # return response to add_like()
     return formatted_like
 
 
 def get_liked_results(search_results):
     # print(search_results)
-    row = search_results.json()["response"]["rows"][0]
+    row = search_results.json()["response"]
     descriptive = row["content"].get("descriptiveNonRepeating", "N/A"),
     freetext = row["content"].get("freetext", "N/A"),
     indexed = row["content"].get("indexedStructured", "N/A")
     if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
         if descriptive != "N/A":
-            data_source = descriptive["data_source"]
+            # data_source = descriptive["data_source"]
             url = descriptive["online_media"]["media"][0].get(
                 "content", "N/A")
             if url == "N/A":

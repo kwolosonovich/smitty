@@ -146,6 +146,7 @@ def add_like(search_image_id):
 
     # get liked image data from smithsonian API using the image id
     liked_image = get_liked_image(search_image_id)
+    
 
     if liked_image == None:
         flash('Sorry an error has occured - please relike image')
@@ -155,17 +156,17 @@ def add_like(search_image_id):
 
     else:
         # add the image values and update the image in the Image table
-        image.url = liked_image.url
-        image.title = liked_image.title
-        image.artists = liked_image.artist
-        image.data = liked_image.data
-        image.collection = liked_image.collection
+        # image.url = liked_image.url
+        # image.title = liked_image.title
+        # image.artists = liked_image.artist
+        # image.data = liked_image.data
+        # image.collection = liked_image.collection
 
         # save updated image to Image table
-        db.session.commit()
+        # db.session.commit()
 
         # add user like to database
-        g.user.likes.append(image)
+        g.user.likes.append(liked_image)
         db.session.commit()
 
     return redirect(f'/user/{g.user.id}/likes')
