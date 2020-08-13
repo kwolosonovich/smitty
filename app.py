@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from secure import secret_key, api_key
 from smithsonian_api import search, format_images, ApiImage, get_liked_image
 from models import db, connect_db, User, Image, Like
-from user_forms import LoginForm, RegisterForm
+from user_form import LoginForm, RegisterForm
 from flask_wtf import FlaskForm
 
 
