@@ -13,7 +13,6 @@ from secure import api_key
 
 API_BASE_URL = 'https://api.si.edu/openaccess/api/v1.0/search'
 
-
 class ApiImage:
     """Create API image."""
 
@@ -122,13 +121,15 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
 
 # liked image
 
-def get_liked_image(api_id):
+API_BASE_ID = 'https://api.si.edu/openaccess/api/v1.0/content/:id'
+
+
+def get_liked_image(search_image_id):
     params = {
         'api_key': api_key,
-        'q': "id=" + api_id,
-        "rows": 1
+        'id': search_image_id,
     }
-    search_results = requests.get(url=API_BASE_URL,
+    search_results = requests.get(url=API_BASE_ID,
                                   params=params)
     if search_results.json()['message']['rowcount'] == 0:
         return None
@@ -178,14 +179,14 @@ class ApiImageMock(object):
             self.artist = 'Childe Hassam'
             self.date = '1897'
             self.collection = 'Hirshhorn Museum and Sculpture Garden'
-            self.api_id = 'edanmdm-hmsg_66.2399'
+            self.search_image_id = 'edanmdm-hmsg_66.2399'
         elif version == 2:
             self.url = 'https://www.si.edu/object/girl-i-left-behind-me:saam_1986.79'
             self.title = 'The Girl I Left Behind Me'
             self.artist = 'Eastman Johnson'
             self.date = '1872'
             self.collection = 'Smithsonian American Art Museum Collection'
-            self.api_id = 'edanmdm-nmah_795109'
+            self.search_image_id = 'edanmdm-nmah_795109'
 
     # def save_id(id):
     #     image = Image.add_search_image(id)

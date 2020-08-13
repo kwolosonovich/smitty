@@ -16,7 +16,8 @@
                     </div>
                 <div class="card-body pt-1">
                     <!-- <form action="/user/{{ user.id }}/like", method="POST" value="{{card.url}}"> -->
-                    <form action="/user/{{ user.id }}/like", method="POST" value="{{card.api_id}}">
+                    <form action="/user/{{ card.search_image_id }}/like", method="POST" value="{{card.api_id}}">
+
                         <p class="card-title font-weight-bold text-left" value="{{ card.title }}" style="display: inline;">Title:
                         <!-- <button class="far fa-thumbs-up like" type=submit id="like-btn" name="index" value="{{card.url}}, {{card.title}}, {{card.artist}}, {{card.date}}, {{card.collection}}"></button> -->
                         <button class="far fa-thumbs-up like button" type="submit" id="like-btn" name="index" value="{{card.api_id}}"></button>

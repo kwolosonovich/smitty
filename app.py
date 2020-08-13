@@ -125,8 +125,8 @@ def search_results(user_id):
     return render_template('user/search.html', formatted_images=formatted_images, user=user)
 
 
-@app.route('/user/<user_id>/like', methods=["GET", "POST"])
-def add_like(user_id):
+@app.route('/user/<search_image_id>/like', methods=["GET", "POST"])
+def add_like(search_image_id):
     '''Add liked image to database.'''
 
     if not g.user:
@@ -142,10 +142,10 @@ def add_like(user_id):
     # date = image[3]
     # collection = image[4]
 
-    image_id = request.form.get('index')
+    # image_id = request.form.get('index')
 
     # get liked image data from smithsonian API using the image id
-    liked_image = get_liked_image(image_id)
+    liked_image = get_liked_image(search_image_id)
 
     if liked_image == None:
         flash('Sorry an error has occured - please relike image')
