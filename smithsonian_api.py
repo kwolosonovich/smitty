@@ -50,33 +50,27 @@ def filter_search_results(search_results=None, dev=False):
             row = resp.json()["response"]["rows"][0]
             descriptive = row["content"].get("descriptiveNonRepeating", "N/A")
             freetext = row["content"].get("freetext", "N/A")
-            indexed = row["content"].get("indexedStructured", "N/A")
-            if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
-                if descriptive != "N/A":
-                    data_source = descriptive["data_source"]
-                    url = descriptive["online_media"]["media"][0].get(
-                        "content", "N/A")
-                    if url == "N/A":
-                        url = descriptive["online_media"]["media"][0].get(
-                            "thumbnail", "N/A")
-                    artist = descriptive.get("name", "N/A")
-                    if artist != "N/A" and len(artist) > 0:
-                        artist = artist[0]
-                    date = descriptive.get("date", "N/A")
-                    if date != "N/A" and len(date) > 0:
-                        date = date[0]
-                    title = descriptive["title"]['content']
-                    search_image_id = descriptive["record_ID"]
-                collection = freetext.get("setName", "N/A")
-                if collection != "N/A":
-                    collection = freetext["setName"][0]["content"]
-                image = ApiImage(url, title, artist, date,
-                                 collection, search_image_id)
-                images_array.append(image)
-            else:
-                pass
+            url = descriptive["online_media"]["media"][0].get(
+                "content", "N/A")
+            if url == "N/A":
+                url = descriptive["online_media"]["media"][0].get(
+                    "thumbnail", "N/A")
+            artist = descriptive.get("name", "N/A")
+            if artist != "N/A" and len(artist) > 0:
+                artist = artist[0]
+            date = descriptive.get("date", "N/A")
+            if date != "N/A" and len(date) > 0:
+                date = date[0]
+            title = descriptive["title"]['content']
+            search_image_id = descriptive["record_ID"]
+            collection = freetext.get("setName", "N/A")
+            if collection != "N/A":
+                collection = freetext["setName"][0]["content"]
+            image = ApiImage(url, title, artist, date,
+                                collection, search_image_id)
+            images_array.append(image)
         else:
-            pass
+            return None
     return images_array
 
 
@@ -149,7 +143,6 @@ def get_liked_results(search_results):
     indexed = row["content"].get("indexedStructured", "N/A")
     if "online_media" in row["content"]["descriptiveNonRepeating"].keys():
         if descriptive != "N/A":
-            # data_source = descriptive["data_source"]
             url = descriptive["online_media"]["media"][0].get(
                 "content", "N/A")
             if url == "N/A":
@@ -162,6 +155,10 @@ def get_liked_results(search_results):
             if date != "N/A" and len(date) > 0:
                 date = date[0]
             title = descriptive["title"]['content']
+        if indexed != "N/A":
+            artist = indexed.get("name", "N/A")
+            if artist != "N/A" and len(artist) > 0:
+                artist = artist[0]
         collection = freetext.get("setName", "N/A")
         if collection != "N/A":
             collection = freetext["setName"][0]["content"]
