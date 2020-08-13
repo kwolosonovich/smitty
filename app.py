@@ -3,6 +3,7 @@ import requests
 
 from flask import Flask, flash, redirect, request, session, url_for, g, Markup, jsonify, render_template
 from flask_bootstrap import Bootstrap
+from flask_caching import Cache
 from sqlalchemy.exc import IntegrityError
 
 from secure import secret_key, api_key
@@ -21,9 +22,12 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config["CACHE_TYPE"] = "null"
 app.config['SECRET_KEY'] = secret_key
 
+cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 connect_db(app)
 Bootstrap(app)
+# cache = Cache0(app)
+cache.init_app(app)
 
 db.drop_all()
 db.create_all()
@@ -111,6 +115,7 @@ def show_user(user_id):
 
 
 @app.route('/user/<user_id>/search', methods=["GET", "POST"])
+@cache.cached(timeout=60)
 def search_results(user_id):
     '''Render search results.'''
 
@@ -135,43 +140,18 @@ def add_like(search_image_id):
        flash("Please login", "danger")
        return redirect("/login")
 
-    # image = request.form.get('index')
-    # image = image.split(", ")
-    # # split string into elements
-    # url = image[0]
-    # title = image[1]
-    # artist = image[2]
-    # date = image[3]
-    # collection = image[4]
-
-    # image_id = request.form.get('index')
-
     # get liked image data from smithsonian API using the image id
     liked_image = get_liked_image(search_image_id)
     
 
     if liked_image == None:
         flash('Sorry an error has occured - please relike image')
-
-    # query the Image table for the image
-    # image = Image.query.get_or_404(search_image_id)
-
     else:
-        # add the image values and update the image in the Image table
-        # image.url = liked_image.url
-        # image.title = liked_image.title
-        # image.artists = liked_image.artist
-        # image.data = liked_image.data
-        # image.collection = liked_image.collection
-
-        # save updated image to Image table
-
-
         # add user like to database
         g.user.likes.append(liked_image)
         db.session.commit()
 
-    return redirect(f'/user/{g.user.id}/likes')
+    return redirect(f'/user/{g.user.id}/search')
 
 
 @app.route('/user/<user_id>/likes')
@@ -184,20 +164,8 @@ def get_likes(user_id):
 
    user = User.query.get_or_404(user_id)
    user_likes = user.likes
-   formatted_likes = []
 
-   for image in user_likes:
-       formatted_img = {
-           'url': user.likes[0].url,
-           'title': user.likes[0].title,
-           'artist': user.likes[0].artist,
-           'date': user.likes[0].date,
-           'collection': user.likes[0].collection,
-           'id': user.likes[0].id
-       }
-       formatted_likes.append(formatted_img)
-
-   return render_template('user/likes.html', formatted_images=formatted_likes, user=user)
+   return render_template('user/likes.html', formatted_images=user_likes, user=user)
 
 
 @app.route('/user/<like_id>/unlike', methods=["POST"])

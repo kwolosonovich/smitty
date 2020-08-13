@@ -6,21 +6,20 @@
     <div class="container ml-5 pl-5 mr-0 pr-0 w-100" id="gallery">
 
         {% for like in formatted_images %} 
-        <div class="col-md-3 card-body container-overlay" style="max-width: 300px; height:auto;">
-            <img class="img-fluid shadow" src={{ like.url }} class="card-img-top" id="img" alt="Card image cap">
-                <div class="overlay">
-                    Artist: {{like.artist}} <br> Date: {{like.date}} <br> Collection: {{like.collection}} 
+            <div class="col-md-3 card-body container-overlay all" style="max-width: 300px; height:auto;">
+                <img class="img-fluid shadow" src={{ like.url }} class="card-img-top" id="img" alt="Card image cap">
+                    <div class="overlay">
+                        Artist: {{like.artist}} <br> Date: {{like.date}} <br> Collection: {{like.collection}} 
+                    </div>
+                <div class="card-body pt-1">
+                    <form action="/user/{{ like.search_image_id }}/unlike", method="POST" value="{{like.url}}">
+                            <p class="card-title text-left inline" value="{{ like.title }}" style="display: inline;">Title:
+                            <button class="far fa-thumbs-up like inline" type=submit id="like-btn"></button>
+                            </p>
+                        </form>
+                    <p class="text-left font-weight-bold ">{{like.title}}</p>
                 </div>
-            <div class="card-body pt-1">
-                <!-- <form action="/user/{{ like.id }}/unlike", method="POST" value="{{like.url}}"> -->
-                <form action="/user/{{ like.search_image_id }}/unlike", method="POST" value="{{like.url}}">
-                        <p class="card-title text-left inline" value="{{ like.title }}" style="display: inline;">Title:
-                        <button class="far fa-thumbs-up like inline" type=submit id="like-btn"></button>
-                        </p>
-                    </form>
-                <p class="text-left font-weight-bold ">{{like.title}}</p>
             </div>
-        </div>
         {% endfor %}
     </div>
     </div>

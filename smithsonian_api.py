@@ -40,7 +40,7 @@ class ApiImage:
         return formatted_images
 
 
-def filter_search_results(search_results=None, dev=False):
+def filter_search_results(search_results=None, dev=True):
     '''Get search results and filter for valid response and get image values.'''
     if dev:
         return search_results
@@ -91,8 +91,6 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
         search_results = \
             create_test_response(max_results=max_results)
 
-        filtered_search_results = filter_search_results(search_results=search_results,
-                                                        dev=True)
     else:
         search_results = []
         for i in range(max_results):
@@ -110,7 +108,7 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
 
             search_results.append(resp)
     filtered_search_results = \
-        filter_search_results(search_results=search_results, dev=False)
+        filter_search_results(search_results=search_results, dev=dev)
 
     formatted_results = \
         format_images(images=filtered_search_results,
