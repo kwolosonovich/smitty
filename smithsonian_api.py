@@ -121,7 +121,7 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
 
 # liked image
 
-API_BASE_ID = 'https://api.si.edu/openaccess/api/v1.0/content/:id'
+API_BASE_ID = 'https://api.si.edu/openaccess/api/v1.0/content'
 
 
 def get_liked_image(search_image_id):
