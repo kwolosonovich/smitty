@@ -126,13 +126,9 @@ def get_liked_image(search_image_id):
     }                             
     search_results = requests.get(url=f'https://api.si.edu/openaccess/api/v1.0/content/{search_image_id}',
                                   params=params)
-    
-    # if search_results.json()['message']['rowcount'] == 0:
-    #     return None
-    # // get values from response and create API image from values
+    # get values from response and create API image from values
     formatted_like = get_liked_results(search_results, search_image_id)
-    # add image to db
-    # return response to add_like()
+
     return formatted_like
 
 
@@ -177,6 +173,7 @@ def get_liked_results(search_results, search_image_id):
 # mock API request results
 
 class ApiImageMock(object):
+    '''API mock image class.'''
     def __init__(self, version=None):
         if version == 1:
             self.url = 'https://ids.si.edu/ids/deliveryService?max_w=800&id=HMSG-66.2399'
@@ -193,27 +190,20 @@ class ApiImageMock(object):
             self.collection = 'Smithsonian American Art Museum Collection'
             self.search_image_id = 'edanmdm-nmah_795109'
 
-    # def save_id(id):
-    #     image = Image.add_search_image(id)
-    #     if image:
-    #         db.session.commit()
-
 
 def create_test_response(max_results=None):
+    '''Create mock API response.'''
     responses = []
     for i in range(max_results):
         version = 2 if i % 2 == 0 else 1
         mock_image = ApiImageMock(version=version)
 
-        # call ApiImageMock.save_id to save image ID to database
-        # ApiImageMock.save_id(mock_image)
-
         responses.append(mock_image)
 
     return responses
 
-
 def format_images(images=None, images_per_row=None, max_rows=None):
+    '''Format response.'''
     formatted_images = []
     for i in range(max_rows):
         start = i * images_per_row

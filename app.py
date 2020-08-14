@@ -19,14 +19,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///smitty"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config["CACHE_TYPE"] = "null"
+# app.config["CACHE_TYPE"] = "null"
 app.config['SECRET_KEY'] = secret_key
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 connect_db(app)
 Bootstrap(app)
-# cache = Cache0(app)
 cache.init_app(app)
 
 db.drop_all()
@@ -145,11 +144,12 @@ def add_like(search_image_id):
     
 
     if liked_image == None:
-        flash('Sorry an error has occured - please relike image')
+        flash('Sorry an error has occured - please try again')
     else:
         # add user like to database
         g.user.likes.append(liked_image)
         db.session.commit()
+
 
     return redirect(f'/user/{g.user.id}/search')
 
@@ -168,12 +168,13 @@ def get_likes(user_id):
    return render_template('user/likes.html', formatted_images=user_likes, user=user)
 
 
-@app.route('/user/<like_id>/unlike', methods=["POST"])
+@app.route('/user/<like_id>/unlike')
 def unlike(like_id):
     '''Remove liked image.'''
     image = Image.query.get_or_404(like_id)
 
-    db.session.delete(image)
+    g.user.likes.remove(image)
+    db.session.commit()
 
     return redirect(f'/user/{g.user.id}/likes')
 

@@ -109,11 +109,27 @@ h1, h5 {
 
 /* like button */
 
-#like-btn {
+#like-btn:before {
     display: inline;
     text-align: right;
     border: none;
     border-radius: 100%;
+    color: hsl(57deg 100% 55%);
+}
+
+#like-btn:after {
+    display: inline;
+    text-align: right;
+    border: none;
+    border-radius: 100%;
+    color: #030D26;
+}
+
+
+/* unlinke button */
+
+#unlike-btn {
+    color: #030D26;
 }
 
 /* colors */

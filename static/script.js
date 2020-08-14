@@ -50,29 +50,29 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
   });
 
-  // // toggle image like icon
-  // function toggleLike(e) {
-  //   e.preventDefault();
-  //   var icon = this.className;
-  //   if (icon === "far fa-thumbs-up like") {
-  //     this.classList.remove("far");
-  //     this.classList.remove("fa-thumbs-up");
-  //     this.classList.remove("like");
-  //     this.classList.add("fas");
-  //     this.classList.add("fa-thumbs-up");
-  //     this.classList.add("like");
+  // toggle image like icon
+  function toggleLike(e) {
+    e.preventDefault();
+    var icon = this.className;
+    if (icon === "far fa-thumbs-up like") {
+      this.classList.remove("far");
+      this.classList.remove("fa-thumbs-up");
+      this.classList.remove("like");
+      this.classList.add("fas");
+      this.classList.add("fa-thumbs-up");
+      this.classList.add("like");
 
-  //   } else {
-  //     this.classList.remove("fas");
-  //     this.classList.remove("fa-thumbs-up");
-  //     this.classList.remove("like");
-  //     this.classList.add("far");
-  //     this.classList.add("fa-thumbs-up");
-  //     this.classList.add("like");
-  //   }
-  // }
-  // // // add event listener to like icon
-  // for (var i = 0; i < likes.length; i++) {
-  //   likes[i].addEventListener("click", toggleLike, false);
-  // }
+    } else {
+      this.classList.remove("fas");
+      this.classList.remove("fa-thumbs-up");
+      this.classList.remove("like");
+      this.classList.add("far");
+      this.classList.add("fa-thumbs-up");
+      this.classList.add("like");
+    }
+  }
+  // // add event listener to like icon
+  for (var i = 0; i < likes.length; i++) {
+    likes[i].addEventListener("click", toggleLike, false);
+  }
 });

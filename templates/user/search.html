@@ -15,15 +15,9 @@
                         Artist: {{card.artist}} <br> Date: {{card.date}} <br> Collection: {{card.collection}} 
                     </div>
                 <div class="card-body pt-1">
-                    <!-- <form action="/user/{{ user.id }}/like", method="POST" value="{{card.url}}"> -->
-                    <form action="/user/{{ card.search_image_id }}/like", method="POST" value="{{card.api_id}}">
-
-                        <p class="card-title font-weight-bold text-left" value="{{ card.title }}" style="display: inline;">Title:
-                        <!-- <button class="far fa-thumbs-up like" type=submit id="like-btn" name="index" value="{{card.url}}, {{card.title}}, {{card.artist}}, {{card.date}}, {{card.collection}}"></button> -->
-                        <button class="far fa-thumbs-up like button" type="submit" id="like-btn" name="index" value="{{card.api_id}}"></button>
-                        </p>
-                    </form>
-                    <p class="font-weight-bold text-left">{{card.title}}</p>
+                    <p class="card-title text-left inline" value="{{ card.title }}" style="display: inline;">Title:
+                    <a class="inline" href="/user/{{ card.search_image_id }}/like"><i class="fas fa-thumbs-up inline" style="color: hsl(57deg 100% 55%)" id="like-btn"></i></a>
+                    <p class="text-left font-weight-bold ">{{card.title}}</p>
                 </div>
             </div>
             {% endfor %}
