@@ -1,13 +1,11 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import InputRequired, Email, Length, Optional, URL
+from wtforms.validators import InputRequired, Email, Length
 
 
 # validators
 required = InputRequired()
-email_validator = Email(message='Please provide a valid email address')
-url_validator = URL(message='Please provide valid URL')
-optional = Optional(strip_whitespace=True)
+email_validator = Email(message='Please provide a valid email address.')
 min_4 = Length(min=4)
 max_50 = Length(max=50)
 max_80 = Length(max=80)

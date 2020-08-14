@@ -7,6 +7,10 @@ h1, h5 {
     font-family: 'Oleo Script', cursive;
 }
 
+.fa-input {
+    font-family: FontAwesome, ‘Helvetica Neue’, Helvetica, Arial, sans-serif;
+}
+
 .logo {
     position: absolute;
     right: 350px;
@@ -14,6 +18,13 @@ h1, h5 {
     z-index: 3;
     width: 80px;
     height: auto;
+}
+
+#logo-sidebar {
+    position: absolute;
+    width: 70px;
+    bottom: 160px;
+    left: 10px
 }
 
 .title {
@@ -36,8 +47,8 @@ h1, h5 {
 }
 
 .container-style {
-    padding-top: 6rem;
     padding-bottom: 6rem;
+    padding-top: 65px;
 }
 
 .carousel-block {
@@ -87,8 +98,6 @@ h1, h5 {
 
 #form-section {
     background-color: #EDE9E8;
-    /* padding-right: 40px;
-    padding-left: 40px; */
 }
 
 .center-style {
@@ -105,6 +114,18 @@ h1, h5 {
 #form-side {
     text-align: center;
     padding: 80px 60px;
+}
+
+/* form inputs */
+
+.active-blue-2 input.form-control[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #030D26;
+    box-shadow: 0 1px 0 0 #030D26;
+}
+
+.active-blue input.form-control[type=text] {
+    border-bottom: 1px solid #030D26;
+    box-shadow: 0 1px 0 0 #030D26;
 }
 
 /* like button */
@@ -124,7 +145,6 @@ h1, h5 {
     border-radius: 100%;
     color: #030D26;
 }
-
 
 /* unlinke button */
 
@@ -244,13 +264,27 @@ h1, h5 {
     border-bottom-left-radius: 7px;
 }
 
-.navIcon {
-    vertical-align: bottom;
+.profile-head {
+    font-family: 'Oleo Script', cursive;
+    text-align: center;
 }
 
 .nav-hr {
-    width: 40%;
-    border-top: 1px solid #EDE9E8;
+    width: 60%;
+    border-top: 2px solid #d8d5d5bd;
+}
+
+.form-hr {
+    width: 25%;
+    border-top: 2px solid #d8d5d5bd;
+    border-radius: 90px;
+}
+
+.active-blue input.form-control[type=text] {
+    border-bottom: 1px solid #030D26;
+    ;
+    box-shadow: 0 1px 0 0 #030D26;
+    ;
 }
 
 /* search results */
@@ -262,6 +296,7 @@ h1, h5 {
     -webkit-column-width: 33%;
     -moz-column-width: 33%;
     column-width: 33%;
+    margin-left: 160px;
 }
 
 .gallery .pics {
@@ -294,15 +329,12 @@ h1, h5 {
 }
 
 .icon {
-    font-size: 30px;
+    margin-top: 20px;
+    font-size: 25px;
     cursor: pointer;
     color: #030D26;
 }
 
-.icon-category {
-    margin-top: 100px;
-    margin-bottom: 10px;
-}
 
 /* images overlays */
 
@@ -310,10 +342,8 @@ h1, h5 {
     background: #030d26d2;
     position: absolute;
     top: 30px;
-    /* bottom: 190px; */
     left: 0%;
     right: 0;
-    /* height: 160px; */
     max-height: min-content;
     width: 100%;
     opacity: 0;

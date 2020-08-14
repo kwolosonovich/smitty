@@ -47,9 +47,10 @@
 
                         <li class="nav-item pl-2">
                             <a href="/user/{{user.id}}/profile" class="text-blue">
-                                <h3 class="text-center mb-3">Profile</h3>
+                                <h3 class="profile-head">Profile</h3>
                             </a>
                         </li>
+                        <hr class="nav-hr">
                         <li class="nav-item pl-2">
                             <h4><i class="far fa-user pr-4"></i>{{user.username}}</h4>
                         </li>
@@ -58,26 +59,17 @@
                             <a class="nav-link inline h4" id="likes" value="{{user.id}}"
                                 href="/user/{{user.id}}/likes">Likes</a>
                         </li>
-                        <br>
-                        <hr class="nav-hr">
-                        <br>
                         <li class="nav-item">
-                            <form action="/user/{{user.id}}/search" method="POST">
-                                <label for="search" class="text-center">
-                                    <h3>Search the Smithsonian</h3>
-                                </label>
-                                <input class="form-control form-control-dark w-100 mb-3" id="search" name="keyword"
-                                    type="text" placeholder="Keyword" aria-label="Search">
-                                <button class="btn submit-btn pri-btn m-0 w-100" id="search-req"
-                                    type="submit">Search</button>
-                            </form>
+                            <form class="form-inline md-form active-blue active-blue-2 mb-3 mt-0" action="/user/{{user.id}}/search" method="POST">   
+                                <button type="submit" class="btn m-0 pl-2 pr-2 pt-3" style="display: inline;">
+                                    <i class="fas fa-search h4"></i>
+                                </button>
+                                <input class="form-control ml-0 w-75 form-control-sm shadow" style="display: inline;" type="text" name="keyword" placeholder="Search" aria-label="Search">
+                            </form> 
                         </li>
-                        <br>
-                        <hr class="nav-hr">
-                        <br>
                     </ul>
-                    <div id="navIcon">
-                        <img src="/static/images/user.png" alt="logo" class="mx-auto d-block w-50">
+                    <div id="">
+                        <img src="/static/images/user.png" alt="logo" class="mx-auto d-block" id="logo-sidebar">
                     </div>
                 </div>
             </nav>
@@ -118,16 +110,13 @@
 
             {% endif%}
 
-            <div class="container">
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ category }} text-center ml-5 mr-5 mb-0">{{ message }}</div>
+            {% endfor %}
 
-                {% for category, message in get_flashed_messages(with_categories=True) %}
-                <div class="alert alert-{{ category }} text-center w-50 mx-auto">{{ message }}</div>
-                {% endfor %}
+            {% block content %}
+            {% endblock %}
 
-                {% block content %}
-                {% endblock %}
-
-            </div>
 
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
                 integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

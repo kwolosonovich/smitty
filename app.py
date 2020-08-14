@@ -102,12 +102,16 @@ def register():
         else:
             return render_template('register.html', form=form)
     except IntegrityError as e:
-        flash('Sorry that username is already taken. Please enter a new username')
+        flash('Sorry that username is already taken. Please enter a new username', 'danger')
         return render_template("register.html", form=form)
 
 
 @app.route("/user/<user_id>/profile")
 def show_user(user_id):
+    
+    if not g.user:
+       flash("Please login", "danger")
+       return redirect("/login")
 
     user = User.query.get_or_404(user_id)
     return render_template('user/profile.html', user=user)
@@ -130,6 +134,24 @@ def search_results(user_id):
 
     return render_template('user/search.html', formatted_images=formatted_images, user=user)
 
+
+@app.route('/user/<user_id>/search/<topic>', methods=["GET", "POST"])
+@cache.cached(timeout=60)
+def search_topic(user_id, topic):
+    '''Search API by topic and return results.'''
+
+    if not g.user:
+        flash("Please login", "danger")
+        return redirect("/login")
+    
+    user = User.query.get_or_404(user_id)
+    
+    keyword = topic
+    formatted_images = search(
+        search_terms=keyword, max_results=12, dev=DEV, images_per_row=6, max_rows=2)
+    
+    return render_template('user/search.html', formatted_images=formatted_images, user=user)
+    
 
 @app.route('/user/<search_image_id>/like', methods=["GET", "POST"])
 def add_like(search_image_id):

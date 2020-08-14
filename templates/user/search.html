@@ -2,9 +2,11 @@
 
 {% block content %}
 
-<main role="main" class="ml-5 pl-5 mr-0 pr-0" id="{{user.username}}">
-    <div class="container ml-5 pl-5 mr-0 pr-0 w-100" id="gallery">
-        <div class="row w-100">
+<!-- <main role="main" class="ml-5 pl-5 mr-0 pr-0" id="{{user.username}}"> -->
+    <main role="main" class="justify-content-end col-md-8 col-lg-10 ml-sm-0 mr-sm-0 px-md-4 pr-0" id="{{user.username}}">
+
+    <div class="container ml-md-5 ml-sm-0 p-0 justify-content-end" id="gallery">
+        <div class="row justify-content-end">
             {% for list in formatted_images %}
             {% set listloop = loop %}
             {% for card in list %}
@@ -16,7 +18,7 @@
                 <div class="card-body pt-1">
                     <p class="card-title text-left inline" value="{{ card.title }}" style="display: inline;">Title:
                         <a class="inline" href="/user/{{ card.search_image_id }}/like"><i
-                                class="fas fa-thumbs-up inline" style="color: hsl(57deg 100% 55%)"
+                                class="fas fa-thumbs-up inline" style="color: #cfcdcd"
                                 id="like-btn"></i></a>
                     <p class="text-left font-weight-bold ">{{card.title}}</p>
                 </div>
@@ -24,7 +26,7 @@
             {% endfor %}
             {% endfor %}
         </div>
-    </div>
+    <!-- </div> -->
 </main>
 
 {% endblock %}
