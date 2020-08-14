@@ -2,10 +2,9 @@
 
 {% block content %}
 
-<!-- <main role="main" class="ml-5 pl-5 mr-0 pr-0" id="{{user.username}}"> -->
-    <main role="main" class="justify-content-end col-md-8 col-lg-10 ml-sm-0 mr-sm-0 px-md-4 pr-0" id="{{user.username}}">
+    <main role="main" class="justify-content-end col-md-8 col-lg-10 ml-sm-0 mr-sm-0 px-md-4" id="{{user.username}}">
 
-    <div class="container ml-md-5 ml-sm-0 p-0 justify-content-end" id="gallery">
+    <div class="container gallery-format" id="gallery">
         <div class="row justify-content-end">
             {% for list in formatted_images %}
             {% set listloop = loop %}
