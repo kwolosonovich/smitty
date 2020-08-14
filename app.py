@@ -19,7 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///smitty"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-# app.config["CACHE_TYPE"] = "null"
+app.config["CACHE_TYPE"] = "null"
 app.config['SECRET_KEY'] = secret_key
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})

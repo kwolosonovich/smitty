@@ -11,6 +11,10 @@ h1, h5 {
     font-family: FontAwesome, ‘Helvetica Neue’, Helvetica, Arial, sans-serif;
 }
 
+p {
+    font-size: 14px;
+}
+
 .logo {
     position: absolute;
     right: 350px;

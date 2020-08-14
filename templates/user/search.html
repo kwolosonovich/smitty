@@ -9,22 +9,23 @@
             {% for list in formatted_images %}
             {% set listloop = loop %}
             {% for card in list %}
-            <div class="col-md-3 card-body container-overlay all shadow" style="max-width: 300px; height:auto;">
-                <img class="card-img-top img-fluid shadow img-thumbnail" src={{ card.url }} class="card-img-top" id="img" alt="Card image cap">
+            <div class="col-md-3 card-body container-overlay all" style="max-width: 300px; height:auto;">
+                <img class="card-img-top img-fluid shadow img-thumbnail" src={{ card.url }} class="card-img-top"
+                    id="img" alt="Card image cap">
                 <div class="overlay">
                     Artist: {{card.artist}} <br> Date: {{card.date}} <br> Collection: {{card.collection}}
                 </div>
                 <div class="card-body pt-1">
-                    <p class="card-title card-text text-left inline" value="{{ card.title }}" style="display: inline;">Title:
+                    <p class="card-title card-text text-left inline" value="{{ card.title }}" style="display: inline;">
+                        Title:
                         <a class="inline float-right" href="/user/{{ card.search_image_id }}/like"><i
-                                class="fas fa-thumbs-up inline" style="color: #cfcdcd"
-                                id="like-btn"></i></a>
+                                class="fas fa-thumbs-up inline" style="color: #cfcdcd" id="like-btn"></i></a>
                     <p class="text-left card-text font-weight-bold ">{{card.title}}</p>
                 </div>
             </div>
             {% endfor %}
             {% endfor %}
-        </div> 
+        </div>
     </div>
 </main>
 

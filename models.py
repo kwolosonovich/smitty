@@ -143,10 +143,8 @@ class Like(db.Model):
     image_id = db.Column(
         db.Integer,
         db.ForeignKey('images.id',
-                      #   ondelete='CASCADE'
                       )
     )
-
 
 def connect_db(app):
     '''Connect database to Flask app.'''

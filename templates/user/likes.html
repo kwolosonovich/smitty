@@ -2,19 +2,21 @@
 
 {% block content %}
 
-    <main role="main" class="col-md-8 col-lg-10 px-md-4 ml-5 pl-5 mr-5 mr-2 mx-auto">
+<main role="main" class="col-md-8 col-lg-10 px-md-4 ml-5 pl-5 mr-5 mr-2 mx-auto">
 
     <div class="container container gallery-format mr-auto ml-auto" id="gallery">
         <div class="row justify-content-end">
             {% for like in formatted_images %}
             <div class="col-md-3 card-body container-overlay all" style="max-width: 300px; height:auto;">
-                <img class="img-fluid shadow" src={{ like.url }} class="card-img-top" id="img" alt="Card image cap">
+                <img class="card-img-top img-fluid shadowshadow img-thumbnail" src={{ like.url }} class="card-img-top"
+                    id="img" alt="Card image cap">
                 <div class="overlay">
                     Artist: {{like.artist}} <br> Date: {{like.date}} <br> Collection: {{like.collection}}
                 </div>
                 <div class="card-body pt-1">
-                    <p class="card-title text-left inline" value="{{ like.title }}" style="display: inline;">Title:
-                        <a class="inline" href="/user/{{ like.id }}/unlike" id="unline-btn"><i
+                    <p class="card-title card-text text-left inline" value="{{ like.title }}" style="display: inline;">
+                        Title:
+                        <a class="inline float-right" href="/user/{{ like.id }}/unlike" id="unline-btn"><i
                                 class="fas fa-thumbs-up inline" style="color: #030D26"></i></a>
                     <p class="text-left font-weight-bold ">{{like.title}}</p>
                 </div>
