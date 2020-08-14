@@ -118,9 +118,10 @@ def search(search_terms=None, max_results=None, dev=False, images_per_row=None,
     return formatted_results
 
 
-# liked image
+# liked image functionality
 
 def get_liked_image(search_image_id):
+    '''Get liked image from API.'''
     params = {
         'api_key': api_key,
     }                             
@@ -133,7 +134,7 @@ def get_liked_image(search_image_id):
 
 
 def get_liked_results(search_results, search_image_id):
-    # print(search_results)
+    '''Parse search results for valid reponses and variables.'''
     row = search_results.json()["response"]
     descriptive = row["content"].get("descriptiveNonRepeating", "N/A"),
     freetext = row["content"].get("freetext", "N/A"),
@@ -214,7 +215,7 @@ def format_images(images=None, images_per_row=None, max_rows=None):
 
 
 def random_search_category():
-    '''Generate random categories'''
+    '''Generate random categories.'''
     categories = [
         "photograpy",
         "painting",
