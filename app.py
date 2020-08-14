@@ -1,4 +1,4 @@
-# // wasn't able to access/import app.config['SECRET_KEY'] into simthsonian_api to replace "dev" variable
+import os
 import requests
 
 from flask import Flask, flash, redirect, request, session, url_for, g, Markup, jsonify, render_template
@@ -15,7 +15,7 @@ from flask_wtf import FlaskForm
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///smitty"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', "postgresql:///smitty")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -28,8 +28,8 @@ connect_db(app)
 Bootstrap(app)
 cache.init_app(app)
 
-db.drop_all()
-db.create_all()
+# db.drop_all()
+# db.create_all()
 
 DEV = False
 CURR_USER = "curr_user"
