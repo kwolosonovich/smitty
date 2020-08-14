@@ -5,19 +5,20 @@
 <main role="main" class="ml-5 pl-5 mr-0 pr-0" id="{{user.username}}">
     <div class="container ml-5 pl-5 mr-0 pr-0 w-100" id="gallery">
         <div class="row w-100">
-        {% for like in formatted_images %} 
+            {% for like in formatted_images %}
             <div class="col-md-3 card-body container-overlay all" style="max-width: 300px; height:auto;">
                 <img class="img-fluid shadow" src={{ like.url }} class="card-img-top" id="img" alt="Card image cap">
-                    <div class="overlay">
-                        Artist: {{like.artist}} <br> Date: {{like.date}} <br> Collection: {{like.collection}} 
-                    </div>
+                <div class="overlay">
+                    Artist: {{like.artist}} <br> Date: {{like.date}} <br> Collection: {{like.collection}}
+                </div>
                 <div class="card-body pt-1">
                     <p class="card-title text-left inline" value="{{ like.title }}" style="display: inline;">Title:
-                    <a class="inline" href="/user/{{ like.id }}/unlike" id="unline-btn"><i class="fas fa-thumbs-up inline" style="color: #030D26"></i></a>
+                        <a class="inline" href="/user/{{ like.id }}/unlike" id="unline-btn"><i
+                                class="fas fa-thumbs-up inline" style="color: #030D26"></i></a>
                     <p class="text-left font-weight-bold ">{{like.title}}</p>
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </main>
