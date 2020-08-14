@@ -287,32 +287,11 @@ h1, h5 {
     ;
 }
 
-/* search results */
-
-/* .gallery {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
-    -webkit-column-width: 33%;
-    -moz-column-width: 33%;
-    column-width: 33%;
-    margin-left: 160px;
-} */
-
-.gallery-format {
-    margin-left: 160px;
-}
 
 .gallery .pics {
     -webkit-transition: all 350ms ease;
     transition: all 350ms ease;
 }
-
-/* .gallery .animation {
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
-} */
 
 @media (max-width: 450px) {
     .gallery {

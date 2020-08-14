@@ -2,10 +2,10 @@
 
 {% block content %}
 
-  <main role="main" class="justify-content-end col-md-8 col-lg-10 ml-sm-0 mr-sm-0 px-md-4" id="{{user.username}}">
+    <main role="main" class="col-md-8 col-lg-10 px-md-4 ml-5 pl-5 mr-5 mr-2 mx-auto">
 
-    <div class="container gallery-format" id="gallery">
-        <div class="row w-100">
+    <div class="container container gallery-format mr-auto ml-auto" id="gallery">
+        <div class="row justify-content-end">
             {% for like in formatted_images %}
             <div class="col-md-3 card-body container-overlay all" style="max-width: 300px; height:auto;">
                 <img class="img-fluid shadow" src={{ like.url }} class="card-img-top" id="img" alt="Card image cap">
