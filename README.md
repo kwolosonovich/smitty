@@ -10,12 +10,13 @@ The Smitty Application provides access to over 175 years of history, art, scienc
 
 ## Features
   - Create a free user account to search for images 
-  - Smithsonian search tool  
+  - Smithsonian search tool
+  - Save your favorite images  
   - Future Features:
     - Download images
     - Share your discoveries
     - Follow your favorite topics
-    - Create galleries and save your favorite images
+    - Create galleries
 
 ## Approach
 API requests will filter for only Creative Commons Zero (CCO) to ensure that only context that does not require attribution or citation is accessed. Search results will include the following content: content URL, title, author, date and collection.
@@ -43,14 +44,9 @@ Smithsonian Open Access Application uses:
 * Heroku 
 
 ### Usage   
-Smitty can be run using either in development or production mode. Development includes a seeded database, mock external API request results, and a Flask-DebugToolbar. Development can be enabled or disabled in app.py using:  
+Smitty can be run using either in development or production mode. Development includes mock external API request results, and a Flask-DebugToolbar. Development can be enabled in app.py using:  
 ``` python
-# Development
 DEV = True
-DEBUG = True 
-# Production
-DEV = False
-DEBUG = False
 ```  
 
 To access the Smithsonian's OpenAccess API endpoints, an API key key can be added to secure.py. API key requests can be made by registering with [data.gov](https://api.data.gov/signup/).

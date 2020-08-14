@@ -31,6 +31,7 @@ cache.init_app(app)
 db.drop_all()
 db.create_all()
 
+DEV = False
 CURR_USER = "curr_user"
 
 
@@ -53,9 +54,6 @@ def user_logout():
     '''User logout.'''
     if CURR_USER in session:
         del session[CURR_USER]
-        
-DEV=False
-
 
 @app.route('/')
 def homepage():
