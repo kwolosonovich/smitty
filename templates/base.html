@@ -33,7 +33,7 @@
         </button>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt h4" title="Logout"></i></a>
+                <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt h4" id="icon-hover" title="Logout"></i></a>
             </li>
         </ul>
     </nav>
@@ -46,23 +46,24 @@
                     <ul class="nav flex-column pl-2 pr-2 mb-5">
 
                         <li class="nav-item pl-2">
-                            <a href="/user/{{user.id}}/profile" class="text-blue">
-                                <h3 class="profile-head">Profile</h3>
+                            <a href="/user/{{user.id}}/profile" style="text-decoration: none;" class="text-blue">
+                                <h3 class="profile-head" id="profile-hover">Profile</h3>
                             </a>
                         </li>
                         <hr class="nav-hr">
-                        <li class="nav-item pl-2">
-                            <h4><i class="far fa-user pr-4"></i>{{user.username}}</h4>
+
+                        <li class="nav-item pl-2 pb-2 h4">
+                            <a class="nav-link inline h4 pl-0 pb-2" id="user" value="{{user.id}}"
+                                href="/user/{{user.id}}/profile"><i class="far fa-user inline h4 mb-0 mr-3" id="profile-hover"></i>{{user.username}}</a>
                         </li>
                         <li class="nav-item pl-2 h4">
-                            <i class="fas fa-thumbs-up inline h4 mb-0"></i>
-                            <a class="nav-link inline h4" id="likes" value="{{user.id}}"
-                                href="/user/{{user.id}}/likes">Likes</a>
+                            <a class="nav-link inline h4 pl-0" id="likes" value="{{user.id}}"
+                                href="/user/{{user.id}}/likes"><i class="fas fa-thumbs-up inline h4 mb-0 mr-3" id="profile-hover"></i>Likes</a>
                         </li>
                         <li class="nav-item">
                             <form class="form-inline md-form active-blue active-blue-2 mb-3 mt-0" action="/user/{{user.id}}/search" method="POST">   
                                 <button type="submit" class="btn m-0 pl-2 pr-2 pt-3" style="display: inline;">
-                                    <i class="fas fa-search h4"></i>
+                                    <i class="fas fa-search h4" id="icon-hover"></i>
                                 </button>
                                 <input class="form-control ml-0 w-75 form-control-sm shadow" style="display: inline;" type="text" name="keyword" placeholder="Search" aria-label="Search">
                             </form> 

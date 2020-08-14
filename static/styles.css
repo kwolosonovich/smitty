@@ -146,6 +146,10 @@ h1, h5 {
     color: #030D26;
 }
 
+#likes:hover {
+    color: hsl(57deg 100% 55%);
+}
+
 /* unlinke button */
 
 #unlike-btn {
@@ -267,6 +271,11 @@ h1, h5 {
 .profile-head {
     font-family: 'Oleo Script', cursive;
     text-align: center;
+    text-decoration: none;
+}
+
+#profile-hover:hover {
+    color: hsl(57deg 100% 55%);
 }
 
 .nav-hr {
@@ -286,7 +295,6 @@ h1, h5 {
     box-shadow: 0 1px 0 0 #030D26;
     ;
 }
-
 
 .gallery .pics {
     -webkit-transition: all 350ms ease;
@@ -313,9 +321,12 @@ h1, h5 {
 
 .icon {
     margin-top: 20px;
-    font-size: 25px;
-    cursor: pointer;
+    font-size: 50px;
     color: #030D26;
+}
+
+#icon-hover:hover {
+    color: hsl(57deg 100% 55%);
 }
 
 /* images overlays */
